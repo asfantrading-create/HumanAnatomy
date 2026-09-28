@@ -1,0 +1,52 @@
+{
+  "name": "human-anatomy-3d",
+  "productName": "Human Anatomy 3D",
+  "version": "1.0.0",
+  "description": "برنامج تفاعلي ثلاثي الأبعاد لتشريح جسم الإنسان",
+  "main": "main.js",
+  "author": "asfantrading",
+  "license": "MIT",
+  "scripts": {
+    "vendor": "node scripts/vendor.js",
+    "prestart": "node scripts/vendor.js",
+    "start": "electron .",
+    "predist": "node scripts/vendor.js",
+    "dist": "electron-builder --win portable nsis --x64 --publish never",
+    "predist:dir": "node scripts/vendor.js",
+    "dist:dir": "electron-builder --win dir --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
+    "three": "^0.186.1"
+  },
+  "build": {
+    "appId": "com.asfantrading.humananatomy3d",
+    "productName": "Human Anatomy 3D",
+    "artifactName": "HumanAnatomy3D-${version}-${arch}-${target}.${ext}",
+    "files": [
+      "main.js",
+      "src/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        "portable",
+        "nsis"
+      ]
+    },
+    "portable": {
+      "artifactName": "HumanAnatomy3D-${version}-portable.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "HumanAnatomy3D-${version}-setup.exe"
+    }
+  }
+}
