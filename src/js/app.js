@@ -1,11 +1,13 @@
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import { RoomEnvironment } from '../vendor/RoomEnvironment.js';
-import { loadModel, SYSTEMS, makeMaterial, SECTION } from './model.js';
+import { loadModel, SYSTEMS, makeMaterial, SECTION, FLOW } from './model.js';
 import { prepareFemale, applySex, isMaleOnly } from './female.js';
 import { STRINGS, GROUPS } from './i18n.js';
 import { TOURS } from './tours.js';
 import { licensing } from './license.js';
+import { progress } from './progress.js';
+import { initLearning, refresh as refreshLearning, open as openLearning } from './learn.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
@@ -35,6 +37,7 @@ function applyLanguage() {
   $('#btn-about').title = t('aboutTitle'); $('#btn-license').title = t('license');
   $('#btn-font-up').title = t('fontUp'); $('#btn-font-down').title = t('fontDown'); $('#btn-theme').title = t('theme');
   $('#btn-sex').title = t('sexBtn');
+  $('#btn-settings').title = t('settings');
   $('#help-table').innerHTML = STRINGS[lang].help.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
   $('#about-text').textContent = lang === 'ar'
     ? 'برنامج تعليمي تفاعلي لاستكشاف تشريح جسم الإنسان بالأبعاد الثلاثية، مبني على نماذج تشريحية حقيقية مأخوذة من بيانات طبية.'
@@ -46,6 +49,7 @@ function applyLanguage() {
     if (state.quiz) renderQuiz();
     if (state.tour) renderTour();
     renderTourList();
+    refreshLearning();
     labelsDirty = true;
   }
   updateLicenseUI();
@@ -309,6 +313,35 @@ $('#sex-f').addEventListener('click', () => setSex('f'));
 $('#btn-sex').addEventListener('click', () => openModal('#sex-modal'));
 
 // ---------------------------------------------------------------------------
+// Settings: rendering quality and updates
+let quality = store.get('quality', 'high');
+function applyQuality() {
+  renderer.setPixelRatio(quality === 'low' ? Math.min(window.devicePixelRatio, 1) * 0.8 : Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  scene.environmentIntensity = quality === 'low' ? 0.35 : 0.55;
+  $$('[data-quality]').forEach((b) => b.classList.toggle('active', b.dataset.quality === quality));
+}
+$$('[data-quality]').forEach((b) => b.addEventListener('click', () => { quality = b.dataset.quality; store.set('quality', quality); applyQuality(); }));
+$('#btn-settings').addEventListener('click', () => openModal('#settings'));
+$('#btn-update').addEventListener('click', async () => {
+  const msg = $('#update-msg');
+  if (!window.licenseAPI?.checkUpdate) { msg.textContent = t('updateErr'); return; }
+  msg.textContent = t('updateChecking');
+  const r = await window.licenseAPI.checkUpdate();
+  msg.textContent = r.state === 'available' ? t('updateAvail', { v: r.version }) : r.state === 'latest' ? t('upToDate') : t('updateErr');
+});
+window.licenseAPI?.onUpdate?.((r) => {
+  if (r.state === 'downloaded') { $('#update-msg').textContent = t('updateReady'); toast(t('updateReady')); }
+});
+function toast(text) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = text;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 7000);
+}
+
+// ---------------------------------------------------------------------------
 // Font size and colour theme
 let fontScale = store.get('fontScale', 1);
 let theme = store.get('theme', 'dark');
@@ -483,7 +516,8 @@ function select(part) {
     if (!state.systems[part.system].visible) { state.systems[part.system].visible = true; syncSystemsUI(); applyAll(); }
     applyPart(part);
     showInfo(part);
-    if (!state.quiz && !state.tour) openSide('#info-panel');
+    progress.markViewed(part.id);
+    if (!state.quiz && !state.tour && $('#learn-panel').classList.contains('hidden')) openSide('#info-panel');
     revealInTree(part);
     if ($('#auto-speak').checked) speak(pname(part));
   } else {
@@ -501,9 +535,19 @@ function showInfo(part) {
   $('#info-alt').textContent = altName(part);
   $('#info-alt').dir = lang === 'ar' ? 'ltr' : 'rtl';
   $('#info-desc').textContent = pdesc(part);
+  $('#info-note').value = progress.note(part.id);
+  $('#btn-fav').textContent = progress.isFav(part.id) ? '★' : '☆';
+  $('#btn-fav').classList.toggle('active', progress.isFav(part.id));
 }
+$('#info-note').addEventListener('input', (e) => state.selected && progress.setNote(state.selected.id, e.target.value));
+$('#btn-fav').addEventListener('click', () => {
+  if (!state.selected) return;
+  progress.toggleFav(state.selected.id);
+  showInfo(state.selected);
+});
 function openSide(sel) {
-  for (const s of ['#info-panel', '#quiz-panel', '#tours-panel']) $(s).classList.toggle('hidden', s !== sel);
+  for (const s of ['#info-panel', '#quiz-panel', '#tours-panel', '#learn-panel']) $(s).classList.toggle('hidden', s !== sel);
+  if (sel !== '#learn-panel') $('#btn-learn').classList.remove('active');
 }
 $('#info-close').addEventListener('click', () => select(null));
 $('#btn-focus').addEventListener('click', () => state.selected && focusPart(state.selected));
@@ -541,11 +585,18 @@ let voice = {};
 const audio = new Audio();
 let audioQueue = [];
 audio.addEventListener('ended', () => playNext());
-function playNext() {
+let audioUrl = null;
+async function playNext() {
   const f = audioQueue.shift();
   if (!f) return;
-  audio.src = `assets/voice/${f}.mp3`;
-  audio.play().catch(() => {});
+  try {
+    // fetch + blob URL: works for the encrypted assets served by the app:// protocol
+    const blob = await (await fetch(`assets/voice/${f}.mp3`)).blob();
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
+    audioUrl = URL.createObjectURL(blob);
+    audio.src = audioUrl;
+    await audio.play();
+  } catch { playNext(); }
 }
 function stopSpeech() {
   audioQueue = [];
@@ -767,7 +818,6 @@ $('#btn-xray').addEventListener('click', toggleXray);
 $('#btn-rotate').addEventListener('click', toggleRotate);
 $('#btn-labels').addEventListener('click', toggleLabels);
 $('#btn-quiz').addEventListener('click', () => (state.quiz ? endQuiz() : startQuiz()));
-$('#btn-tours').addEventListener('click', () => ($('#tours-panel').classList.contains('hidden') ? openTours() : closeTours()));
 $('#btn-shot').addEventListener('click', screenshot);
 $('#btn-help').addEventListener('click', () => openModal('#help'));
 $('#btn-about').addEventListener('click', () => openModal('#about'));
@@ -775,6 +825,12 @@ $('#btn-license').addEventListener('click', () => openModal('#license'));
 $('#btn-section').addEventListener('click', () => { $('#section-panel').classList.toggle('hidden'); updateClipping(); });
 $('#btn-heart').addEventListener('click', () => toggleAnim('heartbeat'));
 $('#btn-breath').addEventListener('click', () => toggleAnim('breathing'));
+$('#btn-flow').addEventListener('click', () => {
+  state.flow = !state.flow;
+  FLOW.on.value = state.flow ? 1 : 0;
+  $('#btn-flow').classList.toggle('active', state.flow);
+  if (state.flow && !state.heartbeat) toggleAnim('heartbeat');
+});
 $('#btn-lang').addEventListener('click', () => { lang = lang === 'ar' ? 'en' : 'ar'; store.set('lang', lang); applyLanguage(); });
 $('#explode').addEventListener('input', (e) => setExplode(e.target.value / 100));
 $$('.modal').forEach((m) => {
@@ -829,6 +885,9 @@ function setupAnimationSets() {
   anim.diaphragm = state.parts.filter((p) => /^diaphragm$/i.test(p.en));
   const c = (list) => list.reduce((s, p) => s.add(p.center), new THREE.Vector3()).multiplyScalar(1 / Math.max(1, list.length));
   anim.heartPivot = c(anim.heart);
+  FLOW.heart.value.copy(anim.heartPivot);
+  const ra = state.parts.find((p) => /^wall of right atrium$/i.test(p.en));
+  if (ra) { const b = ra.mesh.geometry.boundingBox; FLOW.sa.value.set((b.min.x + b.max.x) / 2, b.max.y - 0.008, (b.min.z + b.max.z) / 2); }
   anim.lungPivot = c(anim.lung);
   anim.lungPivot.y += 0.06; // lungs expand mostly downward
 }
@@ -868,13 +927,20 @@ function quizPool() {
 }
 function startQuiz() {
   if (state.tour) closeTours();
-  state.quiz = { mode: state.quiz?.mode || 'name', score: 0, total: 0, target: null, answered: false };
+  state.quiz = { mode: state.quiz?.mode || 'name', score: 0, total: 0, target: null, answered: false, bySystem: {} };
   select(null);
   openSide('#quiz-panel');
   $('#btn-quiz').classList.add('active');
   nextQuestion();
 }
+function tallyQuiz(q, ok) {
+  if (!q.bySystem) return;
+  const s = (q.bySystem[q.target.system] = q.bySystem[q.target.system] || [0, 0]);
+  s[1]++;
+  if (ok) s[0]++;
+}
 function endQuiz() {
+  if (state.quiz && state.quiz.total && !state.quiz.exam) progress.addExam({ kind: 'quiz', total: state.quiz.total, correct: state.quiz.score, bySystem: state.quiz.bySystem });
   const t0 = state.quiz && state.quiz.target;
   state.quiz = null;
   if (t0) applyAll();
@@ -932,6 +998,7 @@ function renderQuiz(empty = false) {
       q.picked = n;
       const ok = n === q.correct;
       if (ok) q.score++;
+      tallyQuiz(q, ok);
       q.feedback = ok ? t('correct') : t('wrong', { name: `<b>${pname(q.target)}</b>` });
       renderQuiz();
     });
@@ -945,6 +1012,7 @@ function answerFind(p) {
   q.total++;
   const ok = p === q.target || baseName(p) === baseName(q.target);
   if (ok) q.score++;
+  tallyQuiz(q, ok);
   q.revealed = true;
   applyAll();
   if (!ok) focusParts([q.target], 0.35);
@@ -959,7 +1027,6 @@ $('#quiz-close').addEventListener('click', endQuiz);
 function openTours() {
   if (state.quiz) endQuiz();
   openSide('#tours-panel');
-  $('#btn-tours').classList.add('active');
   renderTourList();
 }
 function closeTours() {
@@ -968,7 +1035,6 @@ function closeTours() {
   $('#tours-panel').classList.add('hidden');
   $('#tour-run').classList.add('hidden');
   $('#tour-list').classList.remove('hidden');
-  $('#btn-tours').classList.remove('active');
 }
 function renderTourList() {
   const list = $('#tour-list');
@@ -981,10 +1047,11 @@ function renderTourList() {
     list.appendChild(b);
   }
 }
-function startTour(tour) {
+async function startTour(tour) {
   select(null);
+  if (tour.sex && tour.sex !== state.sex) await setSex(tour.sex);
   state.parts.forEach((p) => (p.hidden = false));
-  showOnlySystems(tour.systems);
+  if (tour.systems) showOnlySystems(tour.systems);
   applyAll();
   state.tour = { tour, i: 0, highlight: new Set() };
   $('#tour-list').classList.add('hidden');
@@ -995,6 +1062,15 @@ function gotoStep(i) {
   const st = state.tour;
   st.i = Math.max(0, Math.min(st.tour.steps.length - 1, i));
   const step = st.tour.steps[st.i];
+  if (step.view) {
+    // teacher lesson step: restore the recorded view and highlight its selected structure
+    restoreView(step.view, false);
+    const sel = step.view.selected && state.byId.get(step.view.selected);
+    st.highlight = new Set(sel ? [sel] : []);
+    applyAll();
+    renderTour();
+    return;
+  }
   const matches = state.parts.filter((p) => (step.group ? p.group === step.group : step.match.test(p.en)));
   st.highlight = new Set(matches);
   matches.forEach((p) => { p.hidden = false; if (!state.systems[p.system].visible) state.systems[p.system].visible = true; });
@@ -1016,7 +1092,12 @@ function renderTour() {
 $('#tour-prev').addEventListener('click', () => state.tour && gotoStep(state.tour.i - 1));
 $('#tour-next').addEventListener('click', () => {
   if (!state.tour) return;
-  if (state.tour.i === state.tour.tour.steps.length - 1) { closeTours(); openTours(); } else gotoStep(state.tour.i + 1);
+  if (state.tour.i === state.tour.tour.steps.length - 1) {
+    if (!state.tour.tour.custom) progress.lessonDone(state.tour.tour.id);
+    const pres = document.body.classList.contains('presenting');
+    closeTours();
+    if (!pres) openLearning('lessons');
+  } else gotoStep(state.tour.i + 1);
 });
 $('#tour-speak').addEventListener('click', () => state.tour && speak($('#tour-text').textContent));
 $('#tour-autoplay').checked = store.get('tourVoice', true);
@@ -1109,7 +1190,7 @@ function updateLicenseUI() {
     if (L.expires) rows.push([t('licExpires'), L.expires]);
     if (s.daysLeft !== null && s.daysLeft !== undefined) rows.push([t('licDaysLeft'), String(s.daysLeft)]);
     rows.push([t('licIssued'), L.issued]);
-    rows.push([t('licMachineBound'), L.machine || t('notBound')]);
+    rows.push([t('licMachineBound'), L.machines ? t('licInstitution', { n: L.machines.length }) : L.machine || t('notBound')]);
   }
   const dl = $('#lic-details');
   dl.innerHTML = '';
@@ -1187,7 +1268,7 @@ window.addEventListener('keydown', (e) => {
   else if (k === 'b') toggleAnim('heartbeat');
   else if (k === 'n') toggleAnim('breathing');
   else if (k === 'q') (state.quiz ? endQuiz() : startQuiz());
-  else if (k === 't') $('#btn-tours').click();
+  else if (k === 't') $('#btn-learn').click();
   else if (k === 'p') screenshot();
   else if (k === 'h' || k === '?') $('#help').classList.toggle('hidden');
   else if (k === ' ') { e.preventDefault(); toggleRotate(); }
@@ -1218,6 +1299,7 @@ function loop(now) {
     labelsDirty = true;
   }
   controls.update();
+  FLOW.time.value = now / 1000;
   if (state.parts.length) {
     if (!anim.heartSet) { anim.heartSet = new Set(anim.heart); anim.lungSet = new Set(anim.lung); anim.diaSet = new Set(anim.diaphragm); }
     updateTransforms(now);
@@ -1237,6 +1319,7 @@ function loop(now) {
 
 applyLanguage();
 applyPrefs();
+applyQuality();
 // keep floating panels above the toolbar whatever its height (it can wrap on small screens)
 new ResizeObserver(() => document.documentElement.style.setProperty('--tb-h', `${$('#toolbar').offsetHeight}px`)).observe($('#toolbar'));
 requestAnimationFrame(loop);
@@ -1245,4 +1328,69 @@ init().catch((err) => {
   $('#loading-text').textContent = t('loadError') + err.message;
 });
 
-window.__anatomy = { state, clipsFor, speak, audio, select, focusPart, setView, setExplode, toggleXray, toggleLabels, startQuiz, startTour: (i) => { openTours(); startTour(TOURS[i]); }, toggleAnim, camera, controls, clip, updateClipping, setLang: (l) => { lang = l; applyLanguage(); } };
+// ---------------------------------------------------------------------------
+// Saved views (favourites, teacher lessons)
+function captureView() {
+  const systems = {};
+  for (const [id, st] of Object.entries(state.systems)) systems[id] = [st.visible, +st.opacity.toFixed(2)];
+  return {
+    camera: camera.position.toArray().map((v) => +v.toFixed(4)),
+    target: controls.target.toArray().map((v) => +v.toFixed(4)),
+    sex: state.sex, systems,
+    hidden: state.parts.filter((p) => p.hidden).map((p) => p.id),
+    selected: state.selected ? state.selected.id : null,
+    xray: state.xray, explode: state.explode
+  };
+}
+async function restoreView(v, withSelection = true) {
+  if (!v) return;
+  if (v.sex && v.sex !== state.sex) await setSex(v.sex);
+  for (const [id, [vis, op]] of Object.entries(v.systems || {})) if (state.systems[id]) Object.assign(state.systems[id], { visible: vis, opacity: op });
+  const hidden = new Set(v.hidden || []);
+  state.parts.forEach((p) => (p.hidden = hidden.has(p.id)));
+  if (!!v.xray !== state.xray) toggleXray();
+  setExplode(v.explode || 0);
+  syncSystemsUI();
+  applyAll();
+  animateCamera(new THREE.Vector3(...v.camera), new THREE.Vector3(...v.target));
+  if (withSelection) select(v.selected ? state.byId.get(v.selected) || null : null);
+}
+
+// ---------------------------------------------------------------------------
+// Presentation mode (classroom projector): UI hidden, big lesson captions
+function togglePresentation(on = !document.body.classList.contains('presenting')) {
+  document.body.classList.toggle('presenting', on);
+  if (on) {
+    document.documentElement.requestFullscreen?.().catch(() => {});
+    if (!state.tour) { $('#learn-panel').classList.add('hidden'); }
+  } else if (document.fullscreenElement) document.exitFullscreen?.();
+  labelsDirty = true;
+}
+$('#present-exit').addEventListener('click', () => togglePresentation(false));
+$('#present-prev').addEventListener('click', () => $('#tour-prev').click());
+$('#present-next').addEventListener('click', () => $('#tour-next').click());
+
+// ---------------------------------------------------------------------------
+// PDF export (certificates): Electron prints to PDF, the browser falls back to the print dialog
+function printPDF(html, fileName) {
+  if (window.licenseAPI?.printPDF) { window.licenseAPI.printPDF(html, fileName); return; }
+  const w = window.open('', '_blank');
+  if (!w) return;
+  w.document.write(html);
+  w.document.close();
+  setTimeout(() => w.print(), 400);
+}
+
+// Quiz-style highlight used by the exam
+function setQuizTarget(part, reveal = false) {
+  state.quiz = part ? { mode: 'name', target: part, exam: true, revealed: reveal, answered: reveal } : null;
+  applyAll();
+}
+
+initLearning({
+  state, TOURS, t, lang: () => lang, pname, pdesc, sysName, shuffle, baseName, select, focusParts, applyAll, showOnlySystems,
+  speak, openSide, captureView, restoreView, togglePresentation, printPDF, setQuizTarget,
+  playTour: (tour) => { openTours(); startTour(tour); }
+});
+
+window.__anatomy = { state, captureView, restoreView, openLearning, togglePresentation, clipsFor, speak, audio, select, focusPart, setView, setExplode, toggleXray, toggleLabels, startQuiz, startTour: (i) => { openTours(); startTour(TOURS[i]); }, toggleAnim, camera, controls, clip, updateClipping, setLang: (l) => { lang = l; applyLanguage(); } };

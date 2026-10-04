@@ -72,7 +72,9 @@ class Licensing {
       const valid = await crypto.webcrypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, pub, sig, data);
       if (!valid) return { ok: false, error: 'signature' };
       const payload = JSON.parse(data.toString('utf8'));
-      if (payload.machine && payload.machine.toUpperCase() !== this.machine) return { ok: false, error: 'machine', payload };
+      // a key is bound to one machine ("machine") or, for institutions, to a list of machines ("machines")
+      const machines = (payload.machines || (payload.machine ? [payload.machine] : [])).map((m) => String(m).toUpperCase());
+      if (machines.length && !machines.includes(this.machine)) return { ok: false, error: 'machine', payload };
       if (payload.type !== 'staff' && payload.expires && new Date(payload.expires + 'T23:59:59') < new Date()) return { ok: false, error: 'expired', payload };
       return { ok: true, payload };
     } catch (e) {

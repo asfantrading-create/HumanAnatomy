@@ -1,7 +1,7 @@
 {
   "name": "human-anatomy-3d",
   "productName": "Human Anatomy 3D",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "برنامج تفاعلي ثلاثي الأبعاد لتشريح جسم الإنسان",
   "main": "main.js",
   "author": "ASFAN <info@asfanco.com>",
@@ -10,9 +10,9 @@
     "vendor": "node scripts/vendor.js",
     "prestart": "node scripts/vendor.js",
     "start": "electron .",
-    "predist": "node scripts/vendor.js",
+    "predist": "node scripts/vendor.js && node scripts/encrypt-assets.js",
     "dist": "electron-builder --win portable nsis --x64 --publish never",
-    "predist:dir": "node scripts/vendor.js",
+    "predist:dir": "node scripts/vendor.js && node scripts/encrypt-assets.js",
     "dist:dir": "electron-builder --win dir --x64 --publish never"
   },
   "devDependencies": {
@@ -28,12 +28,18 @@
       "main.js",
       "preload.js",
       "licensing.js",
+      "asset-key.js",
       "licensing.config.json",
       "license-public.jwk.json",
       "EULA.txt",
       "src/**/*",
+      "!src/assets/**",
       "build/icon.png",
-      "package.json"
+      "package.json",
+      {
+        "from": "build-enc",
+        "to": "src/assets-enc"
+      }
     ],
     "directories": {
       "output": "dist"
@@ -54,6 +60,17 @@
       "artifactName": "HumanAnatomy3D-${version}-setup.exe",
       "license": "build/license.txt"
     },
-    "copyright": "Copyright © 2026 ASFAN"
+    "copyright": "Copyright © 2026 ASFAN",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "asfantrading-create",
+        "repo": "HumanAnatomy",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
   }
 }

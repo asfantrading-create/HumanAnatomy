@@ -80,8 +80,20 @@ function fiberTexture() {
 
 /** 1 while a cross-section plane is active: back faces are then tinted to show cut surfaces. */
 export const SECTION = { value: 0 };
+/** Shared uniforms of the blood-flow / conduction animation. */
+export const FLOW = { on: { value: 0 }, time: { value: 0 }, heart: { value: new THREE.Vector3(0, 1.3, 0) }, sa: { value: new THREE.Vector3(-0.02, 1.36, 0) } };
 
-export function makeMaterial(system, color) {
+/** 1 artery, -1 vein, 2 heart, 0 other. */
+function vesselType(en, system) {
+  if (system !== 'circulatory' || !en) return 0;
+  const n = en.toLowerCase();
+  if (/wall of|cavity of|atri|ventric|papillary|chordae|valve|cusp|leaflet|septum|fibrous skeleton/.test(n)) return 2;
+  if (/vein|venous|vena|sinus/.test(n)) return -1;
+  if (/arter|aorta|trunk|arch/.test(n)) return 1;
+  return 0;
+}
+
+export function makeMaterial(system, color, en = '') {
   const mat = new THREE.MeshStandardMaterial({
     color,
     roughness: system === 'skeletal' ? 0.68 : system === 'skin' ? 0.6 : 0.42,
@@ -89,20 +101,37 @@ export function makeMaterial(system, color) {
     side: THREE.DoubleSide
   });
   const muscle = system === 'muscular';
+  const vessel = vesselType(en, system);
   mat.onBeforeCompile = (shader) => {
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vObjPos;\nuniform float uSection;' + (muscle ? '\nuniform sampler2D fiberMap;' : ''))
+      .replace('#include <common>', '#include <common>\nvarying vec3 vObjPos;\nuniform float uSection;' + (muscle ? '\nuniform sampler2D fiberMap;' : '')
+        + (vessel ? '\nuniform float uFlow; uniform float uTime; uniform vec3 uHeart; uniform vec3 uSA;' : ''))
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
         ${muscle ? 'float fib = texture2D(fiberMap, vec2(vObjPos.x * 18.0 + vObjPos.z * 18.0, vObjPos.y * 5.0)).r;\n        diffuseColor.rgb *= 0.86 + 0.28 * fib;' : ''}
         // inner (back) faces revealed by cross-sections are tinted darker red
         if (!gl_FrontFacing && uSection > 0.5) diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.55, 0.12, 0.12), 0.35) * 0.65;`);
     shader.uniforms.uSection = SECTION;
+    if (vessel) {
+      Object.assign(shader.uniforms, { uFlow: FLOW.on, uTime: FLOW.time, uHeart: FLOW.heart, uSA: FLOW.sa });
+      const glow = vessel === 2
+        // cardiac conduction: a wave spreading from the sinoatrial node once per heartbeat (72 bpm)
+        ? `float ph = fract(uTime * 1.2); float r = ph * 0.13;
+           float w = exp(-pow((distance(vObjPos, uSA) - r) / 0.01, 2.0)) * (1.0 - ph);
+           totalEmissiveRadiance += vec3(1.0, 0.85, 0.2) * w * 1.6;`
+        // pulse waves travel away from the heart in arteries and back towards it in veins
+        : `float d = distance(vObjPos, uHeart);
+           float s = ${vessel > 0 ? 'd * 9.0 - uTime * 2.4' : 'd * 9.0 + uTime * 1.3'};
+           float w = pow(0.5 + 0.5 * sin(s * 6.2831), 8.0);
+           totalEmissiveRadiance += ${vessel > 0 ? 'vec3(1.0, 0.25, 0.15)' : 'vec3(0.25, 0.45, 1.0)'} * w * 0.9;`;
+      shader.fragmentShader = shader.fragmentShader.replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+        if (uFlow > 0.5) { ${glow} }`);
+    }
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vObjPos;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObjPos = position;');
     if (muscle) shader.uniforms.fiberMap = { value: fiberTexture() };
   };
-  mat.customProgramCacheKey = () => (muscle ? 'muscle' : 'organ');
+  mat.customProgramCacheKey = () => (muscle ? 'muscle' : 'organ') + vessel;
   return mat;
 }
 
@@ -133,7 +162,7 @@ export async function loadModel({ base = 'assets', i18n = {}, onProgress = () =>
     if (/diaphragm/.test(meta.en)) system = 'respiratory';
     if (/hepatovenous segment|caudate lobe of liver/.test(meta.en)) system = 'digestive';
     const tr = i18n[meta.en] || {};
-    const mesh = new THREE.Mesh(geometry, makeMaterial(system, colorFor(meta.en, system)));
+    const mesh = new THREE.Mesh(geometry, makeMaterial(system, colorFor(meta.en, system), meta.en));
     add({
       id: meta.id, fma: meta.fma, system, mesh,
       en: capitalize(meta.en), ar: tr.ar || capitalize(meta.en),

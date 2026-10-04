@@ -6,3 +6,4 @@ __pycache__/
 *.jwk.json
 !license-public.jwk.json
 *.lic
+build-enc/

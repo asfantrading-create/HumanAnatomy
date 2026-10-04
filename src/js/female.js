@@ -15,7 +15,18 @@ function landmarks(parts) {
   const femur = box('left femur'), hip = box('left hip bone'), humerus = box('left humerus');
   const rib12 = box('left twelfth rib') || box('left eleventh rib'), rib4 = box('left fourth rib');
   const bladder = box('urinary bladder'), rectum = box('rectum'), skin = box('skin');
+  const brow = box('eyebrow'), mand = box('mandible'), thyroid = box('thyroid cartilage');
+  // nose tip = most anterior skin point of the face
+  const sp = by.get('skin').mesh.geometry.attributes.position;
+  const nose = new THREE.Vector3(0, 0, -1);
+  if (brow && mand) {
+    for (let i = 0; i < sp.count; i++) {
+      const y = sp.getY(i);
+      if (y > mand.max.y - 0.02 && y < brow.min.y && Math.abs(sp.getX(i)) < 0.02 && sp.getZ(i) > nose.z) nose.set(sp.getX(i), y, sp.getZ(i));
+    }
+  }
   return {
+    brow, mand, thyroid, nose,
     hipY: femur.max.y - 0.02,
     crestY: hip.max.y,
     waistY: (hip.max.y + (rib12 ? rib12.min.y : hip.max.y + 0.12)) / 2,
@@ -42,6 +53,24 @@ function makeWarp(L) {
     // slimmer neck and slightly narrower jaw
     s -= 0.09 * bump(L.shoulderY + 0.08, 0.035, y) * (1 - smooth(0.05, 0.08, ax));
     s -= 0.05 * bump(L.shoulderY + 0.15, 0.035, y) * (1 - smooth(0.06, 0.09, ax));
+    // ---- face: softer brow, smaller nose, narrower jaw and chin, flatter Adam's apple
+    if (L.brow && L.mand && y > L.mand.min.y - 0.03) {
+      const front = smooth(L.brow.min.z - 0.05, L.brow.min.z, v.z);
+      v.z -= 0.005 * bump((L.brow.min.y + L.brow.max.y) / 2 + 0.006, 0.012, y) * (1 - smooth(0.04, 0.07, ax)) * front;
+      const dn = v.distanceTo(L.nose);
+      if (dn < 0.035) {
+        const k = 0.16 * (1 - smooth(0.012, 0.035, dn));
+        const base = new THREE.Vector3(L.nose.x, L.nose.y + 0.004, L.nose.z - 0.022);
+        v.sub(base).multiplyScalar(1 - k).add(base);
+      }
+      const jaw = bump(L.mand.min.y + 0.012, 0.03, y) * (1 - smooth(L.mand.max.z - 0.02, L.mand.max.z + 0.02, v.z) * 0.3);
+      s -= 0.1 * jaw;
+      v.z -= 0.006 * bump(L.mand.min.y + 0.01, 0.02, y) * front * (1 - smooth(0.02, 0.04, ax));
+    }
+    if (L.thyroid) {
+      const t = L.thyroid;
+      v.z -= 0.007 * bump((t.min.y + t.max.y) / 2, 0.018, y) * (1 - smooth(0.012, 0.03, ax)) * smooth(t.max.z - 0.02, t.max.z + 0.01, v.z);
+    }
     let x = v.x * (1 + (s - 1) * (1 - armW));
     x -= sx * 0.028 * armW;
     // shoulders slope a little and narrow
@@ -115,7 +144,7 @@ export function prepareFemale(parts, makeMaterial) {
   };
   const breasts = [-1, 1].map((s) => {
     const cx = s * 0.092, cy = L.chestY - 0.01;
-    return { s, cx, cy, z: frontZ(cx, cy), rx: 0.08, ry: 0.072, h: 0.07 };
+    return { s, cx, cy, z: frontZ(cx, cy), rx: 0.085, ry: 0.078, h: 0.082 };
   });
   for (const B of breasts) {
     const side = B.s > 0 ? 'left' : 'right';
@@ -141,80 +170,64 @@ export function prepareFemale(parts, makeMaterial) {
     z += lower * (0.008 * Math.exp(-(((Math.abs(x) - 0.012) / 0.008) ** 2)) - 0.01 * Math.exp(-((x / 0.004) ** 2)));
     return z;
   };
-  // the male external genitalia are cut out of the skin and replaced by a smooth surface
-  const inCore = (x, y, z) => Math.abs(x) < 0.042 && y > perineumY - 0.08 && y < pubisY - 0.004 && z > -0.035;
-  {
-    const sIdx = skinPart.mesh.geometry.index, keep = [];
-    for (let i = 0; i < sIdx.count; i += 3) {
-      const a0 = sIdx.getX(i), a1 = sIdx.getX(i + 1), a2 = sIdx.getX(i + 2);
-      const cx = (skinPos.getX(a0) + skinPos.getX(a1) + skinPos.getX(a2)) / 3;
-      const cy = (skinPos.getY(a0) + skinPos.getY(a1) + skinPos.getY(a2)) / 3;
-      const cz = (skinPos.getZ(a0) + skinPos.getZ(a1) + skinPos.getZ(a2)) / 3;
-      if (!inCore(cx, cy, cz)) keep.push(a0, a1, a2);
-    }
-    skinPart.maleIndex = sIdx;
-    skinPart.femaleIndex = new THREE.BufferAttribute(new Uint32Array(keep), 1);
-  }
-  const genitalWeight = (x, y) => (1 - smooth(0.035, 0.06, Math.abs(x))) * smooth(perineumY - 0.06, perineumY - 0.03, y) * (1 - smooth(pubisY, pubisY + 0.025, y));
-
-  {
-    const nu = 36, nv = 44, pos = [], idx = [];
-    for (let j = 0; j <= nv; j++) {
-      const y = perineumY - 0.012 + (pubisY + 0.004 - (perineumY - 0.012)) * (j / nv);
-      const half = 0.046 - 0.022 * (1 - smooth(perineumY - 0.012, pubisY - 0.03, y));
-      for (let i = 0; i <= nu; i++) {
-        const x = -half + 2 * half * (i / nu);
-        pos.push(x, y, vulvaZ(x, y) + 0.0008);
-      }
-    }
-    for (let j = 0; j < nv; j++) for (let i = 0; i < nu; i++) {
-      const a0 = j * (nu + 1) + i, a1 = a0 + 1, a2 = a0 + nu + 1, a3 = a2 + 1;
-      idx.push(a0, a1, a2, a1, a3, a2);
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    g.setIndex(idx);
-    added.push({ id: 'F_VULVA', system: 'skin', en: 'Vulva (external female genitalia)', ar: 'الفرج (الأعضاء التناسلية الخارجية الأنثوية)',
-      descEn: 'The external female genitalia: the mons pubis, labia majora and minora, clitoris and the vestibule into which the urethra and vagina open. (Simplified surface.)',
-      descAr: 'الأعضاء التناسلية الأنثوية الخارجية: جبل العانة، والشفران الكبيران والصغيران، والبظر، والدهليز الذي ينفتح فيه الإحليل والمهبل. (سطح مبسط).',
-      geo: g, color: 0xe8b796, sexOnly: 'f', generated: true });
-  }
-
-  // ---- long hair ----------------------------------------------------------
+  // ---- long hair: a shell that follows the real scalp, then falls over the back ----
   {
     const hb = parts.find((p) => p.en.toLowerCase() === 'hair of head')?.mesh.geometry.boundingBox;
-    const c = hb ? new THREE.Vector3((hb.min.x + hb.max.x) / 2, hb.max.y - 0.112, (hb.min.z + hb.max.z) / 2 - 0.005) : new THREE.Vector3(0, 1.62, -0.03);
-    const rx = hb ? (hb.max.x - hb.min.x) / 2 + 0.008 : 0.09, ry = 0.12, rz = hb ? (hb.max.z - hb.min.z) / 2 + 0.006 : 0.106;
-    const NU = 96, NV = 70, pos = [], col = [], idx = [];
-    const dropMax = 0.36;
+    const c = new THREE.Vector3(0, (L.brow ? L.brow.max.y : 1.62) + 0.02, -0.02);
+    // radial profile of the head: max skin radius per (azimuth, polar) bin
+    const NA = 72, NT = 40, prof = new Float32Array(NA * NT);
+    for (let i = 0; i < skinPos.count; i++) {
+      const dx = skinPos.getX(i) - c.x, dy = skinPos.getY(i) - c.y, dz = skinPos.getZ(i) - c.z;
+      if (skinPos.getY(i) < (hb ? hb.min.y : 1.5) - 0.02) continue;
+      const r = Math.hypot(dx, dy, dz);
+      if (r > 0.16) continue;
+      const tb = Math.min(NT - 1, Math.floor((Math.acos(dy / r) / Math.PI) * NT));
+      const ab = Math.min(NA - 1, Math.floor(((Math.atan2(dx, dz) + Math.PI) / (2 * Math.PI)) * NA));
+      prof[tb * NA + ab] = Math.max(prof[tb * NA + ab], r);
+    }
+    for (let pass = 0; pass < 4; pass++) for (let tb = 0; tb < NT; tb++) for (let ab = 0; ab < NA; ab++) {
+      if (prof[tb * NA + ab]) continue;
+      let sum = 0, n = 0;
+      for (const [dt, da] of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {
+        const t2 = tb + dt, a2 = (ab + da + NA) % NA;
+        if (t2 >= 0 && t2 < NT && prof[t2 * NA + a2]) { sum += prof[t2 * NA + a2]; n++; }
+      }
+      if (n) prof[tb * NA + ab] = sum / n;
+    }
+    const radius = (az, t) => {
+      const fa = ((az + Math.PI) / (2 * Math.PI)) * NA - 0.5, ft = (t / Math.PI) * NT - 0.5;
+      const a0 = Math.floor(fa), t0 = Math.max(0, Math.min(NT - 2, Math.floor(ft)));
+      const wa = fa - a0, wt = Math.max(0, Math.min(1, ft - t0));
+      const g = (ta, aa) => prof[ta * NA + ((aa % NA) + NA) % NA] || 0.09;
+      return (g(t0, a0) * (1 - wa) + g(t0, a0 + 1) * wa) * (1 - wt) + (g(t0 + 1, a0) * (1 - wa) + g(t0 + 1, a0 + 1) * wa) * wt;
+    };
+    const NU = 120, NV = 90, pos = [], col = [], idx = [];
     for (let j = 0; j <= NV; j++) {
       const v = j / NV;
       for (let i = 0; i <= NU; i++) {
-        const az = -Math.PI + (i / NU) * Math.PI * 2;      // 0 = face, ±π = back of the head
-        const back = Math.abs(az) / Math.PI;               // 0 front .. 1 back
-        const tEnd = 1.24 + 0.5 * smooth(0.12, 0.45, back); // hairline: forehead -> below the ears
-        const drop = dropMax * smooth(0.3, 0.95, back);
+        const az = -Math.PI + (i / NU) * Math.PI * 2;        // 0 = face, ±π = back of the head
+        const back = Math.abs(az) / Math.PI;                 // 0 front .. 1 back
+        const tEnd = 0.95 + 0.95 * smooth(0.1, 0.42, back);   // hairline: forehead -> below the ears
+        const drop = 0.34 * smooth(0.28, 0.9, back) + 0.07 * smooth(0.18, 0.3, back);
         let x, y, z;
-        if (v <= 0.55) {
-          const t = (v / 0.55) * tEnd;
-          // slightly fuller than the scalp, with a soft parting volume on top
-          const k = 1 + 0.035 * Math.sin(t) + 0.03 * smooth(0.3, 0.8, back);
-          x = c.x + rx * k * Math.sin(t) * Math.sin(az);
-          y = c.y + ry * Math.cos(t) * (1 + 0.03 * (1 - back));
-          z = c.z + rz * k * Math.sin(t) * Math.cos(az);
+        if (v <= 0.6) {
+          const t = (v / 0.6) * tEnd;
+          const edge = smooth(tEnd * 0.82, tEnd, t);          // hug the skin at the hairline
+          const r = radius(az, t) + 0.009 * (1 - edge) + 0.0015 + 0.006 * Math.sin(Math.min(t, 1.2)) * (1 - edge);
+          x = c.x + r * Math.sin(t) * Math.sin(az);
+          y = c.y + r * Math.cos(t);
+          z = c.z + r * Math.sin(t) * Math.cos(az);
         } else {
-          const sDrop = (v - 0.55) / 0.45;
-          const t = tEnd;
-          const flare = 1.08 + 0.18 * sDrop;
-          x = c.x + rx * flare * Math.sin(t) * Math.sin(az);
-          y = c.y + ry * Math.cos(t) - drop * sDrop;
-          z = c.z + rz * flare * Math.sin(t) * Math.cos(az) - 0.06 * sDrop * smooth(0.35, 1, back);
-          // strands taper and fall slightly inwards at the ends
-          x *= 1 - 0.12 * sDrop * sDrop;
+          const sd = (v - 0.6) / 0.4;
+          const r = radius(az, tEnd) + 0.009 + 0.025 * sd * smooth(0.3, 0.7, back);
+          x = c.x + r * Math.sin(tEnd) * Math.sin(az) * (1 - 0.15 * sd * sd);
+          y = c.y + r * Math.cos(tEnd) - drop * sd;
+          z = c.z + r * Math.sin(tEnd) * Math.cos(az) - (0.035 + 0.025 * sd) * sd * smooth(0.3, 1, back);
         }
         pos.push(x, y, z);
-        const strand = 0.82 + 0.18 * Math.sin(i * 2.7) * Math.sin(i * 0.9 + j * 0.05);
-        col.push(strand, strand, strand);
+        // strand-like shading: fine stripes along the hair direction, lighter on top
+        const strand = 0.72 + 0.16 * Math.sin(i * 2.9 + Math.sin(j * 0.13) * 2) * Math.sin(i * 1.13) + 0.12 * (1 - v);
+        col.push(strand, strand * 0.97, strand * 0.94);
       }
     }
     for (let j = 0; j < NV; j++) for (let i = 0; i < NU; i++) {
@@ -228,7 +241,36 @@ export function prepareFemale(parts, makeMaterial) {
     added.push({ id: 'F_HAIR', system: 'skin', en: 'Hair of head', ar: 'شعر الرأس',
       descEn: 'Scalp hair grows from about 100,000 follicles and protects the scalp from sunlight and heat loss. (Illustrative long hair for the female model.)',
       descAr: 'ينمو شعر الرأس من نحو مئة ألف جريب شعري، ويحمي فروة الرأس من أشعة الشمس وفقدان الحرارة. (شعر طويل توضيحي لنموذج المرأة).',
-      geo: g, color: 0x3a2416, sexOnly: 'f', generated: true, vertexColors: true });
+      geo: g, color: 0x4a2c1a, sexOnly: 'f', generated: true, vertexColors: true });
+  }
+
+  // ---- female skin surface (computed once, in male coordinates) ----
+  const femaleSkin = shapeSkin(skinPart, L, breasts, { pubisY, perineumY, zf });
+  {
+    // areola and nipple colouring on the female skin (vertex colours; male skin stays uniform)
+    const n = femaleSkin.length / 3, col = new Float32Array(n * 3).fill(1);
+    for (const B of breasts) {
+      let apex = -1, best = -1;
+      for (let i = 0; i < n; i++) {
+        const x = femaleSkin[i * 3], y = femaleSkin[i * 3 + 1], z = femaleSkin[i * 3 + 2];
+        if (Math.abs(x - B.cx) < 0.05 && Math.abs(y - B.cy) < 0.07 && z > best) { best = z; apex = i; }
+      }
+      if (apex < 0) continue;
+      const ax = femaleSkin[apex * 3], ay = femaleSkin[apex * 3 + 1] - 0.004, az = femaleSkin[apex * 3 + 2];
+      for (let i = 0; i < n; i++) {
+        const d = Math.hypot(femaleSkin[i * 3] - ax, femaleSkin[i * 3 + 1] - ay, femaleSkin[i * 3 + 2] - az);
+        if (d > 0.024) continue;
+        const k = 1 - smooth(0.015, 0.022, d);
+        col[i * 3] = 1 - 0.2 * k; col[i * 3 + 1] = 1 - 0.36 * k; col[i * 3 + 2] = 1 - 0.38 * k;
+        if (d < 0.005) femaleSkin[i * 3 + 2] += 0.0035 * (1 - d / 0.005); // nipple
+      }
+    }
+    const geo = skinPart.mesh.geometry;
+    skinPart.maleColor = new Float32Array(n * 3).fill(1);
+    skinPart.femaleColor = col;
+    geo.setAttribute('color', new THREE.BufferAttribute(skinPart.maleColor.slice(), 3));
+    skinPart.mesh.material.vertexColors = true;
+    skinPart.mesh.material.needsUpdate = true;
   }
 
   // ---- compute male/female vertex sets for every part ----
@@ -238,24 +280,16 @@ export function prepareFemale(parts, makeMaterial) {
     p.malePos = pos.array.slice();
     const f = new Float32Array(pos.array.length);
     const isSkin = p === skinPart;
+    const isBrow = p.en.toLowerCase() === 'eyebrow';
+    const bb = g.boundingBox;
     for (let i = 0; i < pos.count; i++) {
       v.fromBufferAttribute(pos, i);
-      if (isSkin) {
-        const w = genitalWeight(v.x, v.y);
-        if (w > 0 && v.z > -0.035) {
-          const zt = vulvaZ(v.x, v.y);
-          if (v.z > zt) v.z += (zt - v.z) * w;
-        }
-        // breasts
-        for (const B of breasts) {
-          const dx = (v.x - B.cx) / B.rx, dy = (v.y - (B.cy - 0.01)) / B.ry;
-          const rr = dx * dx + dy * dy;
-          if (rr < 1 && v.z > B.z - 0.05) {
-            const k = Math.pow(1 - rr, 1.4);
-            v.z += B.h * k;
-            v.y -= 0.012 * k; // slight natural ptosis
-          }
-        }
+      if (isSkin) v.set(femaleSkin[i * 3], femaleSkin[i * 3 + 1], femaleSkin[i * 3 + 2]);
+      if (isBrow) {
+        // thinner, slightly arched eyebrows
+        const cy = (bb.min.y + bb.max.y) / 2;
+        v.y = cy + (v.y - cy) * 0.5 + 0.004 * smooth(0.02, 0.05, Math.abs(v.x)) - 0.003 * smooth(0.045, 0.06, Math.abs(v.x));
+        v.z -= 0.001;
       }
       warp(v);
       f[i * 3] = v.x; f[i * 3 + 1] = v.y; f[i * 3 + 2] = v.z;
@@ -291,11 +325,106 @@ export function applySex(parts, sex) {
     const attr = g.attributes.position;
     attr.array.set(sex === 'f' ? p.femalePos : p.malePos);
     attr.needsUpdate = true;
-    if (p.femaleIndex) g.setIndex(sex === 'f' ? p.femaleIndex : p.maleIndex);
+    if (p.femaleColor) { g.attributes.color.array.set(sex === 'f' ? p.femaleColor : p.maleColor); g.attributes.color.needsUpdate = true; }
     g.computeVertexNormals();
     g.computeBoundingBox();
     g.computeBoundingSphere();
     p.center.copy(g.boundingSphere.center);
     p.radius = g.boundingSphere.radius;
   }
+}
+
+/** Vertex neighbour lists (CSR) of an indexed mesh. */
+function neighbours(geo) {
+  const n = geo.attributes.position.count, idx = geo.index.array;
+  const sets = Array.from({ length: n }, () => new Set());
+  for (let i = 0; i < idx.length; i += 3) {
+    const a = idx[i], b = idx[i + 1], c = idx[i + 2];
+    sets[a].add(b); sets[a].add(c); sets[b].add(a); sets[b].add(c); sets[c].add(a); sets[c].add(b);
+  }
+  return sets.map((s) => Int32Array.from(s));
+}
+
+/** Laplacian smoothing of the vertices in `mask` (others stay fixed). */
+function relax(pos, nb, mask, iters, lambda, mu = 0) {
+  const n = pos.length / 3, tmp = new Float32Array(pos.length);
+  for (let it = 0; it < iters; it++) {
+    for (const f of mu ? [lambda, mu] : [lambda]) {
+      tmp.set(pos);
+      for (let i = 0; i < n; i++) {
+        const w = mask[i];
+        if (!w || !nb[i].length) continue;
+        let x = 0, y = 0, z = 0;
+        for (const j of nb[i]) { x += tmp[j * 3]; y += tmp[j * 3 + 1]; z += tmp[j * 3 + 2]; }
+        const k = nb[i].length, ff = f * w;
+        pos[i * 3] += (x / k - tmp[i * 3]) * ff;
+        pos[i * 3 + 1] += (y / k - tmp[i * 3 + 1]) * ff;
+        pos[i * 3 + 2] += (z / k - tmp[i * 3 + 2]) * ff;
+      }
+    }
+  }
+}
+
+/**
+ * Female skin: the male external genitalia are collapsed and relaxed into a
+ * smooth membrane (mons pubis and labia), breasts are added, and the trunk and
+ * limbs are softened (thicker subcutaneous fat hides muscle relief).
+ */
+function shapeSkin(skinPart, L, breasts, { pubisY, perineumY, zf }) {
+  const geo = skinPart.mesh.geometry;
+  const pos = geo.attributes.position.array.slice();
+  const n = pos.length / 3;
+  const nb = neighbours(geo);
+
+  // 1) external genitalia -> membrane
+  const g = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const x = pos[i * 3], y = pos[i * 3 + 1], z = pos[i * 3 + 2];
+    if (Math.abs(x) < 0.05 && y > perineumY - 0.06 && y < pubisY + 0.012 && z > -0.03) {
+      g[i] = 1;
+      const zt = zf(y) - 6 * x * x;
+      if (z > zt) pos[i * 3 + 2] = zt;                      // flatten the penis onto the pubic surface
+      if (y < perineumY) {                                  // pull the scrotum up between the thighs
+        pos[i * 3 + 1] = perineumY - 0.01 * Math.random();
+        pos[i * 3 + 2] = Math.min(pos[i * 3 + 2], 0.0);
+      }
+    }
+  }
+  relax(pos, nb, g, 120, 0.6);
+  // soft cleft between the labia majora and a gentle mons
+  for (let i = 0; i < n; i++) {
+    if (!g[i]) continue;
+    const x = pos[i * 3], y = pos[i * 3 + 1];
+    const lower = 1 - smooth(perineumY + 0.015, pubisY - 0.015, y);
+    pos[i * 3 + 2] -= lower * 0.006 * Math.exp(-((x / 0.0035) ** 2));
+    pos[i * 3 + 2] += 0.005 * bump(pubisY - 0.006, 0.014, y) * (1 - smooth(0.0, 0.04, Math.abs(x)));
+  }
+
+  // 2) breasts: rounded volume with a fuller lower pole
+  for (let i = 0; i < n; i++) {
+    for (const B of breasts) {
+      const x = pos[i * 3], y = pos[i * 3 + 1], z = pos[i * 3 + 2];
+      if (z < B.z - 0.06) continue;
+      const dx = (x - B.cx) / B.rx, dyy = y - (B.cy - 0.012);
+      const dy = dyy / (dyy < 0 ? B.ry * 0.85 : B.ry * 1.25);
+      const rr = dx * dx + dy * dy;
+      if (rr >= 1) continue;
+      const k = Math.pow(1 - rr, 1.6);
+      pos[i * 3 + 2] += B.h * k;
+      pos[i * 3] += (x - B.cx) * 0.12 * k;                  // slight outward spread
+      pos[i * 3 + 1] -= 0.016 * k;                          // natural ptosis
+    }
+  }
+
+  // 3) soften muscle relief on trunk and limbs (not on face, hands or feet)
+  const soft = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const x = Math.abs(pos[i * 3]), y = pos[i * 3 + 1];
+    const hands = x > 0.19 && y < L.hipY + 0.02;
+    if (hands || g[i]) continue;
+    soft[i] = smooth(L.kneeY - 0.25, L.kneeY - 0.1, y) * (1 - smooth(L.shoulderY + 0.02, L.shoulderY + 0.06, y));
+  }
+  relax(pos, nb, soft, 6, 0.5, -0.53);
+  // keep the breast shape crisp after softening
+  return pos;
 }

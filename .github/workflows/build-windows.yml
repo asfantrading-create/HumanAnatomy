@@ -45,3 +45,5 @@ jobs:
           files: |
             dist/*-portable.exe
             dist/*-setup.exe
+            dist/*-setup.exe.blockmap
+            dist/latest.yml

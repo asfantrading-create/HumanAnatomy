@@ -138,5 +138,33 @@ export function buildSupplements(parts, makeMaterial) {
       'أكبر وعاء لمفاوي في الجسم، يبدأ من الصهريج الكيلوسي في البطن ويصعد عبر الصدر ليصب في الزاوية الوريدية اليسرى، معيداً نحو ثلاثة أرباع لمف الجسم إلى الدم.',
       duct, 0x9ee6b0);
   }
+  // ---- visible eyes on the skin surface (sclera, iris, pupil) -------------
+  for (const side of ['left', 'right']) {
+    const vb = box(`${side} vitreous body`), cb = box(`${side} cornea`);
+    if (!vb || !cb) continue;
+    const center = new THREE.Vector3((vb.min.x + vb.max.x) / 2, (vb.min.y + vb.max.y) / 2, (vb.min.z + vb.max.z) / 2);
+    const front = cb.max.z;
+    const r = Math.max(0.0105, front - center.z - 0.0005);
+    const g = new THREE.SphereGeometry(r, 40, 28);
+    g.rotateX(Math.PI / 2);
+    const pos = g.attributes.position, col = [];
+    for (let i = 0; i < pos.count; i++) {
+      const z = pos.getZ(i) / r;
+      if (z > 0.965) col.push(0.04, 0.03, 0.03);
+      else if (z > 0.86) { const k = (z - 0.86) / 0.105; col.push(0.36 - 0.12 * k, 0.24 - 0.08 * k, 0.15 - 0.05 * k); }
+      else if (z > 0.845) col.push(0.18, 0.12, 0.09);
+      else col.push(0.95, 0.94, 0.92);
+    }
+    g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    g.translate(center.x, center.y, center.z);
+    const sideAr = side === 'left' ? 'اليسرى' : 'اليمنى';
+    add(`SUP_EYE_${side[0]}`, 'skin', `Eye surface (${side})`, `سطح العين ${sideAr}`,
+      'The visible part of the eye: the white sclera, the coloured iris and the black pupil through which light enters.',
+      'الجزء الظاهر من العين: الصلبة البيضاء، والقزحية الملونة، والحدقة السوداء التي يدخل منها الضوء.', g, 0xffffff);
+    const part = out[out.length - 1];
+    part.mesh.material.vertexColors = true;
+    part.mesh.material.roughness = 0.15;
+    part.alpha = 4; // opaque even under translucent skin
+  }
   return out;
 }

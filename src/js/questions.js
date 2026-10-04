@@ -1,0 +1,162 @@
+// Hand-written conceptual questions. In every entry the FIRST option is the
+// correct one; options are shuffled when the question is asked.
+// [system, level ('school' | 'uni'), question {ar,en}, options [[ar,en]...], explanation {ar,en}]
+const Q = (sys, level, qa, qe, opts, ea, ee) => ({ sys, level, q: { ar: qa, en: qe }, options: opts.map(([ar, en]) => ({ ar, en })), explain: { ar: ea, en: ee } });
+
+export const CONCEPT_QUESTIONS = [
+  // ---- skeletal
+  Q('skeletal', 'school', 'كم عدد عظام جسم الإنسان البالغ تقريباً؟', 'About how many bones does the adult human body have?',
+    [['206', '206'], ['150', '150'], ['300', '300'], ['412', '412']], 'للبالغ 206 عظمة، بينما يولد الطفل بنحو 270 عظمة يلتحم بعضها مع النمو.', 'An adult has 206 bones; a newborn has about 270, some of which fuse during growth.'),
+  Q('skeletal', 'school', 'ما أطول عظمة في جسم الإنسان؟', 'What is the longest bone in the human body?',
+    [['عظم الفخذ', 'Femur'], ['عظم العضد', 'Humerus'], ['الظنبوب', 'Tibia'], ['الترقوة', 'Clavicle']], 'عظم الفخذ هو الأطول والأقوى، ويبلغ نحو ربع طول الجسم.', 'The femur is the longest and strongest bone, about a quarter of body height.'),
+  Q('skeletal', 'school', 'كم عدد الفقرات العنقية؟', 'How many cervical vertebrae are there?',
+    [['7', '7'], ['12', '12'], ['5', '5'], ['4', '4']], 'العمود الفقري: 7 عنقية، 12 صدرية، 5 قطنية، ثم العجز والعصعص.', 'Spine: 7 cervical, 12 thoracic, 5 lumbar, then sacrum and coccyx.'),
+  Q('skeletal', 'school', 'كم زوجاً من الأضلاع في القفص الصدري؟', 'How many pairs of ribs are in the rib cage?',
+    [['12', '12'], ['10', '10'], ['14', '14'], ['7', '7']], '12 زوجاً: 7 حقيقية، و3 كاذبة، وزوجان عائمان.', '12 pairs: 7 true, 3 false and 2 floating ribs.'),
+  Q('skeletal', 'school', 'ما العظم الوحيد المتحرك في الجمجمة؟', 'Which is the only movable bone of the skull?',
+    [['الفك السفلي', 'Mandible'], ['العظم الجبهي', 'Frontal bone'], ['العظم الوجني', 'Zygomatic bone'], ['العظم اللامي', 'Hyoid bone']], 'الفك السفلي يتمفصل مع العظم الصدغي في المفصل الصدغي الفكي.', 'The mandible articulates with the temporal bone at the temporomandibular joint.'),
+  Q('skeletal', 'uni', 'أي فقرة تسمح بحركة الرأس الدورانية (قول «لا»)؟', 'Which joint allows rotation of the head (saying "no")?',
+    [['المفصل الفهقي المحوري (C1-C2)', 'Atlanto-axial joint (C1-C2)'], ['المفصل الفهقي القذالي', 'Atlanto-occipital joint'], ['المفصل بين C6 و C7', 'C6-C7 joint'], ['المفصل القطني العجزي', 'Lumbosacral joint']], 'يدور الفهق (C1) حول السن (Dens) في المحور (C2).', 'The atlas (C1) rotates around the dens of the axis (C2).'),
+  Q('skeletal', 'uni', 'أي عظم رسغي هو الأكثر عرضة للكسر؟', 'Which carpal bone is most commonly fractured?',
+    [['العظم الزورقي', 'Scaphoid'], ['العظم الهلالي', 'Lunate'], ['العظم الحمصي', 'Pisiform'], ['العظم الكلابي', 'Hamate']], 'كسر الزورقي شائع عند السقوط على اليد الممدودة، ويهدد بنخر لاوعائي بسبب تروية العظم الراجعة.', 'Scaphoid fractures are common after falls on an outstretched hand and risk avascular necrosis due to retrograde blood supply.'),
+  Q('skeletal', 'uni', 'أين تقع الحفرة الحقانية؟', 'Where is the glenoid cavity?',
+    [['في لوح الكتف', 'Scapula'], ['في عظم الورك', 'Hip bone'], ['في عظم العضد', 'Humerus'], ['في عظم القص', 'Sternum']], 'الحفرة الحقانية في لوح الكتف تتمفصل مع رأس العضد لتشكل مفصل الكتف.', 'The glenoid cavity of the scapula articulates with the humeral head to form the shoulder joint.'),
+
+  // ---- muscular
+  Q('muscular', 'school', 'ما أكبر عضلة في جسم الإنسان؟', 'What is the largest muscle in the human body?',
+    [['العضلة الألوية الكبرى', 'Gluteus maximus'], ['العضلة ذات الرأسين', 'Biceps brachii'], ['عضلة القلب', 'Cardiac muscle'], ['الحجاب الحاجز', 'Diaphragm']], 'الألوية الكبرى في الأرداف هي الأكبر حجماً، وتمد مفصل الورك.', 'The gluteus maximus is the largest muscle; it extends the hip.'),
+  Q('muscular', 'school', 'ما العضلة الرئيسية للتنفس؟', 'What is the main muscle of breathing?',
+    [['الحجاب الحاجز', 'Diaphragm'], ['العضلة الصدرية الكبرى', 'Pectoralis major'], ['العضلة شبه المنحرفة', 'Trapezius'], ['العضلة المستقيمة البطنية', 'Rectus abdominis']], 'ينقبض الحجاب الحاجز فيتسع الصدر ويدخل الهواء.', 'The diaphragm contracts, enlarging the chest so air flows in.'),
+  Q('muscular', 'school', 'أي عضلة تثني المرفق وتقلب الكف للأعلى؟', 'Which muscle flexes the elbow and turns the palm up?',
+    [['ذات الرأسين العضدية', 'Biceps brachii'], ['ثلاثية الرؤوس العضدية', 'Triceps brachii'], ['الدالية', 'Deltoid'], ['الظهرية العريضة', 'Latissimus dorsi']], 'ذات الرأسين تثني المرفق وتبسط الساعد (تقلب الكف للأعلى).', 'The biceps flexes the elbow and supinates the forearm.'),
+  Q('muscular', 'school', 'بماذا يتصل وتر العرقوب (أخيل)؟', 'What does the Achilles tendon attach to?',
+    [['عظم العقب', 'Calcaneus'], ['الرضفة', 'Patella'], ['الظنبوب', 'Tibia'], ['عظم الفخذ', 'Femur']], 'يربط وتر العرقوب عضلات بطة الساق بعظم العقب.', 'The Achilles tendon connects the calf muscles to the calcaneus.'),
+  Q('muscular', 'school', 'كم نوعاً من النسيج العضلي في الجسم؟', 'How many types of muscle tissue are there?',
+    [['ثلاثة: هيكلي وقلبي وأملس', 'Three: skeletal, cardiac and smooth'], ['نوعان', 'Two'], ['أربعة', 'Four'], ['نوع واحد', 'One']], 'العضلات الهيكلية إرادية، والقلبية والملساء لاإرادية.', 'Skeletal muscle is voluntary; cardiac and smooth muscle are involuntary.'),
+  Q('muscular', 'uni', 'أي عصب يغذي العضلة الدالية؟', 'Which nerve supplies the deltoid?',
+    [['العصب الإبطي', 'Axillary nerve'], ['العصب الكعبري', 'Radial nerve'], ['العصب العضلي الجلدي', 'Musculocutaneous nerve'], ['العصب فوق الكتف', 'Suprascapular nerve']], 'العصب الإبطي (C5-C6) يلتف حول العنق الجراحي للعضد، وقد يتأذى في كسوره.', 'The axillary nerve (C5-C6) winds around the surgical neck of the humerus and can be injured in its fractures.'),
+  Q('muscular', 'uni', 'أي عضلات تشكل الكفة المدورة؟', 'Which muscles form the rotator cuff?',
+    [['فوق الشوكة، تحت الشوكة، المدورة الصغرى، تحت الكتف', 'Supraspinatus, infraspinatus, teres minor, subscapularis'], ['الدالية، شبه المنحرفة، المعينية، المدورة الكبرى', 'Deltoid, trapezius, rhomboids, teres major'], ['ذات الرأسين، ثلاثية الرؤوس، الغرابية العضدية، العضدية', 'Biceps, triceps, coracobrachialis, brachialis'], ['الصدرية الكبرى والصغرى والمنشارية والظهرية', 'Pectorals, serratus anterior, latissimus']], 'تُختصر بـ SITS وتثبت رأس العضد في الحفرة الحقانية.', 'Known as SITS, they stabilise the humeral head in the glenoid.'),
+  Q('muscular', 'uni', 'أي عضلة هي أطول عضلة في الجسم؟', 'Which is the longest muscle in the body?',
+    [['العضلة الخياطية', 'Sartorius'], ['العضلة المستقيمة الفخذية', 'Rectus femoris'], ['العضلة الرشيقة', 'Gracilis'], ['العضلة الظهرية العريضة', 'Latissimus dorsi']], 'الخياطية تمتد قطرياً من الشوكة الحرقفية الأمامية العلوية إلى الجهة الإنسية للظنبوب.', 'The sartorius runs obliquely from the ASIS to the medial tibia.'),
+
+  // ---- nervous
+  Q('nervous', 'school', 'أي جزء من الدماغ مسؤول عن التوازن وتنسيق الحركة؟', 'Which part of the brain coordinates balance and movement?',
+    [['المخيخ', 'Cerebellum'], ['المخ', 'Cerebrum'], ['النخاع المستطيل', 'Medulla oblongata'], ['الوطاء', 'Hypothalamus']], 'المخيخ ينسق الحركات ويحافظ على التوازن.', 'The cerebellum coordinates movement and balance.'),
+  Q('nervous', 'school', 'أي فص من الدماغ مسؤول عن الرؤية؟', 'Which brain lobe processes vision?',
+    [['الفص القذالي', 'Occipital lobe'], ['الفص الجبهي', 'Frontal lobe'], ['الفص الصدغي', 'Temporal lobe'], ['الفص الجداري', 'Parietal lobe']], 'القشرة البصرية الأولية في الفص القذالي.', 'The primary visual cortex is in the occipital lobe.'),
+  Q('nervous', 'school', 'كم زوجاً من الأعصاب القحفية؟', 'How many pairs of cranial nerves are there?',
+    [['12', '12'], ['31', '31'], ['8', '8'], ['24', '24']], '12 زوجاً من الأعصاب القحفية، و31 زوجاً من الأعصاب الشوكية.', '12 pairs of cranial nerves and 31 pairs of spinal nerves.'),
+  Q('nervous', 'school', 'ما أطول عصب في الجسم؟', 'What is the longest nerve in the body?',
+    [['العصب الوركي', 'Sciatic nerve'], ['العصب المبهم', 'Vagus nerve'], ['العصب الفخذي', 'Femoral nerve'], ['العصب المتوسط', 'Median nerve']], 'العصب الوركي يمتد من أسفل الظهر حتى القدم.', 'The sciatic nerve runs from the lower back to the foot.'),
+  Q('nervous', 'school', 'أي جزء يتحكم في التنفس وضربات القلب تلقائياً؟', 'Which part controls breathing and heart rate automatically?',
+    [['جذع الدماغ', 'Brainstem'], ['المخيخ', 'Cerebellum'], ['الفص الجبهي', 'Frontal lobe'], ['الحبل الشوكي', 'Spinal cord']], 'مراكز التنفس والقلب والأوعية في النخاع المستطيل والجسر.', 'Respiratory and cardiovascular centres are in the medulla and pons.'),
+  Q('nervous', 'uni', 'أين تقع منطقة بروكا للكلام؟', "Where is Broca's area?",
+    [['التلفيف الجبهي السفلي للنصف المسيطر', 'Inferior frontal gyrus of the dominant hemisphere'], ['التلفيف الصدغي العلوي', 'Superior temporal gyrus'], ['التلفيف أمام المركزي', 'Precentral gyrus'], ['الفص القذالي', 'Occipital lobe']], 'أذيتها تسبب حبسة تعبيرية (صعوبة في إنتاج الكلام مع فهم سليم).', 'Damage causes expressive aphasia (impaired speech production with preserved comprehension).'),
+  Q('nervous', 'uni', 'أي عصب يتأذى في متلازمة النفق الرسغي؟', 'Which nerve is compressed in carpal tunnel syndrome?',
+    [['العصب المتوسط', 'Median nerve'], ['العصب الزندي', 'Ulnar nerve'], ['العصب الكعبري', 'Radial nerve'], ['العصب الإبطي', 'Axillary nerve']], 'ينضغط العصب المتوسط تحت القيد القابض في الرسغ.', 'The median nerve is compressed beneath the flexor retinaculum.'),
+  Q('nervous', 'uni', 'عند أي مستوى ينتهي الحبل الشوكي عادة عند البالغ؟', 'At what level does the adult spinal cord usually end?',
+    [['L1-L2', 'L1-L2'], ['T12', 'T12'], ['L4-L5', 'L4-L5'], ['S2', 'S2']], 'ينتهي بالمخروط النخاعي عند L1-L2، لذلك يُجرى البزل القطني بين L3-L4 أو L4-L5.', 'It ends as the conus medullaris at L1-L2, so lumbar puncture is done at L3-L4 or L4-L5.'),
+
+  // ---- circulatory
+  Q('circulatory', 'school', 'كم عدد حجرات القلب؟', 'How many chambers does the heart have?',
+    [['أربع', 'Four'], ['اثنتان', 'Two'], ['ثلاث', 'Three'], ['ست', 'Six']], 'أذينان وبطينان.', 'Two atria and two ventricles.'),
+  Q('circulatory', 'school', 'ما أكبر شريان في الجسم؟', 'What is the largest artery in the body?',
+    [['الأبهر (الأورطي)', 'Aorta'], ['الشريان الرئوي', 'Pulmonary artery'], ['الشريان السباتي', 'Carotid artery'], ['الشريان الفخذي', 'Femoral artery']], 'يخرج الأبهر من البطين الأيسر ويوزع الدم المؤكسج على الجسم.', 'The aorta leaves the left ventricle and distributes oxygenated blood.'),
+  Q('circulatory', 'school', 'أي حجرة تضخ الدم إلى الجسم كله؟', 'Which chamber pumps blood to the whole body?',
+    [['البطين الأيسر', 'Left ventricle'], ['البطين الأيمن', 'Right ventricle'], ['الأذين الأيسر', 'Left atrium'], ['الأذين الأيمن', 'Right atrium']], 'لذلك جداره هو الأسمك بين حجرات القلب.', 'That is why its wall is the thickest.'),
+  Q('circulatory', 'school', 'ما الأوعية التي تحمل الدم المؤكسج من الرئتين إلى القلب؟', 'Which vessels carry oxygenated blood from the lungs to the heart?',
+    [['الأوردة الرئوية', 'Pulmonary veins'], ['الشرايين الرئوية', 'Pulmonary arteries'], ['الوريد الأجوف', 'Vena cava'], ['الشرايين التاجية', 'Coronary arteries']], 'الأوردة الرئوية هي الأوردة الوحيدة التي تحمل دماً مؤكسجاً.', 'The pulmonary veins are the only veins carrying oxygenated blood.'),
+  Q('circulatory', 'school', 'ما الشرايين التي تغذي عضلة القلب نفسها؟', 'Which arteries supply the heart muscle itself?',
+    [['الشرايين التاجية', 'Coronary arteries'], ['الشرايين السباتية', 'Carotid arteries'], ['الشرايين الرئوية', 'Pulmonary arteries'], ['الشرايين الوربية', 'Intercostal arteries']], 'انسدادها يسبب الذبحة الصدرية أو الاحتشاء القلبي.', 'Their blockage causes angina or myocardial infarction.'),
+  Q('circulatory', 'uni', 'أين يقع الصمام التاجي (الميترالي)؟', 'Where is the mitral valve?',
+    [['بين الأذين الأيسر والبطين الأيسر', 'Between the left atrium and left ventricle'], ['بين الأذين الأيمن والبطين الأيمن', 'Between the right atrium and right ventricle'], ['بين البطين الأيسر والأبهر', 'Between the left ventricle and aorta'], ['بين البطين الأيمن والجذع الرئوي', 'Between the right ventricle and pulmonary trunk']], 'للصمام التاجي وريقتان، ويمنع رجوع الدم إلى الأذين الأيسر.', 'The mitral valve has two leaflets and prevents backflow into the left atrium.'),
+  Q('circulatory', 'uni', 'أين تقع العقدة الجيبية الأذينية (ناظمة القلب الطبيعية)؟', 'Where is the sinoatrial node (natural pacemaker)?',
+    [['جدار الأذين الأيمن قرب فتحة الوريد الأجوف العلوي', 'Right atrial wall near the superior vena cava'], ['الحاجز بين البطينين', 'Interventricular septum'], ['جدار الأذين الأيسر', 'Left atrial wall'], ['قمة القلب', 'Cardiac apex']], 'تولد نحو 60-100 نبضة في الدقيقة، ثم تنتقل الإشارة للعقدة الأذينية البطينية.', 'It fires about 60-100 times per minute; the impulse then reaches the AV node.'),
+  Q('circulatory', 'uni', 'أي وريد يُستخدم غالباً في جراحة تحويل مسار الشريان التاجي؟', 'Which vein is commonly harvested for coronary bypass grafting?',
+    [['الوريد الصافن الكبير', 'Great saphenous vein'], ['الوريد الفخذي', 'Femoral vein'], ['الوريد الوداجي الباطن', 'Internal jugular vein'], ['الوريد المأبضي', 'Popliteal vein']], 'الصافن الكبير وريد سطحي طويل يمكن الاستغناء عنه.', 'The great saphenous is a long superficial vein that can be spared.'),
+
+  // ---- respiratory
+  Q('respiratory', 'school', 'كم فصاً في الرئة اليمنى؟', 'How many lobes does the right lung have?',
+    [['ثلاثة', 'Three'], ['اثنان', 'Two'], ['أربعة', 'Four'], ['واحد', 'One']], 'اليمنى ثلاثة فصوص، واليسرى فصان لإفساح المجال للقلب.', 'Right: three lobes; left: two, making room for the heart.'),
+  Q('respiratory', 'school', 'أين يتم تبادل الغازات في الرئتين؟', 'Where does gas exchange occur in the lungs?',
+    [['الحويصلات الهوائية', 'Alveoli'], ['القصبة الهوائية', 'Trachea'], ['الحنجرة', 'Larynx'], ['الشعب الرئيسية', 'Main bronchi']], 'نحو 300 مليون حويصلة محاطة بالشعيرات الدموية.', 'About 300 million alveoli surrounded by capillaries.'),
+  Q('respiratory', 'school', 'ما الذي يغلق مدخل الحنجرة أثناء البلع؟', 'What closes the larynx during swallowing?',
+    [['لسان المزمار', 'Epiglottis'], ['الحبال الصوتية', 'Vocal cords'], ['اللسان', 'Tongue'], ['اللهاة', 'Uvula']], 'يمنع لسان المزمار دخول الطعام إلى مجرى الهواء.', 'The epiglottis prevents food from entering the airway.'),
+  Q('respiratory', 'school', 'ما الذي يدعم القصبة الهوائية ويمنع انخماصها؟', 'What keeps the trachea from collapsing?',
+    [['حلقات غضروفية على شكل حرف C', 'C-shaped cartilage rings'], ['عظام صغيرة', 'Small bones'], ['عضلات مخططة', 'Skeletal muscle'], ['أربطة ليفية فقط', 'Only fibrous ligaments']], 'الحلقات مفتوحة من الخلف حيث يلامس المريء.', 'The rings are open posteriorly where the oesophagus lies.'),
+  Q('respiratory', 'uni', 'لماذا تدخل الأجسام الغريبة المستنشقة إلى الشعبة اليمنى غالباً؟', 'Why do inhaled foreign bodies usually enter the right bronchus?',
+    [['لأنها أعرض وأقصر وأكثر عمودية', 'It is wider, shorter and more vertical'], ['لأنها أضيق', 'It is narrower'], ['لأن الرئة اليسرى أكبر', 'The left lung is larger'], ['لأنها أطول وأفقية', 'It is longer and horizontal']], 'زاوية الشعبة اليمنى مع القصبة أقل حدة.', 'The right main bronchus diverges at a steeper angle.'),
+  Q('respiratory', 'uni', 'كم قطعة قصبية رئوية في الرئة اليمنى عادة؟', 'How many bronchopulmonary segments does the right lung usually have?',
+    [['10', '10'], ['8', '8'], ['5', '5'], ['12', '12']], 'لكل قطعة شعبة وشريان خاصان، لذلك يمكن استئصالها جراحياً منفردة.', 'Each segment has its own bronchus and artery, so it can be resected separately.'),
+
+  // ---- digestive
+  Q('digestive', 'school', 'ما أكبر غدة في جسم الإنسان؟', 'What is the largest gland in the human body?',
+    [['الكبد', 'Liver'], ['البنكرياس', 'Pancreas'], ['الغدة الدرقية', 'Thyroid gland'], ['الطحال', 'Spleen']], 'يزن الكبد نحو 1.5 كغ ويؤدي مئات الوظائف.', 'The liver weighs about 1.5 kg and performs hundreds of functions.'),
+  Q('digestive', 'school', 'أين يتم امتصاص معظم المواد الغذائية؟', 'Where are most nutrients absorbed?',
+    [['الأمعاء الدقيقة', 'Small intestine'], ['المعدة', 'Stomach'], ['الأمعاء الغليظة', 'Large intestine'], ['المريء', 'Oesophagus']], 'زغابات الأمعاء الدقيقة تزيد مساحة الامتصاص كثيراً.', 'Villi of the small intestine greatly increase the absorptive surface.'),
+  Q('digestive', 'school', 'أين تُخزن العصارة الصفراوية؟', 'Where is bile stored?',
+    [['المرارة', 'Gallbladder'], ['البنكرياس', 'Pancreas'], ['المعدة', 'Stomach'], ['الطحال', 'Spleen']], 'ينتجها الكبد وتخزنها المرارة وتركزها.', 'It is made by the liver and stored and concentrated by the gallbladder.'),
+  Q('digestive', 'school', 'كم عدد الأسنان الدائمة عند البالغ؟', 'How many permanent teeth does an adult have?',
+    [['32', '32'], ['20', '20'], ['28', '28'], ['36', '36']], 'للطفل 20 سناً لبنية.', 'Children have 20 deciduous teeth.'),
+  Q('digestive', 'school', 'ما الجزء الأول من الأمعاء الدقيقة؟', 'What is the first part of the small intestine?',
+    [['الاثنا عشر', 'Duodenum'], ['الصائم', 'Jejunum'], ['اللفائفي', 'Ileum'], ['الأعور', 'Caecum']], 'تصب فيه العصارة الصفراوية والبنكرياسية.', 'Bile and pancreatic juice drain into it.'),
+  Q('digestive', 'uni', 'أي خلايا في المعدة تفرز حمض الهيدروكلوريك؟', 'Which gastric cells secrete hydrochloric acid?',
+    [['الخلايا الجدارية', 'Parietal cells'], ['الخلايا الرئيسية', 'Chief cells'], ['خلايا G', 'G cells'], ['الخلايا المخاطية', 'Mucous cells']], 'وتفرز أيضاً العامل الداخلي اللازم لامتصاص فيتامين B12.', 'They also secrete intrinsic factor needed for vitamin B12 absorption.'),
+  Q('digestive', 'uni', 'أين يُمتص فيتامين B12 والأملاح الصفراوية؟', 'Where are vitamin B12 and bile salts absorbed?',
+    [['اللفائفي الطرفي', 'Terminal ileum'], ['الاثنا عشر', 'Duodenum'], ['القولون الصاعد', 'Ascending colon'], ['المعدة', 'Stomach']], 'استئصاله أو التهابه (داء كرون) قد يسبب نقص B12.', 'Its resection or inflammation (Crohn disease) may cause B12 deficiency.'),
+  Q('digestive', 'uni', 'أين تقع نقطة ماكبرني المرتبطة بالتهاب الزائدة؟', "Where is McBurney's point?",
+    [['ثلث المسافة من الشوكة الحرقفية الأمامية العلوية اليمنى إلى السرة', 'One third from the right ASIS to the umbilicus'], ['منتصف المسافة بين السرة والعانة', 'Midway between umbilicus and pubis'], ['تحت الضلع الأيمن مباشرة', 'Just below the right costal margin'], ['أعلى الحفرة الحرقفية اليسرى', 'Upper left iliac fossa']], 'تقابل عادة موضع قاعدة الزائدة الدودية.', 'It usually overlies the base of the appendix.'),
+
+  // ---- urinary
+  Q('urinary', 'school', 'ما الوحدة الوظيفية للكلية؟', 'What is the functional unit of the kidney?',
+    [['النفرون', 'Nephron'], ['الحويصلة', 'Alveolus'], ['الخلية العصبية', 'Neuron'], ['الفص', 'Lobule']], 'في كل كلية نحو مليون نفرون.', 'Each kidney has about one million nephrons.'),
+  Q('urinary', 'school', 'ما الأنبوب الذي ينقل البول من الكلية إلى المثانة؟', 'Which tube carries urine from the kidney to the bladder?',
+    [['الحالب', 'Ureter'], ['الإحليل', 'Urethra'], ['القناة الصفراوية', 'Bile duct'], ['القناة الصدرية', 'Thoracic duct']], 'الإحليل ينقل البول من المثانة إلى الخارج.', 'The urethra carries urine from the bladder to the outside.'),
+  Q('urinary', 'school', 'لماذا تكون الكلية اليمنى أخفض قليلاً من اليسرى؟', 'Why is the right kidney slightly lower than the left?',
+    [['بسبب وجود الكبد فوقها', 'Because the liver lies above it'], ['لأنها أكبر', 'Because it is larger'], ['بسبب القلب', 'Because of the heart'], ['بسبب الطحال', 'Because of the spleen']], 'يدفع الكبد الكلية اليمنى إلى الأسفل قليلاً.', 'The liver pushes the right kidney slightly down.'),
+  Q('urinary', 'uni', 'ما الهرمون الذي تفرزه الكلية لتحفيز إنتاج كريات الدم الحمراء؟', 'Which kidney hormone stimulates red cell production?',
+    [['الإريثروبويتين', 'Erythropoietin'], ['الرينين', 'Renin'], ['الألدوستيرون', 'Aldosterone'], ['الهرمون المضاد لإدرار البول', 'ADH']], 'لذلك يصاب مرضى القصور الكلوي المزمن بفقر الدم.', 'Hence chronic kidney disease often causes anaemia.'),
+
+  // ---- endocrine
+  Q('endocrine', 'school', 'أي غدة تسمى «الغدة الرئيسية»؟', 'Which gland is called the "master gland"?',
+    [['الغدة النخامية', 'Pituitary gland'], ['الغدة الدرقية', 'Thyroid gland'], ['الغدة الكظرية', 'Adrenal gland'], ['البنكرياس', 'Pancreas']], 'تتحكم النخامية في كثير من الغدد الأخرى.', 'The pituitary controls many other glands.'),
+  Q('endocrine', 'school', 'أي هرمون يخفض سكر الدم؟', 'Which hormone lowers blood sugar?',
+    [['الإنسولين', 'Insulin'], ['الجلوكاجون', 'Glucagon'], ['الأدرينالين', 'Adrenaline'], ['الكورتيزول', 'Cortisol']], 'تفرزه خلايا بيتا في جزر لانغرهانس بالبنكرياس.', 'It is secreted by beta cells in the pancreatic islets.'),
+  Q('endocrine', 'school', 'ما العنصر الضروري لإنتاج هرمونات الغدة الدرقية؟', 'Which element is needed to make thyroid hormones?',
+    [['اليود', 'Iodine'], ['الحديد', 'Iron'], ['الكالسيوم', 'Calcium'], ['الصوديوم', 'Sodium']], 'نقصه يسبب تضخم الغدة الدرقية (الدراق).', 'Its deficiency causes goitre.'),
+  Q('endocrine', 'uni', 'أي هرمون يُفرز من لب الغدة الكظرية؟', 'Which hormone is secreted by the adrenal medulla?',
+    [['الأدرينالين', 'Adrenaline (epinephrine)'], ['الكورتيزول', 'Cortisol'], ['الألدوستيرون', 'Aldosterone'], ['التستوستيرون', 'Testosterone']], 'القشرة تفرز الكورتيزول والألدوستيرون، واللب يفرز الكاتيكولامينات.', 'The cortex secretes cortisol and aldosterone; the medulla secretes catecholamines.'),
+
+  // ---- lymphatic
+  Q('lymphatic', 'school', 'ما أكبر عضو لمفاوي في الجسم؟', 'What is the largest lymphoid organ?',
+    [['الطحال', 'Spleen'], ['الغدة الزعترية', 'Thymus'], ['اللوزتان', 'Tonsils'], ['الزائدة الدودية', 'Appendix']], 'يرشح الطحال الدم ويزيل الكريات الحمراء الهرمة.', 'The spleen filters blood and removes old red cells.'),
+  Q('lymphatic', 'school', 'أين تنضج الخلايا اللمفاوية التائية؟', 'Where do T lymphocytes mature?',
+    [['الغدة الزعترية', 'Thymus'], ['نخاع العظم', 'Bone marrow'], ['الطحال', 'Spleen'], ['الكبد', 'Liver']], 'حرف T مأخوذ من Thymus.', 'The "T" stands for thymus.'),
+  Q('lymphatic', 'uni', 'أين تصب القناة الصدرية؟', 'Where does the thoracic duct drain?',
+    [['الزاوية الوريدية اليسرى', 'Left venous angle'], ['الأذين الأيمن مباشرة', 'Directly into the right atrium'], ['الوريد البابي', 'Portal vein'], ['الزاوية الوريدية اليمنى', 'Right venous angle']], 'عند التقاء الوريد الوداجي الباطن الأيسر بالوريد تحت الترقوة الأيسر.', 'At the junction of the left internal jugular and subclavian veins.'),
+
+  // ---- reproductive
+  Q('reproductive', 'school', 'أين يحدث الإخصاب عادة؟', 'Where does fertilisation usually take place?',
+    [['قناة فالوب', 'Uterine (fallopian) tube'], ['الرحم', 'Uterus'], ['المبيض', 'Ovary'], ['المهبل', 'Vagina']], 'يحدث عادة في الجزء المتسع (الأمبولة) من قناة فالوب.', 'Usually in the ampulla of the uterine tube.'),
+  Q('reproductive', 'school', 'ما وظيفة المبيض؟', 'What does the ovary do?',
+    [['ينتج البويضات وهرموني الإستروجين والبروجسترون', 'Produces eggs and estrogen and progesterone'], ['ينتج الحليب', 'Produces milk'], ['يحتضن الجنين', 'Houses the fetus'], ['ينتج الإنسولين', 'Produces insulin']], 'تنضج بويضة واحدة عادة في كل دورة.', 'Usually one egg matures each cycle.'),
+  Q('reproductive', 'uni', 'أي غدة ذكرية تحيط بالإحليل تحت المثانة مباشرة؟', 'Which male gland surrounds the urethra just below the bladder?',
+    [['البروستات', 'Prostate'], ['الحويصلة المنوية', 'Seminal vesicle'], ['البربخ', 'Epididymis'], ['الخصية', 'Testis']], 'تضخمها مع العمر يضغط على الإحليل ويصعّب التبول.', 'Its enlargement with age compresses the urethra and obstructs urine flow.'),
+
+  // ---- sensory
+  Q('sensory', 'school', 'أي جزء من العين يحتوي على الخلايا المستقبلة للضوء؟', 'Which part of the eye contains the light receptors?',
+    [['الشبكية', 'Retina'], ['القرنية', 'Cornea'], ['القزحية', 'Iris'], ['العدسة', 'Lens']], 'تحتوي الشبكية على العصي (للضوء الخافت) والمخاريط (للألوان).', 'The retina has rods (dim light) and cones (colour).'),
+  Q('sensory', 'school', 'كم عضلة خارجية تحرك كرة العين؟', 'How many extraocular muscles move the eyeball?',
+    [['ست', 'Six'], ['أربع', 'Four'], ['اثنتان', 'Two'], ['ثماني', 'Eight']], 'أربع مستقيمة واثنتان مائلتان.', 'Four rectus and two oblique muscles.'),
+  Q('sensory', 'uni', 'أي عصب يغذي العضلة المائلة العلوية للعين؟', 'Which nerve supplies the superior oblique muscle?',
+    [['العصب البكري (الرابع)', 'Trochlear nerve (IV)'], ['العصب المحرك للعين (الثالث)', 'Oculomotor nerve (III)'], ['العصب المبعد (السادس)', 'Abducens nerve (VI)'], ['العصب البصري (الثاني)', 'Optic nerve (II)']], 'قاعدة SO4 LR6: المائلة العلوية بالرابع، والمستقيمة الوحشية بالسادس، والباقي بالثالث.', 'Rule SO4 LR6: superior oblique by IV, lateral rectus by VI, the rest by III.'),
+  Q('sensory', 'school', 'أين يقع عضو السمع (القوقعة)؟', 'Where is the organ of hearing (cochlea)?',
+    [['الأذن الداخلية', 'Inner ear'], ['الأذن الوسطى', 'Middle ear'], ['صيوان الأذن', 'Auricle'], ['القناة السمعية الخارجية', 'External auditory canal']], 'تقع الأذن الداخلية داخل الجزء الصخري من العظم الصدغي.', 'The inner ear lies in the petrous temporal bone.'),
+
+  // ---- skin
+  Q('skin', 'school', 'ما أكبر عضو في جسم الإنسان؟', 'What is the largest organ of the human body?',
+    [['الجلد', 'Skin'], ['الكبد', 'Liver'], ['الرئتان', 'Lungs'], ['الدماغ', 'Brain']], 'تبلغ مساحته نحو مترين مربعين.', 'It covers about two square metres.'),
+  Q('skin', 'school', 'أي فيتامين يُصنع في الجلد بتأثير أشعة الشمس؟', 'Which vitamin is made in the skin with sunlight?',
+    [['فيتامين د', 'Vitamin D'], ['فيتامين ج', 'Vitamin C'], ['فيتامين أ', 'Vitamin A'], ['فيتامين ك', 'Vitamin K']], 'يساعد فيتامين د على امتصاص الكالسيوم وصحة العظام.', 'Vitamin D helps calcium absorption and bone health.')
+];
