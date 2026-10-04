@@ -123,11 +123,11 @@ const BODY_CENTER = new THREE.Vector3(0, 1.08, 0);
 
 function effectiveOpacity(part) {
   const sys = state.systems[part.system];
-  let op = sys.opacity * (part.alpha ?? 1);
+  let op = Math.min(1, sys.opacity * (part.alpha ?? 1));
   if (state.xray && XRAY[part.system] !== undefined) op = Math.min(op, XRAY[part.system]);
   // during a lesson everything except the structures being explained is ghosted
   const qz = state.quiz;
-  if (qz && qz.target && qz.target !== part && (qz.mode === 'name' || qz.revealed)) op = Math.min(op, part.system === 'skin' ? 0.04 : 0.1);
+  if (qz && qz.target && qz.target !== part && (qz.mode === 'name' || qz.revealed)) op = Math.min(op, part.system === 'skin' ? 0.03 : 0.07);
   if (state.tour && state.tour.highlight.size && !state.tour.highlight.has(part)) op = Math.min(op, part.system === 'skin' ? 0.05 : 0.12);
   return op;
 }
@@ -146,7 +146,7 @@ function applyPart(part) {
   part.mesh.renderOrder = transparent ? (part.system === 'skin' ? 20 : 10) : 0;
   let emissive = 0x000000, intensity = 0;
   const q = state.quiz;
-  if (q && q.target === part && (q.mode === 'name' || q.revealed)) { emissive = 0x19ff7a; intensity = 1.1; m.opacity = 1; m.transparent = false; m.depthWrite = true; part.mesh.visible = true; }
+  if (q && q.target === part && (q.mode === 'name' || q.revealed)) { emissive = 0x00b84a; intensity = 1.2; m.opacity = 1; m.transparent = true; m.depthWrite = true; part.mesh.visible = true; }
   else if (state.selected === part || (state.tour && state.tour.highlight.has(part))) { emissive = 0x2a9df4; intensity = 0.45; }
   else if (state.hovered === part) { emissive = 0x5a6b85; intensity = 0.35; }
   m.emissive.setHex(emissive);
@@ -154,7 +154,8 @@ function applyPart(part) {
   // the quiz target is drawn on top of everything so it is never hidden
   const onTop = !!(q && q.target === part && intensity > 1);
   if (m.depthTest === onTop) { m.depthTest = !onTop; m.needsUpdate = true; }
-  if (onTop) part.mesh.renderOrder = 30;
+  if (onTop) part.mesh.renderOrder = 100; // drawn after every translucent layer
+  if (onTop) m.color.setHex(0x12c25a); else if (part.baseColor) m.color.copy(part.baseColor);
 }
 const applyAll = () => { state.parts.forEach(applyPart); refreshTree(); labelsDirty = true; };
 
@@ -209,6 +210,7 @@ async function init() {
   state.groups = groups;
   try { voice = await (await fetch('assets/voice.json')).json(); } catch { voice = {}; }
   for (const p of parts) {
+    if (/^hair of head$/i.test(p.en)) p.alpha = 1 / 0.25;
     p.maleOnly = isMaleOnly(p);
     p.hidden = false;
     p.group = groupOf(p);
@@ -279,7 +281,7 @@ async function setSex(sex) {
       p.mesh.userData.part = p;
       p.mesh.name = p.id;
       p.grp = /BREAST/.test(p.id) ? '' : 'pelvis';
-      p.alpha = 1;
+      p.alpha = p.id === 'F_HAIR' ? 1 / 0.25 : 1; // hair stays opaque under the translucent skin
       state.groups[p.system].add(p.mesh);
       state.parts.push(p);
       state.byId.set(p.id, p);
@@ -313,8 +315,9 @@ let theme = store.get('theme', 'dark');
 function applyPrefs() {
   document.documentElement.style.setProperty('--fs', fontScale);
   document.documentElement.dataset.theme = theme;
-  scene.background = new THREE.Color(theme === 'light' ? 0xe8edf3 : 0x0b1220);
-  grid.material.color?.setHex(theme === 'light' ? 0x9fb3c8 : 0x2b4a6b);
+  scene.background = new THREE.Color(theme === 'light' ? 0xffffff : 0x0b1220);
+  grid.visible = theme !== 'light';
+  floor.material.opacity = theme === 'light' ? 0.5 : 1;
   $('#btn-theme').textContent = theme === 'light' ? '🌙' : '☀';
   labelsDirty = true;
 }
@@ -639,7 +642,8 @@ function renderIds(target, includeFaint, viewOffset) {
   if (viewOffset) camera.clearViewOffset();
   renderer.toneMapping = tm;
   scene.background = bg;
-  hiddenDuringPick.forEach((o) => (o.visible = true));
+  floor.visible = true;
+  grid.visible = theme !== 'light';
   for (const [m, mat] of swapped) { if (mat) m.material = mat; else m.visible = true; }
   return ids;
 }
@@ -1075,6 +1079,8 @@ function updateLabels() {
 
 // ---------------------------------------------------------------------------
 // Licensing UI
+const WHATSAPP = 'https://wa.me/962776140404';
+const EMAIL = 'mailto:info@asfanco.com';
 let licState = null;
 function onLicenseChange(s) {
   licState = s;
@@ -1089,20 +1095,64 @@ function updateLicenseUI() {
   const btn = $('#btn-license');
   if (!s || !s.enabled) { btn.classList.add('hidden'); return; }
   btn.classList.remove('hidden');
+  btn.classList.toggle('warn', !s.active);
+  btn.textContent = s.active ? '🔑' : `🔑 ${t('licTrialActive')} · ${s.trialDaysLeft}`;
   const st = $('#lic-status');
-  if (s.active) st.textContent = t('licActive');
-  else if (s.allowed) st.textContent = t('licTrial', { d: s.trialDaysLeft });
-  else st.textContent = t('licExpired');
-  $('#lic-deactivate').classList.toggle('hidden', !s.active);
+  st.className = 'lic-status ' + (s.active ? 'ok' : s.allowed ? 'trial' : 'bad');
+  if (s.active) st.textContent = s.license.type === 'staff' ? `${t('staffLic')} ✓` : t('licActive');
+  else if (s.allowed) st.textContent = t('licTrial', { d: s.trialDaysLeft, n: s.trialDays });
+  else st.textContent = s.licenseError === 'expired' ? t('err_expired') : t('licExpired');
+  const L = s.license, rows = [];
+  if (L) {
+    rows.push([t('licName'), L.name]);
+    rows.push([t('licPlan'), L.type === 'staff' ? t('staffLic') : t(L.plan === 'monthly' ? 'monthly' : L.plan === 'yearly' ? 'yearly' : 'customPlan')]);
+    if (L.expires) rows.push([t('licExpires'), L.expires]);
+    if (s.daysLeft !== null && s.daysLeft !== undefined) rows.push([t('licDaysLeft'), String(s.daysLeft)]);
+    rows.push([t('licIssued'), L.issued]);
+    rows.push([t('licMachineBound'), L.machine || t('notBound')]);
+  }
+  const dl = $('#lic-details');
+  dl.innerHTML = '';
+  for (const [k, v] of rows) {
+    const dt = document.createElement('dt'); dt.textContent = k;
+    const dd = document.createElement('dd'); dd.textContent = v;
+    dl.append(dt, dd);
+  }
+  $('#lic-machine').textContent = s.machine || '';
+  $('#lic-deactivate').classList.toggle('hidden', !s.license);
 }
-$('#lic-activate').addEventListener('click', async () => {
-  const keyVal = $('#lic-key').value.trim();
+async function activateKey(keyVal) {
   if (!keyVal) return;
-  $('#lic-msg').textContent = t('licChecking');
+  const msg = $('#lic-msg');
+  msg.className = 'lic-msg';
+  msg.textContent = t('licChecking');
   const r = await licensing.activate(keyVal);
-  $('#lic-msg').textContent = r.ok ? '' : `${t('licInvalid')} ${r.error || ''}`;
+  msg.className = 'lic-msg ' + (r.ok ? 'ok' : 'bad');
+  msg.textContent = r.ok ? t('licOk') : t('err_' + (r.error || 'format'));
+  if (r.ok) $('#lic-key').value = '';
+}
+$('#lic-activate').addEventListener('click', () => activateKey($('#lic-key').value.trim()));
+$('#lic-file').addEventListener('change', async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const txt = (await f.text()).trim();
+  $('#lic-key').value = txt;
+  e.target.value = '';
+  activateKey(txt);
 });
-$('#lic-buy').addEventListener('click', () => licensing.openStore());
+$('#lic-copy').addEventListener('click', () => {
+  navigator.clipboard?.writeText($('#lic-machine').textContent);
+  $('#lic-copy').textContent = '✓';
+  setTimeout(() => ($('#lic-copy').textContent = t('copy')), 1500);
+});
+$('#lic-deactivate').addEventListener('click', () => licensing.deactivate());
+$('#license-close').addEventListener('click', () => { if (!$('#license').dataset.locked) $('#license').classList.add('hidden'); });
+const contactMsg = () => encodeURIComponent(`${t('appTitle')} – ${t('licBuyTitle')}\n${t('licMachineTitle')}: ${licState?.machine || ''}`);
+$('#lic-whatsapp').addEventListener('click', () => licensing.open(`${WHATSAPP}?text=${contactMsg()}`));
+$('#lic-email').addEventListener('click', () => licensing.open(`${EMAIL}?subject=${encodeURIComponent(t('appTitle'))}&body=${contactMsg()}`));
+$('#about-wa').addEventListener('click', () => licensing.open(WHATSAPP));
+$('#about-mail').addEventListener('click', () => licensing.open(EMAIL));
+$('#tb-brand').addEventListener('click', () => openModal('#about'));
 async function showEula() {
   const box = $('#eula-text');
   if (!box.textContent) {
@@ -1117,11 +1167,12 @@ async function showEula() {
 $('#btn-eula').addEventListener('click', showEula);
 $('#lic-eula').addEventListener('click', showEula);
 $('#lic-deactivate').addEventListener('click', () => licensing.deactivate());
+$('#license-close').addEventListener('click', () => { if (!$('#license').dataset.locked) $('#license').classList.add('hidden'); });
 
 // ---------------------------------------------------------------------------
 // Keyboard
 window.addEventListener('keydown', (e) => {
-  if (e.target === searchInput || e.target.tagName === 'INPUT' && e.target.type === 'text') return;
+  if (e.target === searchInput || ['TEXTAREA', 'INPUT'].includes(e.target.tagName) && e.target.type !== 'checkbox' && e.target.type !== 'range') return;
   if ($('#license').dataset.locked) return;
   if (e.ctrlKey && e.key.toLowerCase() === 'f') { e.preventDefault(); searchInput.focus(); searchInput.select(); return; }
   if (e.ctrlKey && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); return; }
@@ -1172,6 +1223,9 @@ function loop(now) {
     updateTransforms(now);
     if (state.heartbeat || state.breathing) labelsDirty = true;
   }
+  if (state.quiz && state.quiz.target && state.quiz.target.mesh.renderOrder === 100) {
+    state.quiz.target.mesh.material.emissiveIntensity = 0.75 + 0.55 * (0.5 + 0.5 * Math.sin(now / 220));
+  }
   processHover(now);
   renderer.render(scene, camera);
   if (state.labels && labelsDirty && now - lastLabelUpdate > 150 && state.parts.length) {
@@ -1183,6 +1237,8 @@ function loop(now) {
 
 applyLanguage();
 applyPrefs();
+// keep floating panels above the toolbar whatever its height (it can wrap on small screens)
+new ResizeObserver(() => document.documentElement.style.setProperty('--tb-h', `${$('#toolbar').offsetHeight}px`)).observe($('#toolbar'));
 requestAnimationFrame(loop);
 init().catch((err) => {
   console.error(err);

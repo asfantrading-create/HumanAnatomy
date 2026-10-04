@@ -3,3 +3,6 @@ dist/
 *.log
 src/vendor/
 __pycache__/
+*.jwk.json
+!license-public.jwk.json
+*.lic

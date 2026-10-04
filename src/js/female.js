@@ -37,8 +37,11 @@ function makeWarp(L) {
     let s = 1
       - 0.05 * bump(L.chestY + 0.04, 0.1, y)
       - 0.13 * bump(L.waistY, 0.075, y)
-      + 0.09 * bump(L.hipY + 0.01, 0.09, y);
+      + 0.11 * bump(L.hipY + 0.01, 0.09, y);
     if (y < L.hipY) s += 0.055 * smooth(L.kneeY, L.hipY, y) * (1 - bump(L.hipY + 0.01, 0.09, y));
+    // slimmer neck and slightly narrower jaw
+    s -= 0.09 * bump(L.shoulderY + 0.08, 0.035, y) * (1 - smooth(0.05, 0.08, ax));
+    s -= 0.05 * bump(L.shoulderY + 0.15, 0.035, y) * (1 - smooth(0.06, 0.09, ax));
     let x = v.x * (1 + (s - 1) * (1 - armW));
     x -= sx * 0.028 * armW;
     // shoulders slope a little and narrow
@@ -112,7 +115,7 @@ export function prepareFemale(parts, makeMaterial) {
   };
   const breasts = [-1, 1].map((s) => {
     const cx = s * 0.092, cy = L.chestY - 0.01;
-    return { s, cx, cy, z: frontZ(cx, cy), rx: 0.075, ry: 0.068, h: 0.06 };
+    return { s, cx, cy, z: frontZ(cx, cy), rx: 0.08, ry: 0.072, h: 0.07 };
   });
   for (const B of breasts) {
     const side = B.s > 0 ? 'left' : 'right';
@@ -177,6 +180,57 @@ export function prepareFemale(parts, makeMaterial) {
       geo: g, color: 0xe8b796, sexOnly: 'f', generated: true });
   }
 
+  // ---- long hair ----------------------------------------------------------
+  {
+    const hb = parts.find((p) => p.en.toLowerCase() === 'hair of head')?.mesh.geometry.boundingBox;
+    const c = hb ? new THREE.Vector3((hb.min.x + hb.max.x) / 2, hb.max.y - 0.112, (hb.min.z + hb.max.z) / 2 - 0.005) : new THREE.Vector3(0, 1.62, -0.03);
+    const rx = hb ? (hb.max.x - hb.min.x) / 2 + 0.008 : 0.09, ry = 0.12, rz = hb ? (hb.max.z - hb.min.z) / 2 + 0.006 : 0.106;
+    const NU = 96, NV = 70, pos = [], col = [], idx = [];
+    const dropMax = 0.36;
+    for (let j = 0; j <= NV; j++) {
+      const v = j / NV;
+      for (let i = 0; i <= NU; i++) {
+        const az = -Math.PI + (i / NU) * Math.PI * 2;      // 0 = face, ±π = back of the head
+        const back = Math.abs(az) / Math.PI;               // 0 front .. 1 back
+        const tEnd = 1.24 + 0.5 * smooth(0.12, 0.45, back); // hairline: forehead -> below the ears
+        const drop = dropMax * smooth(0.3, 0.95, back);
+        let x, y, z;
+        if (v <= 0.55) {
+          const t = (v / 0.55) * tEnd;
+          // slightly fuller than the scalp, with a soft parting volume on top
+          const k = 1 + 0.035 * Math.sin(t) + 0.03 * smooth(0.3, 0.8, back);
+          x = c.x + rx * k * Math.sin(t) * Math.sin(az);
+          y = c.y + ry * Math.cos(t) * (1 + 0.03 * (1 - back));
+          z = c.z + rz * k * Math.sin(t) * Math.cos(az);
+        } else {
+          const sDrop = (v - 0.55) / 0.45;
+          const t = tEnd;
+          const flare = 1.08 + 0.18 * sDrop;
+          x = c.x + rx * flare * Math.sin(t) * Math.sin(az);
+          y = c.y + ry * Math.cos(t) - drop * sDrop;
+          z = c.z + rz * flare * Math.sin(t) * Math.cos(az) - 0.06 * sDrop * smooth(0.35, 1, back);
+          // strands taper and fall slightly inwards at the ends
+          x *= 1 - 0.12 * sDrop * sDrop;
+        }
+        pos.push(x, y, z);
+        const strand = 0.82 + 0.18 * Math.sin(i * 2.7) * Math.sin(i * 0.9 + j * 0.05);
+        col.push(strand, strand, strand);
+      }
+    }
+    for (let j = 0; j < NV; j++) for (let i = 0; i < NU; i++) {
+      const a0 = j * (NU + 1) + i, a1 = a0 + 1, a2 = a0 + NU + 1, a3 = a2 + 1;
+      idx.push(a0, a2, a1, a1, a2, a3);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    g.setIndex(idx);
+    added.push({ id: 'F_HAIR', system: 'skin', en: 'Hair of head', ar: 'شعر الرأس',
+      descEn: 'Scalp hair grows from about 100,000 follicles and protects the scalp from sunlight and heat loss. (Illustrative long hair for the female model.)',
+      descAr: 'ينمو شعر الرأس من نحو مئة ألف جريب شعري، ويحمي فروة الرأس من أشعة الشمس وفقدان الحرارة. (شعر طويل توضيحي لنموذج المرأة).',
+      geo: g, color: 0x3a2416, sexOnly: 'f', generated: true, vertexColors: true });
+  }
+
   // ---- compute male/female vertex sets for every part ----
   for (const p of parts) {
     const g = p.mesh.geometry;
@@ -216,7 +270,9 @@ export function prepareFemale(parts, makeMaterial) {
     a.geo.computeVertexNormals();
     a.geo.computeBoundingBox();
     a.geo.computeBoundingSphere();
-    const mesh = new THREE.Mesh(a.geo, makeMaterial(a.system, a.color));
+    const mat = makeMaterial(a.system, a.color);
+    if (a.vertexColors) { mat.vertexColors = true; mat.roughness = 0.55; }
+    const mesh = new THREE.Mesh(a.geo, mat);
     out.push({ ...a, mesh, descEn: a.descEn, descAr: a.descAr });
   }
   return out;
@@ -224,7 +280,7 @@ export function prepareFemale(parts, makeMaterial) {
 
 /** Male-only structures (hidden for the female body). */
 export function isMaleOnly(p) {
-  return /penis|testis|testicular|epididym|seminal vesicle|deferent duct|prostate|scrot|spermatic|hair of trunk/i.test(p.en);
+  return /penis|testis|testicular|epididym|seminal vesicle|deferent duct|prostate|scrot|spermatic|hair of trunk|hair of head/i.test(p.en);
 }
 
 /** Switches every mesh between male and female vertex positions. */

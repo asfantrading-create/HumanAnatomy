@@ -66,10 +66,11 @@ app.whenReady().then(() => {
 
   licensing = new Licensing();
   ipcMain.handle('license:status', () => licensing.status());
-  ipcMain.handle('license:refresh', () => licensing.refresh());
-  ipcMain.handle('license:activate', (_e, key) => licensing.activate(String(key || '').trim()));
+  ipcMain.handle('license:activate', (_e, key) => licensing.activate(String(key || '')));
   ipcMain.handle('license:deactivate', () => licensing.deactivate());
-  ipcMain.handle('license:store', () => { const u = licensing.config.storeUrl; if (/^https:\/\//.test(u || '')) shell.openExternal(u); });
+  ipcMain.handle('app:open', (_e, url) => {
+    if (/^(https:\/\/wa\.me\/|mailto:)/.test(String(url))) shell.openExternal(String(url));
+  });
   ipcMain.handle('app:version', () => app.getVersion());
 
   createWindow();

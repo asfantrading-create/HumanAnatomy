@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>مولّد التراخيص · License Generator – Human Anatomy 3D</title>
+<style>
+  :root { --bg:#f4f6f9; --panel:#fff; --line:#dbe2ea; --text:#0f172a; --muted:#5b6b7f; --accent:#0f9d8a; --crit:#dc2626; }
+  * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,'Noto Sans Arabic',Tahoma,sans-serif; font-size:14px; }
+  header { background:var(--panel); border-bottom:1px solid var(--line); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  h1 { font-size:18px; margin:0; } h2 { font-size:15px; margin:0 0 10px; }
+  main { max-width:1100px; margin:20px auto; padding:0 16px; display:grid; gap:16px; grid-template-columns:1fr 1fr; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  input, select, textarea { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:#fff; color:var(--text); }
+  textarea { font-family:Consolas,monospace; font-size:12px; min-height:110px; direction:ltr; }
+  button { background:var(--accent); color:#fff; border:0; border-radius:8px; padding:9px 14px; font:inherit; font-weight:600; cursor:pointer; margin-top:12px; }
+  button.secondary { background:#fff; color:var(--text); border:1px solid var(--line); }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .out { font-family:Consolas,monospace; font-size:12px; word-break:break-all; background:#f8fafc; border:1px dashed var(--line); border-radius:8px; padding:10px; direction:ltr; text-align:left; min-height:60px; }
+  .muted { color:var(--muted); font-size:12px; } .ok { color:var(--accent); } .bad { color:var(--crit); }
+  .lang { border:1px solid var(--line); border-radius:8px; overflow:hidden; display:inline-flex; } .lang button { margin:0; border-radius:0; background:#fff; color:var(--text); padding:6px 10px; } .lang button.active { background:#e6f7f4; color:var(--accent); }
+  @media (max-width:800px) { main { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1 data-i18n="title">مولّد تراخيص برنامج التشريح ثلاثي الأبعاد</h1>
+  <div class="lang"><button id="lang-ar" class="active" onclick="setLang('ar')">العربية</button><button id="lang-en" onclick="setLang('en')">English</button></div>
+</header>
+<main>
+  <section class="card">
+    <h2 data-i18n="privTitle"></h2>
+    <p class="muted" data-i18n="privHint"></p>
+    <textarea id="priv" placeholder='{"kty":"EC","crv":"P-256","x":"...","y":"...","d":"..."}'></textarea>
+    <div class="row"><input type="file" id="privFile" accept=".json" style="width:auto" /><button class="secondary" onclick="rememberPriv()" data-i18n="remember"></button></div>
+    <h2 style="margin-top:18px" data-i18n="custTitle"></h2>
+    <label data-i18n="name"></label><input id="name" />
+    <label data-i18n="email"></label><input id="email" type="email" />
+    <label data-i18n="type"></label>
+    <select id="plan" onchange="planChanged()"><option value="yearly" data-i18n="yearly"></option><option value="monthly" data-i18n="monthly"></option><option value="custom" data-i18n="custom"></option></select>
+    <div id="expRow"><label data-i18n="expires"></label><input id="expires" type="date" style="direction:ltr" /><p class="muted" id="expHint"></p></div>
+    <details style="margin-top:14px"><summary class="muted" style="cursor:pointer" data-i18n="staffTitle"></summary>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:8px;color:var(--crit)"><input type="checkbox" id="staff" style="width:auto" onchange="planChanged()" /> <span data-i18n="staff"></span></label>
+      <p class="muted" data-i18n="staffHint"></p>
+    </details>
+    <label data-i18n="machine"></label><input id="machine" placeholder="XXXX-XXXX-XXXX-XXXX" style="direction:ltr" />
+    <label data-i18n="notes"></label><input id="notes" />
+    <button onclick="generate()" data-i18n="generate"></button>
+  </section>
+  <section class="card">
+    <h2 data-i18n="keyTitle"></h2>
+    <div class="out" id="out"><span class="muted" data-i18n="empty"></span></div>
+    <div class="row"><button class="secondary" onclick="copyKey()" data-i18n="copy"></button><button class="secondary" onclick="downloadKey()" data-i18n="download"></button></div>
+    <p class="muted" id="summary"></p>
+    <h2 style="margin-top:18px" data-i18n="verifyTitle"></h2>
+    <textarea id="verifyIn" placeholder="HA3D1-..."></textarea>
+    <button class="secondary" onclick="verifyKey()" data-i18n="verify"></button>
+    <div id="verifyOut" class="muted" style="margin-top:8px"></div>
+  </section>
+</main>
+<script>
+const PUB = {"kty":"EC","crv":"P-256","x":"EqWPQiGGd6wy3KvIL3tAHXd0vMQ8AonR0CrnPGFqJMA","y":"bCECyXPicJtK6ltIslolTvbHC2aTMObF5Q0nnWh6DnM"};
+const PREFIX = 'HA3D1-';
+const I18N = {
+  ar: { title:'مولّد تراخيص برنامج التشريح ثلاثي الأبعاد', privTitle:'1 · المفتاح الخاص (سري – لا يُرسل للعميل أبداً)', privHint:'ألصق محتوى الملف private.jwk.json أو حمّله. يبقى المفتاح في متصفحك فقط ولا يُرسل لأي مكان.', remember:'حفظ في هذا المتصفح', custTitle:'2 · بيانات العميل والترخيص', name:'اسم العميل / الجهة', email:'البريد الإلكتروني (اختياري)', type:'نوع الاشتراك', yearly:'اشتراك سنوي (12 شهراً)', monthly:'اشتراك شهري (شهر واحد)', custom:'تاريخ انتهاء مخصص', expires:'تاريخ انتهاء الاشتراك', autoHint:'يُحسب تاريخ الانتهاء تلقائياً من تاريخ اليوم.', customHint:'أدخل أي تاريخ انتهاء (مثلاً نهاية الفصل الدراسي).', staffTitle:'🔒 خيارات داخلية (لموظفي الشركة فقط)', staff:'ترخيص موظف بلا تاريخ انتهاء – للموظفين فقط، لا يُصدر للعملاء أبداً', staffHint:'يظهر في البرنامج باسم «ترخيص موظفي الشركة».', needFuture:'يجب أن يكون تاريخ الانتهاء في المستقبل', confirmStaff:'ترخيص موظف بلا تاريخ انتهاء – لموظفي الشركة فقط وليس للعملاء. هل أنت متأكد؟', machine:'معرّف الجهاز (يظهر للعميل في نافذة الترخيص) – يُنصح به لربط الترخيص بجهاز واحد', notes:'ملاحظات (اختياري)', generate:'توليد مفتاح الترخيص', keyTitle:'3 · مفتاح الترخيص – أرسله للعميل', empty:'لم يُولَّد مفتاح بعد.', copy:'نسخ', download:'تنزيل ملف .lic', verifyTitle:'التحقق من مفتاح', verify:'تحقق', needPriv:'أدخل المفتاح الخاص أولاً', needName:'أدخل اسم العميل', needDate:'أدخل تاريخ الانتهاء', copied:'تم', valid:'التوقيع صحيح ✓', invalid:'التوقيع غير صحيح ✗', wrongKey:'هذا المفتاح الخاص لا يطابق المفتاح العام المدمج في البرنامج!', summary:(p)=>(p.type==='staff'?'ترخيص موظف بلا تاريخ انتهاء (داخلي)':(p.plan==='monthly'?'اشتراك شهري':p.plan==='yearly'?'اشتراك سنوي':'اشتراك')+' ينتهي في '+p.expires)+' لـ «'+p.name+'» – صدر بتاريخ '+p.issued+(p.machine?' – مربوط بالجهاز '+p.machine:' – غير مربوط بجهاز') },
+  en: { title:'Human Anatomy 3D – License Generator', privTitle:'1 · Private key (secret – never send it to customers)', privHint:'Paste the content of private.jwk.json or load the file. The key stays in your browser and is never uploaded.', remember:'Remember in this browser', custTitle:'2 · Customer & license details', name:'Customer / organisation name', email:'E-mail (optional)', type:'Subscription plan', yearly:'Yearly subscription (12 months)', monthly:'Monthly subscription (1 month)', custom:'Custom expiry date', expires:'Subscription expiry date', autoHint:'The expiry date is computed from today.', customHint:'Enter any expiry date (e.g. the end of a semester).', staffTitle:'🔒 Internal options (company staff only)', staff:'Staff licence without expiry – employees only, never issued to customers', staffHint:'The program shows it as “Staff license”.', needFuture:'The expiry date must be in the future', confirmStaff:'Staff licence without expiry – for company employees only. Are you sure?', machine:'Machine ID (shown to the customer in the license window) – recommended, binds the key to one computer', notes:'Notes (optional)', generate:'Generate license key', keyTitle:'3 · License key – send this to the customer', empty:'No key generated yet.', copy:'Copy', download:'Download .lic file', verifyTitle:'Verify a key', verify:'Verify', needPriv:'Enter the private key first', needName:'Enter the customer name', needDate:'Enter the expiry date', copied:'Done', valid:'Signature valid ✓', invalid:'Signature INVALID ✗', wrongKey:'This private key does not match the public key built into the application!', summary:(p)=>(p.type==='staff'?'Staff licence without expiry (internal)':(p.plan==='monthly'?'Monthly subscription':p.plan==='yearly'?'Yearly subscription':'Subscription')+' until '+p.expires)+' for “'+p.name+'” – issued '+p.issued+(p.machine?' – bound to machine '+p.machine:' – not bound to a machine') }
+};
+let lang = 'ar';
+const t = (k) => I18N[lang][k];
+function setLang(l) { lang = l; document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'; document.querySelectorAll('[data-i18n]').forEach((el) => { const v = I18N[l][el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; }); document.getElementById('lang-ar').classList.toggle('active', l === 'ar'); document.getElementById('lang-en').classList.toggle('active', l === 'en'); planChanged(); }
+const b64u = (bytes) => btoa(String.fromCharCode(...new Uint8Array(bytes))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unb64u = (s) => { const p = s.replace(/-/g,'+').replace(/_/g,'/'); const bin = atob(p + '='.repeat((4 - p.length % 4) % 4)); return Uint8Array.from(bin, (c) => c.charCodeAt(0)); };
+let lastKey = '', lastName = '';
+document.getElementById('privFile').addEventListener('change', (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => (document.getElementById('priv').value = r.result); r.readAsText(f); });
+function rememberPriv() { localStorage.setItem('ha3d.priv', document.getElementById('priv').value); alert(t('copied')); }
+if (localStorage.getItem('ha3d.priv')) document.getElementById('priv').value = localStorage.getItem('ha3d.priv');
+function addMonths(d, n) { const y = d.getFullYear(), m = d.getMonth() + n, day = d.getDate(); const last = new Date(y, m + 1, 0).getDate(); return new Date(y, m, Math.min(day, last)); }
+const isoDate = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+function planChanged() {
+  const staff = document.getElementById('staff').checked, plan = document.getElementById('plan').value, exp = document.getElementById('expires');
+  document.getElementById('plan').disabled = staff;
+  document.getElementById('expRow').style.display = staff ? 'none' : '';
+  if (!staff && plan !== 'custom') { exp.value = isoDate(addMonths(new Date(), plan === 'monthly' ? 1 : 12)); exp.readOnly = true; } else exp.readOnly = false;
+  document.getElementById('expHint').textContent = staff ? '' : (plan === 'custom' ? t('customHint') : t('autoHint'));
+}
+async function generate() {
+  const privTxt = document.getElementById('priv').value.trim(); if (!privTxt) return alert(t('needPriv'));
+  const name = document.getElementById('name').value.trim(); if (!name) return alert(t('needName'));
+  const staff = document.getElementById('staff').checked, planSel = document.getElementById('plan').value;
+  const expires = staff ? null : document.getElementById('expires').value;
+  if (!staff && !/^\d{4}-\d{2}-\d{2}$/.test(expires || '')) return alert(t('needDate'));
+  if (!staff && new Date(expires + 'T23:59:59') <= new Date()) return alert(t('needFuture'));
+  if (staff && !confirm(t('confirmStaff'))) return;
+  const jwk = JSON.parse(privTxt);
+  if (jwk.x !== PUB.x || jwk.y !== PUB.y) return alert(t('wrongKey'));
+  const key = await crypto.subtle.importKey('jwk', jwk, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
+  const payload = { v: 1, id: crypto.randomUUID(), name, email: document.getElementById('email').value.trim() || undefined, type: staff ? 'staff' : 'subscription', plan: staff || planSel === 'custom' ? undefined : planSel, issued: isoDate(new Date()), expires, machine: document.getElementById('machine').value.trim().toUpperCase() || null, notes: document.getElementById('notes').value.trim() || undefined };
+  const data = new TextEncoder().encode(JSON.stringify(payload));
+  const sig = await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, key, data);
+  lastKey = PREFIX + b64u(data) + '.' + b64u(sig); lastName = name;
+  document.getElementById('out').textContent = lastKey;
+  document.getElementById('summary').textContent = t('summary')(payload);
+}
+function copyKey() { if (!lastKey) return; navigator.clipboard.writeText(lastKey).then(() => alert(t('copied'))); }
+function downloadKey() { if (!lastKey) return; const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lastKey + '\n'], { type: 'text/plain' })); a.download = lastName.replace(/[^\w.؀-ۿ-]+/g, '_') + '.lic'; a.click(); }
+async function verifyKey() {
+  const raw = document.getElementById('verifyIn').value.replace(/\s+/g, ''), out = document.getElementById('verifyOut');
+  try {
+    const body = raw.slice(PREFIX.length), dot = body.indexOf('.');
+    const payloadBytes = unb64u(body.slice(0, dot)), sig = unb64u(body.slice(dot + 1));
+    const key = await crypto.subtle.importKey('jwk', PUB, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']);
+    const ok = await crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, key, sig, payloadBytes);
+    const payload = JSON.parse(new TextDecoder().decode(payloadBytes));
+    out.innerHTML = '<span class="' + (ok ? 'ok' : 'bad') + '">' + (ok ? t('valid') : t('invalid')) + '</span><br>' + t('summary')(payload);
+  } catch (e) { out.innerHTML = '<span class="bad">' + t('invalid') + '</span>'; }
+}
+setLang('ar');
+</script>
+</body>
+</html>

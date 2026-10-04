@@ -136,6 +136,8 @@
     <button id="btn-quiz">🎓 <span data-i18n="quiz"></span></button>
     <button id="btn-shot">📷</button>
     <button id="btn-help">❓</button>
+    <span class="tb-sep"></span>
+    <a id="tb-brand" class="tb-brand" title="ASFAN · info@asfanco.com · +962776140404"><img src="asfan-logo.png" alt="ASFAN"></a>
   </footer>
 
   <div id="tooltip" class="hidden"></div>
@@ -169,6 +171,9 @@
       <h2 data-i18n="aboutTitle"></h2>
       <p><b>Human Anatomy 3D</b> <span id="app-version"></span></p>
       <p class="muted" id="about-text"></p>
+      <p class="about-contact"><img src="asfan-logo.png" alt="ASFAN" class="about-logo"><br>
+        <button class="link" id="about-wa">WhatsApp: <span dir="ltr">+962 77 614 0404</span></button> ·
+        <button class="link" id="about-mail"><span dir="ltr">info@asfanco.com</span></button></p>
       <p class="credit">3D anatomical models: <b>BodyParts3D</b>, © The Database Center for Life Science, licensed under
         <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC Attribution 4.0 International</a>
         (<a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/" target="_blank">dbarchive.biosciencedbc.jp</a>).
@@ -187,19 +192,41 @@
   </div>
 
   <div id="license" class="modal hidden">
-    <div class="modal-box">
-      <button class="icon-btn modal-close" id="license-close">✕</button>
-      <h2>🔑 <span data-i18n="licTitle"></span></h2>
-      <p id="lic-status"></p>
-      <div class="lic-form">
-        <input id="lic-key" placeholder="XXXX-XXXX-XXXX-XXXX" dir="ltr">
-        <button id="lic-activate" class="accent" data-i18n="licActivate"></button>
-      </div>
-      <p id="lic-msg" class="muted"></p>
-      <div class="row-between">
-        <button id="lic-buy" data-i18n="licBuy"></button>
-        <button id="lic-eula" class="link" data-i18n="eula"></button>
-        <button id="lic-deactivate" class="link" data-i18n="licDeactivate"></button>
+    <div class="lic-window">
+      <header class="lic-head">
+        <div class="lic-brand"><img src="asfan-logo.png" alt="ASFAN"><div><h2 data-i18n="licTitle"></h2><div class="lic-sub" data-i18n="appTitle"></div></div></div>
+        <button class="lic-close" id="license-close" title="✕">✕</button>
+      </header>
+      <div class="lic-body">
+        <section class="lic-card">
+          <h3>1 · <span data-i18n="licStatusTitle"></span></h3>
+          <div id="lic-status" class="lic-status"></div>
+          <dl id="lic-details" class="lic-details"></dl>
+        </section>
+        <section class="lic-card">
+          <h3>2 · <span data-i18n="licMachineTitle"></span></h3>
+          <p class="lic-muted" data-i18n="licMachineHint"></p>
+          <div class="lic-row"><code id="lic-machine" class="lic-code"></code><button class="lic-btn secondary" id="lic-copy" data-i18n="copy"></button></div>
+        </section>
+        <section class="lic-card wide">
+          <h3>3 · <span data-i18n="licKey"></span></h3>
+          <textarea id="lic-key" class="lic-textarea" placeholder="HA3D1-..." dir="ltr" spellcheck="false"></textarea>
+          <div class="lic-row">
+            <button id="lic-activate" class="lic-btn" data-i18n="licActivate"></button>
+            <label class="lic-btn secondary lic-file"><input type="file" id="lic-file" accept=".lic,.txt" hidden><span data-i18n="licLoadFile"></span></label>
+            <button id="lic-deactivate" class="lic-btn secondary hidden" data-i18n="licDeactivate"></button>
+          </div>
+          <p id="lic-msg" class="lic-msg"></p>
+        </section>
+        <section class="lic-card wide">
+          <h3>4 · <span data-i18n="licBuyTitle"></span></h3>
+          <p class="lic-muted" data-i18n="licBuyHint"></p>
+          <div class="lic-row">
+            <button id="lic-whatsapp" class="lic-btn whatsapp">WhatsApp <span dir="ltr">+962 77 614 0404</span></button>
+            <button id="lic-email" class="lic-btn secondary"><span dir="ltr">info@asfanco.com</span></button>
+            <button id="lic-eula" class="lic-btn link" data-i18n="eula"></button>
+          </div>
+        </section>
       </div>
     </div>
   </div>

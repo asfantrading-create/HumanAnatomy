@@ -1,86 +1,113 @@
-// Subscription licensing (main process). Uses Lemon Squeezy's public license API:
-// a subscription product issues a license key that becomes inactive/expired when
-// the subscription lapses. Activation is bound to this computer via an instance id.
-const { app, net } = require('electron');
+// Offline subscription licensing (main process).
+//
+// License keys are signed by the publisher with an ECDSA P-256 private key
+// (tools/license-generator.html) and verified here with the embedded public key,
+// so no server is needed. A key carries the customer name, plan, expiry date and
+// optionally the machine ID of the one computer it is bound to.
+//
+// Key format:  HA3D1-<base64url(JSON payload)>.<base64url(signature)>
+const { app } = require('electron');
+const crypto = require('crypto');
+const { execSync } = require('child_process');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const API = 'https://api.lemonsqueezy.com/v1/licenses';
+const PREFIX = 'HA3D1-';
 const DAY = 24 * 60 * 60 * 1000;
 
-function loadConfig() {
+function readJSON(file, fallback) {
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return fallback; }
+}
+
+const b64uDecode = (s) => Buffer.from(s.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
+
+/** Stable per-computer ID shown to the customer (XXXX-XXXX-XXXX-XXXX). */
+function machineId() {
+  let raw = '';
   try {
-    return { enabled: false, trialDays: 5, offlineGraceDays: 7, productIds: [], ...JSON.parse(fs.readFileSync(path.join(__dirname, 'licensing.config.json'), 'utf8')) };
-  } catch {
-    return { enabled: false };
-  }
+    if (process.platform === 'win32') {
+      const out = execSync('reg query "HKLM\\SOFTWARE\\Microsoft\\Cryptography" /v MachineGuid', { encoding: 'utf8', windowsHide: true });
+      raw = (out.match(/MachineGuid\s+REG_SZ\s+([\w-]+)/i) || [])[1] || '';
+    } else if (fs.existsSync('/etc/machine-id')) {
+      raw = fs.readFileSync('/etc/machine-id', 'utf8').trim();
+    }
+  } catch { /* fall back below */ }
+  if (!raw) raw = `${os.hostname()}|${os.cpus()[0]?.model}|${os.totalmem()}`;
+  const h = crypto.createHash('sha256').update('human-anatomy-3d|' + raw).digest('hex').toUpperCase();
+  return h.slice(0, 16).match(/.{4}/g).join('-');
 }
 
 class Licensing {
   constructor() {
-    this.config = loadConfig();
+    const dir = __dirname;
+    this.config = { enabled: true, trialDays: 5, ...readJSON(path.join(dir, 'licensing.config.json'), {}) };
+    this.publicKey = readJSON(path.join(dir, 'license-public.jwk.json'), null);
     this.file = path.join(app.getPath('userData'), 'license.json');
-    this.data = this.read();
-    if (!this.data.firstRun) { this.data.firstRun = Date.now(); this.write(); }
+    this.data = readJSON(this.file, {});
+    this.machine = machineId();
+    const now = Date.now();
+    if (!this.data.firstRun) this.data.firstRun = now;
+    // protect the trial against moving the clock backwards
+    if (this.data.lastSeen && now < this.data.lastSeen - DAY) this.data.clockTampered = true;
+    this.data.lastSeen = Math.max(now, this.data.lastSeen || 0);
+    this.write();
   }
 
-  read() { try { return JSON.parse(fs.readFileSync(this.file, 'utf8')); } catch { return {}; } }
-  write() { fs.mkdirSync(path.dirname(this.file), { recursive: true }); fs.writeFileSync(this.file, JSON.stringify(this.data, null, 2)); }
+  write() {
+    try {
+      fs.mkdirSync(path.dirname(this.file), { recursive: true });
+      fs.writeFileSync(this.file, JSON.stringify(this.data, null, 2));
+    } catch { /* read-only profile: keep running in memory */ }
+  }
 
-  status() {
+  /** Verifies a key; returns { ok, payload, error }. */
+  async verify(key) {
+    try {
+      const raw = String(key || '').replace(/\s+/g, '');
+      if (!raw.startsWith(PREFIX)) return { ok: false, error: 'format' };
+      const [p, s] = raw.slice(PREFIX.length).split('.');
+      const data = b64uDecode(p), sig = b64uDecode(s);
+      const pub = await crypto.webcrypto.subtle.importKey('jwk', this.publicKey, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']);
+      const valid = await crypto.webcrypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, pub, sig, data);
+      if (!valid) return { ok: false, error: 'signature' };
+      const payload = JSON.parse(data.toString('utf8'));
+      if (payload.machine && payload.machine.toUpperCase() !== this.machine) return { ok: false, error: 'machine', payload };
+      if (payload.type !== 'staff' && payload.expires && new Date(payload.expires + 'T23:59:59') < new Date()) return { ok: false, error: 'expired', payload };
+      return { ok: true, payload };
+    } catch (e) {
+      return { ok: false, error: 'format' };
+    }
+  }
+
+  async status() {
     const c = this.config;
-    if (!c.enabled) return { enabled: false, allowed: true };
-    const trialLeft = Math.max(0, Math.ceil((this.data.firstRun + c.trialDays * DAY - Date.now()) / DAY));
-    const validRecently = this.data.lastValid && Date.now() - this.data.lastValid < c.offlineGraceDays * DAY;
-    const active = !!(this.data.key && this.data.status === 'active' && validRecently);
-    return { enabled: true, active, allowed: active || trialLeft > 0, trialDaysLeft: trialLeft, storeUrl: c.storeUrl };
-  }
-
-  async call(endpoint, params) {
-    const body = new URLSearchParams(params).toString();
-    const res = await net.fetch(`${API}/${endpoint}`, {
-      method: 'POST',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
-      body
-    });
-    return res.json();
-  }
-
-  productOk(meta) {
-    const ids = this.config.productIds || [];
-    return !ids.length || (meta && ids.includes(meta.product_id));
+    const base = { enabled: !!c.enabled, machine: this.machine, contact: c.contact || {} };
+    if (!c.enabled) return { ...base, allowed: true };
+    let license = null, licenseError = null;
+    if (this.data.key) {
+      const r = await this.verify(this.data.key);
+      if (r.ok) license = r.payload;
+      else { licenseError = r.error; if (r.payload) license = { ...r.payload, invalid: true }; }
+    }
+    const active = !!(license && !license.invalid);
+    const trialEnd = this.data.firstRun + c.trialDays * DAY;
+    const trialDaysLeft = this.data.clockTampered ? 0 : Math.max(0, Math.ceil((trialEnd - Date.now()) / DAY));
+    const daysLeft = active && license.expires ? Math.max(0, Math.ceil((new Date(license.expires + 'T23:59:59') - Date.now()) / DAY)) : null;
+    return { ...base, active, license, licenseError, daysLeft, trialDays: c.trialDays, trialDaysLeft, allowed: active || trialDaysLeft > 0 };
   }
 
   async activate(key) {
-    try {
-      const r = await this.call('activate', { license_key: key, instance_name: `${os.hostname()} (${os.platform()})` });
-      if (!r.activated || !this.productOk(r.meta)) return { ok: false, error: r.error || 'not activated', status: this.status() };
-      this.data = { ...this.data, key, instanceId: r.instance.id, status: r.license_key.status, lastValid: Date.now() };
+    const r = await this.verify(key);
+    if (r.ok) {
+      this.data.key = String(key).replace(/\s+/g, '');
       this.write();
-      return { ok: true, status: this.status() };
-    } catch (e) {
-      return { ok: false, error: String(e.message || e), status: this.status() };
     }
-  }
-
-  /** Re-check the subscription; keeps the last result when offline (grace period). */
-  async refresh() {
-    if (!this.config.enabled || !this.data.key) return this.status();
-    try {
-      const r = await this.call('validate', { license_key: this.data.key, instance_id: this.data.instanceId || '' });
-      this.data.status = r.valid && this.productOk(r.meta) ? r.license_key.status : (r.license_key?.status || 'invalid');
-      if (this.data.status === 'active') this.data.lastValid = Date.now();
-      this.write();
-    } catch { /* offline: grace period applies */ }
-    return this.status();
+    return { ok: r.ok, error: r.error, status: await this.status() };
   }
 
   async deactivate() {
-    if (this.data.key && this.data.instanceId) {
-      try { await this.call('deactivate', { license_key: this.data.key, instance_id: this.data.instanceId }); } catch { /* ignore */ }
-    }
-    delete this.data.key; delete this.data.instanceId; delete this.data.status; delete this.data.lastValid;
+    delete this.data.key;
     this.write();
     return this.status();
   }

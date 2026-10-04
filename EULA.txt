@@ -5,19 +5,19 @@
 يرجى قراءة هذه الاتفاقية بعناية قبل تثبيت البرنامج أو استخدامه. بتثبيتك البرنامج أو نسخه أو استخدامه فإنك توافق على الالتزام بشروط هذه الاتفاقية. إذا لم توافق عليها فلا تثبّت البرنامج ولا تستخدمه.
 
 1. الأطراف
-هذه الاتفاقية مبرمة بينك (سواء كنت فرداً أو جهة اعتبارية، ويشار إليك بـ«المستخدم») وبين ASFAN Trading (ويشار إليها بـ«الناشر»)، مالكة برنامج «التشريح ثلاثي الأبعاد» (ويشار إليه بـ«البرنامج»).
+هذه الاتفاقية مبرمة بينك (سواء كنت فرداً أو جهة اعتبارية، ويشار إليك بـ«المستخدم») وبين شركة أصفان ASFAN، عمّان – المملكة الأردنية الهاشمية (ويشار إليها بـ«الناشر»)، مالكة برنامج «التشريح ثلاثي الأبعاد» (ويشار إليه بـ«البرنامج»).
 
 2. منح الترخيص
 2.1 يمنحك الناشر ترخيصاً شخصياً، غير حصري، غير قابل للتحويل أو الترخيص من الباطن، لتثبيت البرنامج واستخدامه للأغراض التعليمية والشخصية، طوال مدة اشتراكك الساري أو الفترة التجريبية.
-2.2 يجوز تفعيل مفتاح الترخيص الواحد على عدد الأجهزة المحدد في خطة الاشتراك التي اشتريتها.
+2.2 يُربط مفتاح الترخيص بمعرّف جهاز واحد يظهر في نافذة الترخيص، ولا يعمل على غيره ما لم يُصدر الناشر مفتاحاً غير مربوط بجهاز.
 2.3 البرنامج مرخّص لك ولا يُباع لك. ويحتفظ الناشر بجميع الحقوق غير الممنوحة صراحةً في هذه الاتفاقية.
 
 3. الفترة التجريبية والاشتراك
 3.1 يمكن استخدام البرنامج مجاناً لفترة تجريبية مدتها خمسة (5) أيام من تاريخ أول تشغيل. بعد انتهائها يلزم اشتراك ساري المفعول لمتابعة الاستخدام.
-3.2 الاشتراك شهري أو سنوي حسب الخطة المختارة، ويتجدد تلقائياً ما لم تُلغِه قبل موعد التجديد عبر منصة الدفع.
-3.3 عند إلغاء الاشتراك أو انتهائه أو تعذّر تحصيل الرسوم يتوقف مفتاح الترخيص عن العمل، وقد يتوقف البرنامج عن العمل بعد انقضاء مهلة التحقق دون اتصال.
-3.4 يتم الدفع وإصدار الفواتير ومفاتيح الترخيص عبر مزوّد دفع خارجي، وتخضع عملية الشراء والاسترداد لشروطه وسياساته إضافةً إلى هذه الاتفاقية.
-3.5 يتحقق البرنامج دورياً من صلاحية الاشتراك عبر الإنترنت، ويرسل لهذا الغرض مفتاح الترخيص ومعرّفاً للجهاز واسم الجهاز فقط.
+3.2 الاشتراك شهري أو سنوي حسب الخطة المختارة، وينتهي في التاريخ المدوّن في مفتاح الترخيص. ويتم التجديد بطلب مفتاح جديد من الناشر.
+3.3 عند انتهاء مدة الاشتراك يتوقف مفتاح الترخيص عن العمل تلقائياً إلى أن يُفعَّل مفتاح جديد.
+3.4 يتم طلب الاشتراك والدفع عبر التواصل مع الناشر (واتساب أو البريد الإلكتروني)، ويُرسل الناشر مفتاح الترخيص بعد إتمام الدفع. ولا تُسترد رسوم الاشتراك بعد تفعيل المفتاح إلا وفق ما يقرره الناشر أو يفرضه القانون.
+3.5 يتحقق البرنامج من صلاحية المفتاح محلياً على جهازك دون إرسال أي بيانات عبر الإنترنت.
 
 4. القيود
 لا يجوز لك:
@@ -53,12 +53,12 @@
 تظل هذه الاتفاقية سارية حتى إنهائها. وتنتهي تلقائياً دون إشعار إذا أخللت بأي من شروطها أو انتهى اشتراكك. وعند انتهائها يجب عليك التوقف عن استخدام البرنامج وحذف جميع نسخه. وتبقى البنود 5 و7 و8 و9 و12 سارية بعد الإنهاء.
 
 12. القانون الحاكم
-تخضع هذه الاتفاقية لقوانين [الدولة] وتُفسَّر وفقاً لها، وتختص محاكم [المدينة] بالنظر في أي نزاع ينشأ عنها، ما لم ينص القانون الإلزامي في بلد إقامتك على خلاف ذلك.
+تخضع هذه الاتفاقية لقوانين المملكة الأردنية الهاشمية وتُفسَّر وفقاً لها، وتختص محاكم عمّان بالنظر في أي نزاع ينشأ عنها، ما لم ينص القانون الإلزامي في بلد إقامتك على خلاف ذلك.
 
 13. أحكام عامة
 تمثل هذه الاتفاقية كامل الاتفاق بين الطرفين بشأن البرنامج. وإذا تبيّن بطلان أي بند منها فإن ذلك لا يؤثر في صحة باقي البنود. وفي حال وجود تعارض بين النص العربي والنص الإنجليزي يُعتمد النص العربي.
 
-للتواصل: asfantrading@gmail.com
+للتواصل: البريد الإلكتروني info@asfanco.com – واتساب ‎+962776140404
 
 
 ==================================================================
@@ -70,19 +70,19 @@ Last updated: 2026-10-04
 Please read this agreement carefully before installing or using the software. By installing, copying or using the software you agree to be bound by its terms. If you do not agree, do not install or use the software.
 
 1. Parties
-This agreement is between you (an individual or a legal entity, the "User") and ASFAN Trading (the "Publisher"), the owner of the "Human Anatomy 3D" software (the "Software").
+This agreement is between you (an individual or a legal entity, the "User") and ASFAN, Amman – Hashemite Kingdom of Jordan (the "Publisher"), the owner of the "Human Anatomy 3D" software (the "Software").
 
 2. License grant
 2.1 The Publisher grants you a personal, non-exclusive, non-transferable, non-sublicensable license to install and use the Software for educational and personal purposes during your active subscription or the trial period.
-2.2 A single license key may be activated on the number of devices allowed by the subscription plan you purchased.
+2.2 A license key is bound to the single machine ID shown in the license window and does not work on other computers, unless the Publisher issues a key that is not bound to a machine.
 2.3 The Software is licensed, not sold. All rights not expressly granted are reserved by the Publisher.
 
 3. Trial and subscription
 3.1 The Software may be used free of charge for a trial period of five (5) days from first launch. After that, an active subscription is required.
-3.2 Subscriptions are monthly or yearly and renew automatically unless cancelled through the payment platform before the renewal date.
-3.3 When a subscription is cancelled, expires or cannot be charged, the license key stops working, and the Software may stop working after the offline validation grace period.
-3.4 Payment, invoices and license keys are handled by a third-party payment provider, whose terms and refund policies also apply to the purchase.
-3.5 The Software periodically validates the subscription online, sending only the license key, an installation identifier and the device name for this purpose.
+3.2 Subscriptions are monthly or yearly and end on the date written in the license key. Renewal is done by ordering a new key from the Publisher.
+3.3 When the subscription period ends, the license key stops working automatically until a new key is activated.
+3.4 Subscriptions are ordered and paid by contacting the Publisher (WhatsApp or e-mail), who sends the license key after payment. Fees are not refundable after the key is activated, except as decided by the Publisher or required by law.
+3.5 The Software validates the key locally on your computer without sending any data over the internet.
 
 4. Restrictions
 You may not: (a) copy, distribute, sell, rent, lend, share or make the Software available to third parties except as expressly permitted; (b) modify, translate, create derivative works of, reverse engineer, decompile or disassemble the Software, except to the extent applicable law expressly permits despite this restriction; (c) circumvent the licensing system, the trial period or any technical protection, or share your license key; (d) remove or alter any proprietary or attribution notices, including the attribution of the anatomical model sources in section 6; (e) use the Software for any unlawful purpose.
@@ -113,9 +113,9 @@ The Publisher may provide updates or new versions, which are governed by this ag
 This agreement remains in effect until terminated. It terminates automatically without notice if you breach any term or your subscription ends. Upon termination you must stop using the Software and delete all copies. Sections 5, 7, 8, 9 and 12 survive termination.
 
 12. Governing law
-This agreement is governed by the laws of [Country], and the courts of [City] have jurisdiction over any dispute, unless mandatory law in your country of residence provides otherwise.
+This agreement is governed by the laws of the Hashemite Kingdom of Jordan, and the courts of Amman have jurisdiction over any dispute, unless mandatory law in your country of residence provides otherwise.
 
 13. General
 This agreement is the entire agreement between the parties regarding the Software. If any provision is held invalid, the remaining provisions remain in effect. In case of conflict between the Arabic and English texts, the Arabic text prevails.
 
-Contact: asfantrading@gmail.com
+Contact: info@asfanco.com – WhatsApp +962776140404

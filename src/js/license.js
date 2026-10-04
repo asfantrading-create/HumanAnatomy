@@ -1,5 +1,5 @@
 // Renderer side of licensing. Without the Electron preload (e.g. in a browser)
-// licensing is simply disabled.
+// licensing is disabled and the app runs freely.
 const api = window.licenseAPI;
 
 export const licensing = {
@@ -11,15 +11,15 @@ export const licensing = {
     const el = document.querySelector('#app-version');
     if (el) el.textContent = `v${v}`;
     listener(await api.status());
-    listener(await api.refresh());
-    setInterval(async () => listener(await api.refresh()), 6 * 60 * 60 * 1000);
+    // re-check hourly so an expiring subscription is noticed while the app stays open
+    setInterval(async () => listener(await api.status()), 60 * 60 * 1000);
   },
   async activate(key) {
-    if (!api) return { ok: false };
+    if (!api) return { ok: false, error: 'format' };
     const r = await api.activate(key);
     this.listener(r.status);
     return r;
   },
   async deactivate() { if (api) this.listener(await api.deactivate()); },
-  openStore() { if (api) api.openStore(); }
+  open(url) { if (api) api.open(url); else window.open(url, '_blank'); }
 };
