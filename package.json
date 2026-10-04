@@ -1,11 +1,11 @@
 {
   "name": "human-anatomy-3d",
   "productName": "Human Anatomy 3D",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "برنامج تفاعلي ثلاثي الأبعاد لتشريح جسم الإنسان",
   "main": "main.js",
   "author": "asfantrading",
-  "license": "MIT",
+  "license": "SEE LICENSE IN EULA.txt",
   "scripts": {
     "vendor": "node scripts/vendor.js",
     "prestart": "node scripts/vendor.js",
@@ -29,6 +29,7 @@
       "preload.js",
       "licensing.js",
       "licensing.config.json",
+      "EULA.txt",
       "src/**/*",
       "build/icon.png",
       "package.json"
@@ -49,7 +50,9 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "artifactName": "HumanAnatomy3D-${version}-setup.exe"
-    }
+      "artifactName": "HumanAnatomy3D-${version}-setup.exe",
+      "license": "build/license.txt"
+    },
+    "copyright": "Copyright © 2026 ASFAN Trading"
   }
 }

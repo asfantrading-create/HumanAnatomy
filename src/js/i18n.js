@@ -16,6 +16,9 @@ export const STRINGS = {
     helpTitle: 'طريقة الاستخدام', aboutTitle: 'حول البرنامج', license: 'الترخيص',
     licTitle: 'تفعيل الاشتراك', licKey: 'مفتاح الترخيص', licActivate: 'تفعيل', licTrial: 'متبقٍ من الفترة التجريبية: {d} يوم', licActive: 'الاشتراك مفعّل ✓', licExpired: 'انتهت الفترة التجريبية. يرجى الاشتراك للمتابعة.', licBuy: 'اشترك الآن', licChecking: 'جارٍ التحقق...', licInvalid: 'المفتاح غير صالح أو الاشتراك منتهٍ.', licDeactivate: 'إلغاء التفعيل على هذا الجهاز',
     lang: 'English', group_other: 'أخرى',
+    male: 'جسم الرجل', female: 'جسم المرأة', chooseBody: 'اختر الجسم لبدء الاستكشاف', chooseHint: 'يمكنك التبديل بينهما في أي وقت من الزر ♂/♀ في الأعلى.',
+    femaleNote: 'جسم المرأة مبني من النموذج الحقيقي بعد تعديل أبعاده، مع أعضاء تناسلية أنثوية وغدد ثديية مبسّطة.', preparing: 'جارٍ تجهيز الجسم...',
+    tourVoice: 'تشغيل الشرح الصوتي تلقائياً', eula: 'اتفاقية ترخيص المستخدم النهائي', fontUp: 'تكبير الخط', fontDown: 'تصغير الخط', theme: 'الخلفية فاتحة/داكنة', sexBtn: 'رجل/امرأة',
     help: [
       ['الزر الأيسر + سحب', 'تدوير النموذج'], ['الزر الأيمن + سحب', 'تحريك العرض'], ['العجلة', 'تكبير وتصغير'],
       ['نقرة / نقرة مزدوجة', 'تحديد الجزء / التركيز عليه'], ['Alt + نقرة', 'إخفاء الجزء مباشرة'],
@@ -40,6 +43,9 @@ export const STRINGS = {
     helpTitle: 'How to use', aboutTitle: 'About', license: 'License',
     licTitle: 'Activate subscription', licKey: 'License key', licActivate: 'Activate', licTrial: 'Trial days left: {d}', licActive: 'Subscription active ✓', licExpired: 'Your trial has ended. Please subscribe to continue.', licBuy: 'Subscribe now', licChecking: 'Checking...', licInvalid: 'Invalid key or expired subscription.', licDeactivate: 'Deactivate on this computer',
     lang: 'العربية', group_other: 'Other',
+    male: 'Male body', female: 'Female body', chooseBody: 'Choose a body to start exploring', chooseHint: 'You can switch at any time with the ♂/♀ button at the top.',
+    femaleNote: 'The female body is derived from the real model with adjusted proportions, plus simplified female reproductive organs and mammary glands.', preparing: 'Preparing the body...',
+    tourVoice: 'Play narration automatically', eula: 'End-user license agreement', fontUp: 'Larger text', fontDown: 'Smaller text', theme: 'Light/dark background', sexBtn: 'Male/female',
     help: [
       ['Left drag', 'Rotate'], ['Right drag', 'Pan'], ['Wheel', 'Zoom'],
       ['Click / double-click', 'Select / focus a structure'], ['Alt + click', 'Hide a structure'],

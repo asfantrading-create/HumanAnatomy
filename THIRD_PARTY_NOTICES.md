@@ -18,3 +18,8 @@ Copyright © 2010-2025 three.js authors, MIT License (copied into `src/vendor/th
 ## Electron
 
 Copyright (c) Electron contributors, Copyright (c) 2013-2020 GitHub Inc., MIT License.
+
+## Arabic narration
+
+The Arabic voice recordings in `src/assets/voice/` were generated with ElevenLabs
+(voice "Abdullah - Professional, and Energetic") under the publisher's ElevenLabs subscription.

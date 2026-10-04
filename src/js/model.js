@@ -78,6 +78,9 @@ function fiberTexture() {
   return fiberTex;
 }
 
+/** 1 while a cross-section plane is active: back faces are then tinted to show cut surfaces. */
+export const SECTION = { value: 0 };
+
 export function makeMaterial(system, color) {
   const mat = new THREE.MeshStandardMaterial({
     color,
@@ -88,11 +91,12 @@ export function makeMaterial(system, color) {
   const muscle = system === 'muscular';
   mat.onBeforeCompile = (shader) => {
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vObjPos;' + (muscle ? '\nuniform sampler2D fiberMap;' : ''))
+      .replace('#include <common>', '#include <common>\nvarying vec3 vObjPos;\nuniform float uSection;' + (muscle ? '\nuniform sampler2D fiberMap;' : ''))
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
         ${muscle ? 'float fib = texture2D(fiberMap, vec2(vObjPos.x * 18.0 + vObjPos.z * 18.0, vObjPos.y * 5.0)).r;\n        diffuseColor.rgb *= 0.86 + 0.28 * fib;' : ''}
         // inner (back) faces revealed by cross-sections are tinted darker red
-        if (!gl_FrontFacing) diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.55, 0.12, 0.12), 0.35) * 0.65;`);
+        if (!gl_FrontFacing && uSection > 0.5) diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.55, 0.12, 0.12), 0.35) * 0.65;`);
+    shader.uniforms.uSection = SECTION;
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vObjPos;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObjPos = position;');

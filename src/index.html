@@ -40,6 +40,10 @@
       <button data-view="right" data-i18n="right"></button>
       <button data-view="top" data-i18n="top"></button>
     </div>
+    <button id="btn-sex" class="accent">♂</button>
+    <button id="btn-font-down" title="A-">A-</button>
+    <button id="btn-font-up" title="A+">A+</button>
+    <button id="btn-theme">☀</button>
     <button id="btn-lang" class="accent" data-i18n="lang"></button>
     <button id="btn-license" title="License">🔑</button>
     <button id="btn-about" title="About">ℹ</button>
@@ -102,6 +106,7 @@
       <h3 id="tour-title"></h3>
       <div id="tour-step" class="muted"></div>
       <p id="tour-text"></p>
+      <label class="check"><input type="checkbox" id="tour-autoplay"> <span data-i18n="tourVoice"></span></label>
       <div class="row-between">
         <button id="tour-prev" data-i18n="prev"></button>
         <button id="tour-speak">🔊</button>
@@ -114,7 +119,7 @@
     <h3 data-i18n="sectionTitle"></h3>
     <div class="clip-row" data-axis="x"><label><input type="checkbox"> <span data-i18n="sagittal"></span></label><input type="range" min="-30" max="30" value="0"><button class="mini" data-i18n="flip"></button></div>
     <div class="clip-row" data-axis="z"><label><input type="checkbox"> <span data-i18n="coronal"></span></label><input type="range" min="-20" max="20" value="0"><button class="mini" data-i18n="flip"></button></div>
-    <div class="clip-row" data-axis="y"><label><input type="checkbox"> <span data-i18n="transverse"></span></label><input type="range" min="0" max="166" value="120"><button class="mini" data-i18n="flip"></button></div>
+    <div class="clip-row" data-axis="y"><label><input type="checkbox"> <span data-i18n="transverse"></span></label><input type="range" min="0" max="175" value="125"><button class="mini" data-i18n="flip"></button></div>
   </div>
 
   <footer id="toolbar">
@@ -136,6 +141,20 @@
   <div id="tooltip" class="hidden"></div>
   <div id="labels"></div>
 
+  <div id="sex-modal" class="modal hidden">
+    <div class="modal-box sex-box">
+      <h2 data-i18n="chooseBody"></h2>
+      <p class="muted" data-i18n="chooseHint"></p>
+      <div class="sex-choices">
+        <button id="sex-m" class="sex-card"><span class="sex-icon">♂</span><b data-i18n="male"></b></button>
+        <button id="sex-f" class="sex-card"><span class="sex-icon">♀</span><b data-i18n="female"></b></button>
+      </div>
+      <p class="muted small" data-i18n="femaleNote"></p>
+    </div>
+  </div>
+
+  <div id="busy" class="hidden"><div class="spinner"></div><span data-i18n="preparing"></span></div>
+
   <div id="help" class="modal hidden">
     <div class="modal-box">
       <button class="icon-btn modal-close">✕</button>
@@ -154,7 +173,16 @@
         <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC Attribution 4.0 International</a>
         (<a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/" target="_blank">dbarchive.biosciencedbc.jp</a>).
         Lung lobe surfaces, lymph nodes and the thyroid gland are simplified reconstructions added by this application.
-        Rendering: three.js (MIT).</p>
+        Rendering: three.js (MIT). Arabic narration voice generated with ElevenLabs.</p>
+      <p><button id="btn-eula" class="link" data-i18n="eula"></button></p>
+    </div>
+  </div>
+
+  <div id="eula" class="modal hidden">
+    <div class="modal-box eula-box">
+      <button class="icon-btn modal-close">✕</button>
+      <h2 data-i18n="eula"></h2>
+      <pre id="eula-text"></pre>
     </div>
   </div>
 
@@ -170,6 +198,7 @@
       <p id="lic-msg" class="muted"></p>
       <div class="row-between">
         <button id="lic-buy" data-i18n="licBuy"></button>
+        <button id="lic-eula" class="link" data-i18n="eula"></button>
         <button id="lic-deactivate" class="link" data-i18n="licDeactivate"></button>
       </div>
     </div>

@@ -17,6 +17,7 @@ OUT = sys.argv[2]
 TARGET = int(sys.argv[3]) if len(sys.argv) > 3 else 1_700_000
 OBJ_DIR = os.path.join(SRC, 'isa', 'isa_BP3D_4.0_obj_99')
 Y_CENTER = -100.0  # mm, approximate mid-depth of the body
+Z_FLOOR = -79.0  # mm, lowest point of the feet (placed on y = 0)
 
 
 def load_obj(path):
@@ -34,7 +35,7 @@ def load_obj(path):
     # mm (x, y, z-up) -> m (x, y-up, z-anterior)
     out = np.empty_like(v)
     out[:, 0] = v[:, 0] / 1000.0
-    out[:, 1] = v[:, 2] / 1000.0
+    out[:, 1] = (v[:, 2] - Z_FLOOR) / 1000.0
     out[:, 2] = -(v[:, 1] - Y_CENTER) / 1000.0
     return out, f
 

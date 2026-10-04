@@ -11,7 +11,7 @@ const DAY = 24 * 60 * 60 * 1000;
 
 function loadConfig() {
   try {
-    return { enabled: false, trialDays: 7, offlineGraceDays: 7, productIds: [], ...JSON.parse(fs.readFileSync(path.join(__dirname, 'licensing.config.json'), 'utf8')) };
+    return { enabled: false, trialDays: 5, offlineGraceDays: 7, productIds: [], ...JSON.parse(fs.readFileSync(path.join(__dirname, 'licensing.config.json'), 'utf8')) };
   } catch {
     return { enabled: false };
   }

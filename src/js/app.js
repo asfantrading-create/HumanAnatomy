@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import { RoomEnvironment } from '../vendor/RoomEnvironment.js';
-import { loadModel, SYSTEMS } from './model.js';
+import { loadModel, SYSTEMS, makeMaterial, SECTION } from './model.js';
+import { prepareFemale, applySex, isMaleOnly } from './female.js';
 import { STRINGS, GROUPS } from './i18n.js';
 import { TOURS } from './tours.js';
 import { licensing } from './license.js';
@@ -32,6 +33,8 @@ function applyLanguage() {
   $$('#toolbar button, .info-actions button').forEach((b) => { const s = b.querySelector('[data-i18n]'); if (s) b.title = s.textContent; });
   $('#btn-shot').title = t('shot'); $('#btn-help').title = t('help');
   $('#btn-about').title = t('aboutTitle'); $('#btn-license').title = t('license');
+  $('#btn-font-up').title = t('fontUp'); $('#btn-font-down').title = t('fontDown'); $('#btn-theme').title = t('theme');
+  $('#btn-sex').title = t('sexBtn');
   $('#help-table').innerHTML = STRINGS[lang].help.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
   $('#about-text').textContent = lang === 'ar'
     ? 'برنامج تعليمي تفاعلي لاستكشاف تشريح جسم الإنسان بالأبعاد الثلاثية، مبني على نماذج تشريحية حقيقية مأخوذة من بيانات طبية.'
@@ -112,11 +115,11 @@ scene.add(grid);
 const state = {
   parts: [], byId: new Map(), systems: {}, selected: null, hovered: null,
   xray: false, labels: false, explode: 0, undo: [], quiz: null, tour: null,
-  heartbeat: false, breathing: false
+  heartbeat: false, breathing: false, sex: 'm', femaleReady: false, groups: null
 };
 for (const s of SYSTEMS) state.systems[s.id] = { ...s, visible: true, opacity: s.opacity };
 const XRAY = { skin: 0.08, muscular: 0.15, skeletal: 0.5 };
-const BODY_CENTER = new THREE.Vector3(0, 1.0, 0);
+const BODY_CENTER = new THREE.Vector3(0, 1.08, 0);
 
 function effectiveOpacity(part) {
   const sys = state.systems[part.system];
@@ -133,7 +136,8 @@ function applyPart(part) {
   const sys = state.systems[part.system];
   const op = effectiveOpacity(part);
   const m = part.mesh.material;
-  part.mesh.visible = sys.visible && !part.hidden && op > 0.01;
+  const sexOk = part.sexOnly ? part.sexOnly === state.sex : !(state.sex === 'f' && part.maleOnly);
+  part.mesh.visible = sexOk && sys.visible && !part.hidden && op > 0.01;
   m.opacity = op;
   const transparent = op < 0.999;
   if (m.transparent !== transparent) m.needsUpdate = true;
@@ -177,6 +181,7 @@ function updateClipping() {
     p.mesh.material.clippingPlanes = activePlanes.length ? activePlanes : null;
   }
   for (const m of pickMats.values()) m.clippingPlanes = activePlanes.length ? activePlanes : null;
+  SECTION.value = activePlanes.length ? 1 : 0;
   $('#btn-section').classList.toggle('active', activePlanes.length > 0 || !$('#section-panel').classList.contains('hidden'));
   labelsDirty = true;
 }
@@ -195,13 +200,16 @@ $$('.clip-row').forEach((row) => {
 async function init() {
   let i18n = {};
   try { i18n = await (await fetch('assets/names-i18n.json')).json(); } catch { /* names fall back to English */ }
-  const { root, parts } = await loadModel({
+  const { root, parts, groups } = await loadModel({
     i18n,
     onProgress: (f) => { $('#loading-bar').style.width = `${Math.round(f * 100)}%`; }
   });
   scene.add(root);
   state.parts = parts;
+  state.groups = groups;
+  try { voice = await (await fetch('assets/voice.json')).json(); } catch { voice = {}; }
   for (const p of parts) {
+    p.maleOnly = isMaleOnly(p);
     p.hidden = false;
     p.group = groupOf(p);
     state.byId.set(p.id, p);
@@ -224,6 +232,7 @@ async function init() {
   $('#loading').classList.add('done');
   setTimeout(() => $('#loading').remove(), 600);
   licensing.init(onLicenseChange);
+  openModal('#sex-modal');
 }
 
 const ORGAN_GROUPS = new Set(['frontal lobe', 'parietal lobe', 'temporal lobe', 'occipital lobe', 'limbic lobe', 'insula', 'cerebellum',
@@ -238,14 +247,80 @@ function groupOf(p) {
   if (p.system === 'nervous' && /gyrus|lobe|brain|cerebr|thalam|nucleus|ventricle|callosum|fornix|capsule|pons|medulla|midbrain|colliculus|hypothal|pituitar/.test(en)) return 'brain';
   if (/heart|atri|ventric|valve|cusp|leaflet|papillary|coronary|cardiac/.test(en) && p.system === 'circulatory') return 'heart';
   const c = p.center;
-  if (c.y > 1.43) return 'head';
-  if (Math.abs(c.x) > 0.17 && c.y > 0.55) return 'upper limb';
-  if (c.y > 1.36) return Math.abs(c.x) > 0.11 ? 'upper limb' : 'neck';
-  if (c.y < 0.82) return 'lower limb';
-  if (c.y > 1.12) return 'thorax';
-  if (c.y > 0.93) return 'abdomen';
+  if (c.y > 1.51) return 'head';
+  if (Math.abs(c.x) > 0.17 && c.y > 0.63) return 'upper limb';
+  if (c.y > 1.44) return Math.abs(c.x) > 0.11 ? 'upper limb' : 'neck';
+  if (c.y < 0.9) return 'lower limb';
+  if (c.y > 1.2) return 'thorax';
+  if (c.y > 1.01) return 'abdomen';
   return 'pelvis';
 }
+
+// ---------------------------------------------------------------------------
+// Male / female body
+function initPart(p) {
+  p.hidden = false;
+  p.group = groupOf(p);
+  p.explodeDir = new THREE.Vector3().subVectors(p.center, BODY_CENTER);
+  p.explodeDir.y *= 0.6;
+  p.searchText = normalize(`${p.ar} ${p.en}`);
+}
+async function setSex(sex) {
+  $('#sex-modal').classList.add('hidden');
+  if (sex === 'f' && !state.femaleReady) {
+    $('#busy').classList.remove('hidden');
+    await new Promise((r) => setTimeout(r, 50));
+    const extra = prepareFemale(state.parts, makeMaterial);
+    for (const p of extra) {
+      const g = p.mesh.geometry;
+      p.center = g.boundingSphere.center.clone();
+      p.radius = g.boundingSphere.radius;
+      p.baseColor = p.mesh.material.color.clone();
+      p.mesh.userData.part = p;
+      p.mesh.name = p.id;
+      p.grp = /BREAST/.test(p.id) ? '' : 'pelvis';
+      p.alpha = 1;
+      state.groups[p.system].add(p.mesh);
+      state.parts.push(p);
+      state.byId.set(p.id, p);
+      initPart(p);
+    }
+    if (activePlanes.length) updateClipping();
+    state.femaleReady = true;
+    $('#busy').classList.add('hidden');
+  }
+  state.sex = sex;
+  store.set('sex', sex);
+  if (state.femaleReady) applySex(state.parts, sex);
+  for (const p of state.parts) { p.explodeDir.subVectors(p.center, BODY_CENTER); p.explodeDir.y *= 0.6; }
+  setupAnimationSets();
+  anim.heartSet = null;
+  if (state.selected && !state.selected.mesh.visible) select(null);
+  buildSystemsUI();
+  buildTree();
+  applyAll();
+  $('#btn-sex').textContent = sex === 'f' ? '♀' : '♂';
+  $('#btn-sex').title = t(sex === 'f' ? 'female' : 'male');
+}
+$('#sex-m').addEventListener('click', () => setSex('m'));
+$('#sex-f').addEventListener('click', () => setSex('f'));
+$('#btn-sex').addEventListener('click', () => openModal('#sex-modal'));
+
+// ---------------------------------------------------------------------------
+// Font size and colour theme
+let fontScale = store.get('fontScale', 1);
+let theme = store.get('theme', 'dark');
+function applyPrefs() {
+  document.documentElement.style.setProperty('--fs', fontScale);
+  document.documentElement.dataset.theme = theme;
+  scene.background = new THREE.Color(theme === 'light' ? 0xe8edf3 : 0x0b1220);
+  grid.material.color?.setHex(theme === 'light' ? 0x9fb3c8 : 0x2b4a6b);
+  $('#btn-theme').textContent = theme === 'light' ? '🌙' : '☀';
+  labelsDirty = true;
+}
+$('#btn-font-up').addEventListener('click', () => { fontScale = Math.min(1.6, +(fontScale + 0.1).toFixed(2)); store.set('fontScale', fontScale); applyPrefs(); });
+$('#btn-font-down').addEventListener('click', () => { fontScale = Math.max(0.8, +(fontScale - 0.1).toFixed(2)); store.set('fontScale', fontScale); applyPrefs(); });
+$('#btn-theme').addEventListener('click', () => { theme = theme === 'light' ? 'dark' : 'light'; store.set('theme', theme); applyPrefs(); });
 
 // ---------------------------------------------------------------------------
 // Camera
@@ -255,8 +330,8 @@ function animateCamera(toPos, toTarget, ms = 650) {
 }
 const VIEWS = { front: [0, 0.2, 1], back: [0, 0.2, -1], left: [1, 0.15, 0], right: [-1, 0.15, 0], top: [0, 1, 0.02] };
 function setView(name, animate = true) {
-  const target = new THREE.Vector3(0, 0.84, 0);
-  const pos = new THREE.Vector3(...VIEWS[name]).normalize().multiplyScalar(name === 'top' ? 2.3 : 3.2).add(target);
+  const target = new THREE.Vector3(0, 0.9, 0);
+  const pos = new THREE.Vector3(...VIEWS[name]).normalize().multiplyScalar(name === 'top' ? 2.4 : 3.35).add(target);
   if (animate) animateCamera(pos, target);
   else { camera.position.copy(pos); controls.target.copy(target); controls.update(); }
 }
@@ -431,7 +506,7 @@ $('#info-close').addEventListener('click', () => select(null));
 $('#btn-focus').addEventListener('click', () => state.selected && focusPart(state.selected));
 $('#btn-hide').addEventListener('click', () => state.selected && setHidden(state.selected, true));
 $('#btn-isolate').addEventListener('click', () => state.selected && isolate(state.selected));
-$('#btn-speak').addEventListener('click', () => state.selected && speak(`${pname(state.selected)}. ${pdesc(state.selected)}`));
+$('#btn-speak').addEventListener('click', () => state.selected && speak(pname(state.selected), pdesc(state.selected)));
 $('#auto-speak').checked = store.get('autoSpeak', false);
 $('#auto-speak').addEventListener('change', (e) => store.set('autoSpeak', e.target.checked));
 
@@ -458,14 +533,40 @@ function undo() {
 }
 
 // ---------------------------------------------------------------------------
-// Speech
+// Speech: pre-recorded Arabic narration (ElevenLabs) with the system voice as fallback
+let voice = {};
+const audio = new Audio();
+let audioQueue = [];
+audio.addEventListener('ended', () => playNext());
+function playNext() {
+  const f = audioQueue.shift();
+  if (!f) return;
+  audio.src = `assets/voice/${f}.mp3`;
+  audio.play().catch(() => {});
+}
+function stopSpeech() {
+  audioQueue = [];
+  audio.pause();
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+}
+const SIDE_RE = /\s+(الأيسر|الأيمن|اليسرى|اليمنى)$/;
+/** Clip ids for a text, or null when no recording exists. */
+function clipsFor(text) {
+  const tx = text.trim();
+  if (voice[tx]) return [voice[tx]];
+  const m = tx.match(SIDE_RE);
+  if (m) {
+    const base = tx.replace(SIDE_RE, '').trim();
+    if (voice[base] && voice[m[1]]) return [voice[base], voice[m[1]]];
+  }
+  return null;
+}
 function voiceFor(l) {
   const voices = speechSynthesis.getVoices();
   return voices.find((v) => v.lang.toLowerCase().startsWith(l)) || null;
 }
-function speak(text) {
+function speakSystem(text) {
   if (!('speechSynthesis' in window) || !text) return;
-  speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   const v = voiceFor(lang);
   u.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
@@ -475,6 +576,28 @@ function speak(text) {
   note.textContent = t('voiceMissing');
   note.classList.toggle('hidden', !!v || speechSynthesis.getVoices().length === 0);
   speechSynthesis.speak(u);
+}
+/** Speaks a list of text segments in order, using recordings where available. */
+function speak(...segments) {
+  stopSpeech();
+  segments = segments.filter(Boolean);
+  if (!segments.length) return;
+  if (lang === 'ar') {
+    const clips = segments.map(clipsFor);
+    const firstMissing = clips.findIndex((c) => !c);
+    const recorded = (firstMissing === -1 ? clips : clips.slice(0, firstMissing)).flat();
+    if (recorded.length) {
+      audioQueue = recorded;
+      if (firstMissing !== -1) {
+        const rest = segments.slice(firstMissing).join('. ');
+        const onEnd = () => { if (!audioQueue.length) { audio.removeEventListener('ended', onEnd); speakSystem(rest); } };
+        audio.addEventListener('ended', onEnd);
+      }
+      playNext();
+      return;
+    }
+  }
+  speakSystem(segments.join('. '));
 }
 if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
 
@@ -836,6 +959,7 @@ function openTours() {
   renderTourList();
 }
 function closeTours() {
+  stopSpeech();
   if (state.tour) { state.tour = null; applyAll(); }
   $('#tours-panel').classList.add('hidden');
   $('#tour-run').classList.add('hidden');
@@ -883,6 +1007,7 @@ function renderTour() {
   $('#tour-step').textContent = t('step', { i: st.i + 1, n: st.tour.steps.length });
   $('#tour-text').textContent = lang === 'ar' ? step.ar : step.en;
   $('#tour-next').textContent = st.i === st.tour.steps.length - 1 ? t('finish') : t('next');
+  if ($('#tour-autoplay').checked) speak(lang === 'ar' ? step.ar : step.en);
 }
 $('#tour-prev').addEventListener('click', () => state.tour && gotoStep(state.tour.i - 1));
 $('#tour-next').addEventListener('click', () => {
@@ -890,6 +1015,8 @@ $('#tour-next').addEventListener('click', () => {
   if (state.tour.i === state.tour.tour.steps.length - 1) { closeTours(); openTours(); } else gotoStep(state.tour.i + 1);
 });
 $('#tour-speak').addEventListener('click', () => state.tour && speak($('#tour-text').textContent));
+$('#tour-autoplay').checked = store.get('tourVoice', true);
+$('#tour-autoplay').addEventListener('change', (e) => store.set('tourVoice', e.target.checked));
 $('#tours-close').addEventListener('click', closeTours);
 
 // ---------------------------------------------------------------------------
@@ -976,6 +1103,19 @@ $('#lic-activate').addEventListener('click', async () => {
   $('#lic-msg').textContent = r.ok ? '' : `${t('licInvalid')} ${r.error || ''}`;
 });
 $('#lic-buy').addEventListener('click', () => licensing.openStore());
+async function showEula() {
+  const box = $('#eula-text');
+  if (!box.textContent) {
+    try { box.textContent = await (await fetch('../EULA.txt')).text(); } catch { box.textContent = 'EULA.txt'; }
+  }
+  // the Arabic text comes first; show the English half first in English mode
+  const parts = box.textContent.split(/\n=+\n/);
+  box.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  box.scrollTop = lang === 'ar' || parts.length < 2 ? 0 : box.scrollHeight * (parts[0].length / box.textContent.length);
+  $('#eula').classList.remove('hidden');
+}
+$('#btn-eula').addEventListener('click', showEula);
+$('#lic-eula').addEventListener('click', showEula);
 $('#lic-deactivate').addEventListener('click', () => licensing.deactivate());
 
 // ---------------------------------------------------------------------------
@@ -1042,10 +1182,11 @@ function loop(now) {
 }
 
 applyLanguage();
+applyPrefs();
 requestAnimationFrame(loop);
 init().catch((err) => {
   console.error(err);
   $('#loading-text').textContent = t('loadError') + err.message;
 });
 
-window.__anatomy = { state, select, focusPart, setView, setExplode, toggleXray, toggleLabels, startQuiz, startTour: (i) => { openTours(); startTour(TOURS[i]); }, toggleAnim, camera, controls, clip, updateClipping, setLang: (l) => { lang = l; applyLanguage(); } };
+window.__anatomy = { state, clipsFor, speak, audio, select, focusPart, setView, setExplode, toggleXray, toggleLabels, startQuiz, startTour: (i) => { openTours(); startTour(TOURS[i]); }, toggleAnim, camera, controls, clip, updateClipping, setLang: (l) => { lang = l; applyLanguage(); } };
