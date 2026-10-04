@@ -1,7 +1,7 @@
 {
   "name": "human-anatomy-3d",
   "productName": "Human Anatomy 3D",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "برنامج تفاعلي ثلاثي الأبعاد لتشريح جسم الإنسان",
   "main": "main.js",
   "author": "asfantrading",
@@ -26,6 +26,9 @@
     "artifactName": "HumanAnatomy3D-${version}-${arch}-${target}.${ext}",
     "files": [
       "main.js",
+      "preload.js",
+      "licensing.js",
+      "licensing.config.json",
       "src/**/*",
       "build/icon.png",
       "package.json"

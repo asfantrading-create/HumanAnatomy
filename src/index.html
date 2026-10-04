@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Human Anatomy 3D - التشريح ثلاثي الأبعاد</title>
+  <title>Human Anatomy 3D</title>
   <link rel="stylesheet" href="styles.css">
   <script type="importmap">
     { "imports": { "three": "./vendor/three.module.js" } }
@@ -14,89 +14,123 @@
 
   <div id="loading">
     <div class="loading-box">
-      <div class="logo">🫀</div>
-      <h1>التشريح ثلاثي الأبعاد</h1>
-      <p id="loading-text">جارٍ بناء النموذج...</p>
+      <img class="logo" src="../build/icon.png" alt="">
+      <h1 data-i18n="appTitle"></h1>
+      <p id="loading-text" data-i18n="loading"></p>
       <div class="bar"><div id="loading-bar"></div></div>
     </div>
   </div>
 
   <header id="topbar">
     <div class="brand">
-      <span class="brand-icon">🧍</span>
+      <img class="brand-icon" src="../build/icon.png" alt="">
       <div>
-        <div class="brand-title">التشريح ثلاثي الأبعاد</div>
-        <div class="brand-sub">Human Anatomy 3D</div>
+        <div class="brand-title" data-i18n="appTitle"></div>
+        <div class="brand-sub">BodyParts3D · 2,200+</div>
       </div>
     </div>
     <div class="search-wrap">
-      <input id="search" type="search" placeholder="ابحث عن عضو أو عظمة أو عضلة... (Ctrl+F)" autocomplete="off">
+      <input id="search" type="search" autocomplete="off" data-i18n-placeholder="search">
       <div id="search-results" class="hidden"></div>
     </div>
     <div class="views">
-      <button data-view="front" title="أمامي (1)">أمامي</button>
-      <button data-view="back" title="خلفي (2)">خلفي</button>
-      <button data-view="left" title="الجانب الأيسر (3)">أيسر</button>
-      <button data-view="right" title="الجانب الأيمن (4)">أيمن</button>
-      <button data-view="top" title="علوي (5)">علوي</button>
+      <button data-view="front" data-i18n="front"></button>
+      <button data-view="back" data-i18n="back"></button>
+      <button data-view="left" data-i18n="left"></button>
+      <button data-view="right" data-i18n="right"></button>
+      <button data-view="top" data-i18n="top"></button>
     </div>
+    <button id="btn-lang" class="accent" data-i18n="lang"></button>
+    <button id="btn-license" title="License">🔑</button>
+    <button id="btn-about" title="About">ℹ</button>
   </header>
 
   <aside id="systems-panel" class="panel">
     <div class="panel-head">
-      <h2>أجهزة الجسم</h2>
+      <h2 data-i18n="systems"></h2>
       <div class="presets">
-        <button data-preset="all" title="إظهار الكل">الكل</button>
-        <button data-preset="organs" title="الأعضاء الداخلية">الأحشاء</button>
-        <button data-preset="skeleton" title="الهيكل العظمي فقط">الهيكل</button>
+        <button data-preset="all" data-i18n="all"></button>
+        <button data-preset="organs" data-i18n="organs"></button>
+        <button data-preset="skeleton" data-i18n="skeleton"></button>
       </div>
     </div>
     <div id="systems"></div>
     <div class="panel-head sub">
-      <h2>الأجزاء</h2>
+      <h2 data-i18n="parts"></h2>
       <span id="part-count" class="muted"></span>
     </div>
     <div id="tree"></div>
   </aside>
 
-  <aside id="info-panel" class="panel hidden">
-    <button id="info-close" class="icon-btn" title="إغلاق (Esc)">✕</button>
-    <div id="info-system" class="chip"></div>
+  <aside id="info-panel" class="panel side hidden">
+    <button id="info-close" class="icon-btn">✕</button>
+    <div class="chips"><span id="info-system" class="chip"></span><span id="info-group" class="chip"></span></div>
     <h2 id="info-name"></h2>
-    <div id="info-en" class="en"></div>
+    <div id="info-alt" class="alt"></div>
     <p id="info-desc"></p>
     <div class="info-actions">
-      <button id="btn-focus">🎯 تركيز</button>
-      <button id="btn-isolate">🔍 عزل</button>
-      <button id="btn-hide">🙈 إخفاء</button>
+      <button id="btn-speak">🔊 <span data-i18n="speak"></span></button>
+      <button id="btn-focus">🎯 <span data-i18n="focus"></span></button>
+      <button id="btn-isolate">🔍 <span data-i18n="isolate"></span></button>
+      <button id="btn-hide">🙈 <span data-i18n="hide"></span></button>
+    </div>
+    <label class="check"><input type="checkbox" id="auto-speak"> <span data-i18n="autoSpeak"></span></label>
+    <div id="voice-note" class="muted hidden"></div>
+  </aside>
+
+  <aside id="quiz-panel" class="panel side hidden">
+    <button id="quiz-close" class="icon-btn">✕</button>
+    <h2>🎓 <span data-i18n="quizTitle"></span></h2>
+    <div class="seg">
+      <button data-qmode="name" data-i18n="modeName"></button>
+      <button data-qmode="find" data-i18n="modeFind"></button>
+    </div>
+    <p id="quiz-prompt" class="muted"></p>
+    <div id="quiz-options"></div>
+    <div id="quiz-feedback"></div>
+    <div class="row-between">
+      <span id="quiz-score"></span>
+      <button id="quiz-next" data-i18n="next"></button>
     </div>
   </aside>
 
-  <div id="quiz-panel" class="panel hidden">
-    <button id="quiz-close" class="icon-btn" title="إنهاء الاختبار">✕</button>
-    <h2>🎓 اختبر معلوماتك</h2>
-    <p class="muted">ما اسم الجزء المضيء باللون الأخضر؟</p>
-    <div id="quiz-options"></div>
-    <div id="quiz-feedback"></div>
-    <div class="quiz-footer">
-      <span id="quiz-score">النتيجة: 0 / 0</span>
-      <button id="quiz-next">التالي ←</button>
+  <aside id="tours-panel" class="panel side hidden">
+    <button id="tours-close" class="icon-btn">✕</button>
+    <h2>📘 <span data-i18n="toursTitle"></span></h2>
+    <div id="tour-list"></div>
+    <div id="tour-run" class="hidden">
+      <h3 id="tour-title"></h3>
+      <div id="tour-step" class="muted"></div>
+      <p id="tour-text"></p>
+      <div class="row-between">
+        <button id="tour-prev" data-i18n="prev"></button>
+        <button id="tour-speak">🔊</button>
+        <button id="tour-next" data-i18n="next"></button>
+      </div>
     </div>
+  </aside>
+
+  <div id="section-panel" class="panel floating hidden">
+    <h3 data-i18n="sectionTitle"></h3>
+    <div class="clip-row" data-axis="x"><label><input type="checkbox"> <span data-i18n="sagittal"></span></label><input type="range" min="-30" max="30" value="0"><button class="mini" data-i18n="flip"></button></div>
+    <div class="clip-row" data-axis="z"><label><input type="checkbox"> <span data-i18n="coronal"></span></label><input type="range" min="-20" max="20" value="0"><button class="mini" data-i18n="flip"></button></div>
+    <div class="clip-row" data-axis="y"><label><input type="checkbox"> <span data-i18n="transverse"></span></label><input type="range" min="0" max="166" value="120"><button class="mini" data-i18n="flip"></button></div>
   </div>
 
   <footer id="toolbar">
-    <button id="btn-reset" title="إعادة ضبط العرض (R)">⟲ إعادة الضبط</button>
-    <button id="btn-showall" title="إظهار كل الأجزاء (A)">👁 إظهار الكل</button>
-    <button id="btn-xray" title="وضع الأشعة (X)">☢ أشعة</button>
-    <button id="btn-rotate" title="دوران تلقائي (Space)">↻ دوران</button>
-    <label class="slider" title="تفكيك الأجزاء لرؤيتها بشكل منفصل">
-      <span>تفكيك</span>
-      <input id="explode" type="range" min="0" max="100" value="0">
-    </label>
-    <button id="btn-labels" title="إظهار أسماء الأجزاء (L)">🏷 التسميات</button>
-    <button id="btn-quiz" title="وضع الاختبار (Q)">🎓 اختبار</button>
-    <button id="btn-shot" title="حفظ صورة (P)">📷 صورة</button>
-    <button id="btn-help" title="المساعدة (H)">❓</button>
+    <button id="btn-reset">⟲ <span data-i18n="reset"></span></button>
+    <button id="btn-showall">👁 <span data-i18n="showAll"></span></button>
+    <button id="btn-xray">☢ <span data-i18n="xray"></span></button>
+    <button id="btn-section">✂ <span data-i18n="section"></span></button>
+    <button id="btn-heart">💓 <span data-i18n="heartbeat"></span></button>
+    <button id="btn-breath">🌬 <span data-i18n="breathing"></span></button>
+    <label class="slider"><span data-i18n="explode"></span><input id="explode" type="range" min="0" max="100" value="0"></label>
+    <button id="btn-labels">🏷 <span data-i18n="labels"></span></button>
+    <button id="btn-rotate">↻ <span data-i18n="rotate"></span></button>
+    <button id="btn-tours">📘 <span data-i18n="tours"></span></button>
+    <button id="btn-quiz">🎓 <span data-i18n="quiz"></span></button>
+    <button id="btn-shot">📷</button>
+    <button id="btn-help">❓</button>
   </footer>
 
   <div id="tooltip" class="hidden"></div>
@@ -104,22 +138,40 @@
 
   <div id="help" class="modal hidden">
     <div class="modal-box">
-      <button class="icon-btn" id="help-close">✕</button>
-      <h2>طريقة الاستخدام</h2>
-      <table>
-        <tr><td>🖱 الزر الأيسر + سحب</td><td>تدوير النموذج</td></tr>
-        <tr><td>🖱 الزر الأيمن + سحب</td><td>تحريك (إزاحة) العرض</td></tr>
-        <tr><td>🖱 العجلة</td><td>تكبير وتصغير</td></tr>
-        <tr><td>نقرة على جزء</td><td>تحديده وعرض معلوماته</td></tr>
-        <tr><td>نقرة مزدوجة</td><td>التركيز على الجزء</td></tr>
-        <tr><td>Alt + نقرة</td><td>إخفاء الجزء مباشرة</td></tr>
-        <tr><td>1 - 5</td><td>زوايا العرض (أمامي، خلفي، أيسر، أيمن، علوي)</td></tr>
-        <tr><td>R / A / X / L</td><td>إعادة الضبط / إظهار الكل / أشعة / تسميات</td></tr>
-        <tr><td>Delete / I</td><td>إخفاء / عزل الجزء المحدد</td></tr>
-        <tr><td>Ctrl+Z</td><td>التراجع عن آخر إخفاء</td></tr>
-        <tr><td>Q / P / F11</td><td>اختبار / حفظ صورة / ملء الشاشة</td></tr>
-      </table>
-      <p class="muted">النموذج تعليمي مبسط ويمثل الوضع التشريحي القياسي: الجسم منتصب والكفان للأمام. "الأيسر" و"الأيمن" يُقصد بهما جانبا جسم الإنسان نفسه.</p>
+      <button class="icon-btn modal-close">✕</button>
+      <h2 data-i18n="helpTitle"></h2>
+      <table id="help-table"></table>
+    </div>
+  </div>
+
+  <div id="about" class="modal hidden">
+    <div class="modal-box">
+      <button class="icon-btn modal-close">✕</button>
+      <h2 data-i18n="aboutTitle"></h2>
+      <p><b>Human Anatomy 3D</b> <span id="app-version"></span></p>
+      <p class="muted" id="about-text"></p>
+      <p class="credit">3D anatomical models: <b>BodyParts3D</b>, © The Database Center for Life Science, licensed under
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC Attribution 4.0 International</a>
+        (<a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/" target="_blank">dbarchive.biosciencedbc.jp</a>).
+        Lung lobe surfaces, lymph nodes and the thyroid gland are simplified reconstructions added by this application.
+        Rendering: three.js (MIT).</p>
+    </div>
+  </div>
+
+  <div id="license" class="modal hidden">
+    <div class="modal-box">
+      <button class="icon-btn modal-close" id="license-close">✕</button>
+      <h2>🔑 <span data-i18n="licTitle"></span></h2>
+      <p id="lic-status"></p>
+      <div class="lic-form">
+        <input id="lic-key" placeholder="XXXX-XXXX-XXXX-XXXX" dir="ltr">
+        <button id="lic-activate" class="accent" data-i18n="licActivate"></button>
+      </div>
+      <p id="lic-msg" class="muted"></p>
+      <div class="row-between">
+        <button id="lic-buy" data-i18n="licBuy"></button>
+        <button id="lic-deactivate" class="link" data-i18n="licDeactivate"></button>
+      </div>
     </div>
   </div>
 

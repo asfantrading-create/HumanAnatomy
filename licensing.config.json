@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "provider": "lemonsqueezy",
+  "trialDays": 7,
+  "offlineGraceDays": 7,
+  "storeUrl": "https://YOUR-STORE.lemonsqueezy.com/checkout/buy/YOUR-PRODUCT-ID",
+  "productIds": []
+}
