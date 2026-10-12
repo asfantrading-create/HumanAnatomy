@@ -290,7 +290,10 @@ namespace Asfan.Anatomy
             var list = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
             foreach (var c in list) if (c.renderMode == RenderMode.ScreenSpaceOverlay) c.enabled = false;
             yield return new WaitForEndOfFrame();
-            var tex = ScreenCapture.CaptureScreenshotAsTexture();
+            // read the back buffer directly (no dependency on the Screen Capture module)
+            var tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+            tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+            tex.Apply();
             foreach (var c in list) if (c) c.enabled = true;
             var dir = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures), "ASFAN Anatomy");
             if (string.IsNullOrEmpty(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures))) dir = FileDialogs.Folder("Screenshots");
