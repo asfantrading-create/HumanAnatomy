@@ -50,11 +50,8 @@ node tools/export_unity.mjs <out> unity/Assets/StreamingAssets
 ## الجزء الأول: تجهيز جهازك (مرة واحدة)
 
 1. **Unity Hub** مع المحرر **Unity 6000.3.26f1**، وهو مثبت لديك.
-2. أضف وحدة البناء لويندوز:
-   - افتح Unity Hub ← **Installs** ← اضغط ⚙ بجانب 6000.3.26f1 ← **Add modules**.
-   - فعّل **Windows Build Support (Mono)**.
-   - اختيارياً فعّل أيضاً **Windows Build Support (IL2CPP)**، وهو لبناء محمي (انظر الجزء الخامس).
-   - اضغط Install.
+2. **البناء لويندوز مدمج في المحرر** على أجهزة ويندوز، فلا تحتاج إضافة وحدة له (لا تظهر وحدة باسم Mono في القائمة).
+   وحدة **Windows Build Support (IL2CPP)** اختيارية، وهي للبناء المحمي (انظر الجزء الخامس).
 3. **Inno Setup 6** (مجاني) لإنشاء ملف تثبيت `Setup.exe` واحد: https://jrsoftware.org/isdl.php
    ثبّته بالإعدادات الافتراضية، وسيكتشفه البرنامج تلقائياً.
 4. **Meta Quest Link** على الكمبيوتر، وهو مطلوب لتجربة النظارة فقط: https://www.meta.com/quest/setup/
