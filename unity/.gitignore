@@ -1,0 +1,18 @@
+# Unity generated folders
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+*.csproj
+*.sln
+*.slnx
+*.user
+.vs/
+.idea/
+# voice clips are copied from ../src/assets/voice by the setup menu
+/Assets/StreamingAssets/voice/
+/Assets/StreamingAssets/voice.meta
