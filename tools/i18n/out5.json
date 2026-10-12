@@ -1,0 +1,1367 @@
+{
+ "right soleus": {
+  "ar": "العضلة النعلية اليمنى",
+  "dar": "عضلة عريضة مسطحة عميقة للعضلة الساقية، تنشأ من الظنبوب والشظية وتنضم إلى وتر العقب، فتبسط الكاحل أخمصيًا وتحافظ على التوازن أثناء الوقوف.",
+  "den": "A broad flat muscle deep to gastrocnemius from the tibia and fibula joining the calcaneal tendon; it plantarflexes the ankle and maintains standing posture."
+ },
+ "right spinalis thoracis": {
+  "ar": "العضلة الشوكية الصدرية اليمنى",
+  "dar": "الجزء الإنسي من ناصبة الفقار، يصل النواتئ الشوكية للفقرات القطنية العلوية والصدرية السفلية بالنواتئ الشوكية الصدرية العلوية، فيبسط العمود الفقري.",
+  "den": "The medial part of erector spinae linking upper lumbar and lower thoracic spines to upper thoracic spines; it extends the vertebral column."
+ },
+ "right splenial artery": {
+  "ar": "الشريان الطحالي للجسم الثفني الأيمن",
+  "dar": "فرع من الشريان الدماغي الخلفي (الفرع الثفني الظهري) يغذي طحال الجسم الثفني، أي جزءه الخلفي المتسع.",
+  "den": "A branch of the posterior cerebral artery (dorsal callosal branch) supplying the splenium, the thickened posterior end of the corpus callosum."
+ },
+ "right splenius capitis": {
+  "ar": "العضلة الطحالية الرأسية اليمنى",
+  "dar": "عضلة عريضة في مؤخر العنق تمتد من الرباط القفوي والنواتئ الشوكية العلوية إلى الناتئ الخشائي والخط القفوي، فتبسط الرأس وتديره نحو الجانب نفسه.",
+  "den": "A broad muscle in the back of the neck from the nuchal ligament and upper spines to the mastoid process; it extends and rotates the head to the same side."
+ },
+ "right splenius cervicis": {
+  "ar": "العضلة الطحالية العنقية اليمنى",
+  "dar": "عضلة تمتد من النواتئ الشوكية للفقرات الصدرية العلوية إلى النواتئ المستعرضة للفقرات العنقية العلوية، فتبسط العنق وتديره.",
+  "den": "A muscle from the upper thoracic spines to the upper cervical transverse processes that extends and rotates the neck."
+ },
+ "right sternocleidomastoid": {
+  "ar": "العضلة القصية الترقوية الخشائية اليمنى",
+  "dar": "عضلة بارزة في جانب العنق تنشأ برأسين من القص والترقوة وتُدغم في الناتئ الخشائي، فتدير الرأس للجانب المقابل وتثني العنق. يعصبها العصب الإضافي.",
+  "den": "A prominent neck muscle with sternal and clavicular heads inserting on the mastoid; it turns the head to the opposite side and flexes the neck; supplied by the accessory nerve."
+ },
+ "right sternohyoid": {
+  "ar": "العضلة القصية اللامية اليمنى",
+  "dar": "عضلة تحت لامية شريطية تمتد من قبضة القص إلى العظم اللامي، فتخفض العظم اللامي بعد البلع.",
+  "den": "A strap-like infrahyoid muscle from the manubrium to the hyoid, depressing the hyoid after swallowing."
+ },
+ "right sternothyroid": {
+  "ar": "العضلة القصية الدرقية اليمنى",
+  "dar": "عضلة تحت لامية عميقة تمتد من قبضة القص إلى الخط المائل للغضروف الدرقي، فتخفض الحنجرة.",
+  "den": "A deep infrahyoid muscle from the manubrium to the oblique line of the thyroid cartilage that depresses the larynx."
+ },
+ "right stria medullaris of thalamus": {
+  "ar": "المخطط النخاعي للمهاد الأيمن",
+  "dar": "حزمة من الألياف على السطح الإنسي العلوي للمهاد تحمل الإشارات من المنطقة الحاجزية والوطاء إلى نواة العنان.",
+  "den": "A fibre bundle on the dorsomedial thalamus carrying input from the septal area and hypothalamus to the habenular nucleus."
+ },
+ "right stylohyoid": {
+  "ar": "العضلة الإبرية اللامية اليمنى",
+  "dar": "عضلة فوق لامية رفيعة تمتد من الناتئ الإبري إلى العظم اللامي، فترفعه وتسحبه للخلف أثناء البلع. يعصبها العصب الوجهي.",
+  "den": "A slender suprahyoid muscle from the styloid process to the hyoid that elevates and retracts it in swallowing; supplied by the facial nerve."
+ },
+ "right stylohyoid ligament": {
+  "ar": "الرباط الإبري اللامي الأيمن",
+  "dar": "رباط ليفي يمتد من قمة الناتئ الإبري إلى القرن الصغير للعظم اللامي، ويعلق العظم اللامي وقد يتكلس أحيانًا.",
+  "den": "A fibrous cord from the tip of the styloid process to the lesser horn of the hyoid, suspending the hyoid; it may sometimes calcify."
+ },
+ "right stylopharyngeus": {
+  "ar": "العضلة الإبرية البلعومية اليمنى",
+  "dar": "عضلة طويلة رفيعة تنشأ من الناتئ الإبري وتنزل بين المضيقتين العلوية والوسطى، فترفع البلعوم والحنجرة. وهي العضلة الوحيدة التي يعصبها العصب اللساني البلعومي.",
+  "den": "A long slender muscle from the styloid process passing between the superior and middle constrictors to elevate the pharynx and larynx; the only muscle supplied by the glossopharyngeal nerve."
+ },
+ "right subclavian artery": {
+  "ar": "الشريان تحت الترقوة الأيمن",
+  "dar": "ينشأ من الجذع العضدي الرأسي ويقوس فوق قمة الرئة خلف العضلة الأخمعية الأمامية، ويغذي الطرف العلوي وجزءًا من الدماغ والعنق وجدار الصدر.",
+  "den": "Arises from the brachiocephalic trunk and arches over the lung apex behind scalenus anterior, supplying the upper limb, part of the brain, the neck and chest wall."
+ },
+ "right subclavian vein": {
+  "ar": "الوريد تحت الترقوة الأيمن",
+  "dar": "استمرار للوريد الإبطي من الحافة الخارجية للضلع الأول، يمر أمام العضلة الأخمعية الأمامية ويتحد مع الوريد الوداجي الباطن لتكوين الوريد العضدي الرأسي.",
+  "den": "The continuation of the axillary vein from the first rib, passing in front of scalenus anterior to join the internal jugular vein and form the brachiocephalic vein."
+ },
+ "right subclavius": {
+  "ar": "العضلة تحت الترقوة اليمنى",
+  "dar": "عضلة صغيرة تمتد من الضلع الأول إلى السطح السفلي للترقوة، فتثبت الترقوة وتخفضها وتحمي الأوعية تحتها عند الكسر.",
+  "den": "A small muscle from the first rib to the underside of the clavicle that anchors and depresses the clavicle and cushions the vessels beneath it."
+ },
+ "right subcostal artery": {
+  "ar": "الشريان تحت الضلعي الأيمن",
+  "dar": "آخر الفروع الجدارية للأبهر الصدري، يسير تحت الضلع الثاني عشر ويغذي جدار البطن.",
+  "den": "The last parietal branch of the thoracic aorta, running below the twelfth rib to supply the abdominal wall."
+ },
+ "right subcostal vein": {
+  "ar": "الوريد تحت الضلعي الأيمن",
+  "dar": "وريد يرافق الشريان تحت الضلعي أسفل الضلع الثاني عشر، ويصب في الوريد الفرد.",
+  "den": "A vein accompanying the subcostal artery below the twelfth rib, draining into the azygos vein."
+ },
+ "right sublingual gland": {
+  "ar": "الغدة تحت اللسان اليمنى",
+  "dar": "أصغر الغدد اللعابية الكبرى، تقع تحت الغشاء المخاطي لأرضية الفم وتفرز لعابًا مخاطيًا عبر قنوات صغيرة متعددة.",
+  "den": "The smallest major salivary gland, under the mucosa of the floor of the mouth, secreting mainly mucous saliva through numerous small ducts."
+ },
+ "right submandibular gland": {
+  "ar": "الغدة تحت الفك السفلي اليمنى",
+  "dar": "غدة لعابية كبرى تقع تحت جسم الفك السفلي، تفرز لعابًا مختلطًا عبر قناة تفتح تحت اللسان.",
+  "den": "A major salivary gland beneath the body of the mandible secreting mixed saliva through a duct opening under the tongue."
+ },
+ "right subscapular artery": {
+  "ar": "الشريان تحت الكتف الأيمن",
+  "dar": "أكبر فروع الشريان الإبطي، ينقسم إلى الشريانين المنعطف الكتفي والصدري الظهري لتغذية عضلات الكتف والظهر.",
+  "den": "The largest branch of the axillary artery, dividing into the circumflex scapular and thoracodorsal arteries to supply shoulder and back muscles."
+ },
+ "right subscapular vein": {
+  "ar": "الوريد تحت الكتف الأيمن",
+  "dar": "وريد يرافق الشريان تحت الكتف ويصرف عضلات الكتف والظهر إلى الوريد الإبطي.",
+  "den": "A vein accompanying the subscapular artery, draining shoulder and back muscles into the axillary vein."
+ },
+ "right subscapularis": {
+  "ar": "العضلة تحت الكتف اليمنى",
+  "dar": "أكبر عضلات الكفة المدورة، تملأ الحفرة تحت الكتف وتُدغم في المدور الصغير لعظم العضد، فتدير الذراع للداخل وتثبت مفصل الكتف.",
+  "den": "The largest rotator cuff muscle, filling the subscapular fossa and inserting on the lesser tubercle; it medially rotates the arm and stabilises the shoulder."
+ },
+ "right superficial cervical artery": {
+  "ar": "الشريان العنقي السطحي الأيمن",
+  "dar": "فرع من الجذع الدرقي العنقي (أو الشريان المستعرض العنقي) يغذي العضلة شبه المنحرفة والعضلات المجاورة في العنق.",
+  "den": "A branch of the thyrocervical trunk (or transverse cervical artery) supplying trapezius and adjacent neck muscles."
+ },
+ "right superficial dorsal vein of penis": {
+  "ar": "الوريد الظهري السطحي الأيمن للقضيب",
+  "dar": "وريد سطحي تحت جلد ظهر القضيب يصرف الجلد والنسيج تحت الجلد إلى الوريد الفرجي الظاهر.",
+  "den": "A superficial vein under the skin of the penile dorsum draining skin and subcutaneous tissue into the external pudendal vein."
+ },
+ "right superficial epigastric artery": {
+  "ar": "الشريان الشرسوفي السطحي الأيمن",
+  "dar": "فرع من الشريان الفخذي يصعد في النسيج تحت الجلد نحو السرة، ويغذي جلد جدار البطن السفلي.",
+  "den": "A branch of the femoral artery ascending subcutaneously toward the umbilicus to supply the skin of the lower abdominal wall."
+ },
+ "right superficial epigastric vein": {
+  "ar": "الوريد الشرسوفي السطحي الأيمن",
+  "dar": "وريد سطحي يصرف جلد جدار البطن السفلي إلى الوريد الصافن الكبير.",
+  "den": "A superficial vein draining the skin of the lower abdominal wall into the great saphenous vein."
+ },
+ "right superficial medial plantar artery": {
+  "ar": "الشريان الأخمصي الإنسي السطحي الأيمن",
+  "dar": "فرع سطحي من الشريان الأخمصي الإنسي يغذي جلد الجانب الإنسي لأخمص القدم وإبهام القدم.",
+  "den": "A superficial branch of the medial plantar artery supplying the skin of the medial sole and big toe."
+ },
+ "right superficial palmar arterial arch": {
+  "ar": "القوس الشريانية الراحية السطحية اليمنى",
+  "dar": "قوس شريانية في الراحة يكونها أساسًا الشريان الزندي، تقع تحت السفاق الراحي وتعطي الشرايين الإصبعية الراحية المشتركة.",
+  "den": "An arterial arch in the palm formed mainly by the ulnar artery, lying beneath the palmar aponeurosis and giving the common palmar digital arteries."
+ },
+ "right superficial palmar venous arch": {
+  "ar": "القوس الوريدية الراحية السطحية اليمنى",
+  "dar": "قوس وريدية ترافق القوس الشريانية الراحية السطحية، تستقبل الأوردة الإصبعية وتصرفها إلى الأوردة العميقة للساعد.",
+  "den": "A venous arch accompanying the superficial palmar arterial arch, receiving digital veins and draining into the deep forearm veins."
+ },
+ "right superior cerebellar artery": {
+  "ar": "الشريان المخيخي العلوي الأيمن",
+  "dar": "فرع من الشريان القاعدي قرب نهايته، يلتف حول الدماغ المتوسط ويغذي السطح العلوي للمخيخ وأجزاء من الدماغ المتوسط والجسر.",
+  "den": "A branch of the basilar artery near its end, curving around the midbrain to supply the superior cerebellum and parts of the midbrain and pons."
+ },
+ "right superior colliculus": {
+  "ar": "الأكيمة العلوية اليمنى",
+  "dar": "بروز على السطح الخلفي للدماغ المتوسط، يشارك في المنعكسات البصرية وتوجيه حركات العين والرأس نحو المنبهات.",
+  "den": "A rounded eminence on the dorsal midbrain involved in visual reflexes and orienting eye and head movements toward stimuli."
+ },
+ "right superior epigastric artery": {
+  "ar": "الشريان الشرسوفي العلوي الأيمن",
+  "dar": "فرع انتهائي للشريان الصدري الباطن ينزل داخل غمد العضلة المستقيمة البطنية، ويتفاغر مع الشريان الشرسوفي السفلي.",
+  "den": "A terminal branch of the internal thoracic artery descending within the rectus sheath to anastomose with the inferior epigastric artery."
+ },
+ "right superior epigastric vein": {
+  "ar": "الوريد الشرسوفي العلوي الأيمن",
+  "dar": "وريد يرافق الشريان الشرسوفي العلوي ويصرف الجزء العلوي من جدار البطن الأمامي إلى الوريد الصدري الباطن.",
+  "den": "A vein accompanying the superior epigastric artery, draining the upper anterior abdominal wall into the internal thoracic vein."
+ },
+ "right superior frontal gyrus": {
+  "ar": "التلفيف الجبهي العلوي الأيمن",
+  "dar": "أعلى تلافيف الفص الجبهي، يمتد على طول الحافة العلوية الإنسية، ويضم جزءًا من القشرة الحركية الإضافية ويشارك في الوعي الذاتي والوظائف العليا.",
+  "den": "The uppermost frontal gyrus along the superomedial border, including part of the supplementary motor area and involved in self-awareness and higher functions."
+ },
+ "right superior gluteal vein": {
+  "ar": "الوريد الألوي العلوي الأيمن",
+  "dar": "وريد يرافق الشريان الألوي العلوي ويصرف عضلات الألية إلى الوريد الحرقفي الباطن.",
+  "den": "A vein accompanying the superior gluteal artery, draining the gluteal muscles into the internal iliac vein."
+ },
+ "right superior intercostal artery": {
+  "ar": "الشريان الوربي العلوي الأيمن",
+  "dar": "فرع من الجذع الضلعي العنقي ينزل أمام عنقي الضلعين الأول والثاني، ويعطي الشريانين الوربيين الخلفيين الأول والثاني.",
+  "den": "A branch of the costocervical trunk descending in front of the necks of the first two ribs, giving the first and second posterior intercostal arteries."
+ },
+ "right superior intercostal vein": {
+  "ar": "الوريد الوربي العلوي الأيمن",
+  "dar": "وريد يصرف المسافات الوربية الثانية إلى الرابعة اليمنى، ويصب في الوريد الفرد.",
+  "den": "A vein draining the right second to fourth intercostal spaces into the azygos vein."
+ },
+ "right superior oblique": {
+  "ar": "العضلة المائلة العلوية اليمنى للعين",
+  "dar": "عضلة عينية خارجية يمر وترها عبر بكرة في الجزء العلوي الإنسي للحجاج، فتخفض العين وتبعدها وتديرها للداخل. يعصبها العصب البكري.",
+  "den": "An extraocular muscle whose tendon passes through a trochlea in the upper medial orbit; it depresses, abducts and intorts the eye and is supplied by the trochlear nerve."
+ },
+ "right superior parietal lobule": {
+  "ar": "الفصيص الجداري العلوي الأيمن",
+  "dar": "جزء من الفص الجداري فوق التلم داخل الجداري، يشارك في التوجه المكاني ودمج المعلومات الحسية والبصرية لتوجيه الحركة.",
+  "den": "Part of the parietal lobe above the intraparietal sulcus, involved in spatial orientation and integrating sensory and visual information to guide movement."
+ },
+ "right superior pharyngeal constrictor": {
+  "ar": "العضلة المضيقة البلعومية العلوية اليمنى",
+  "dar": "أرق العضلات المضيقة للبلعوم، تنشأ من الرفاء الجناحي الفكي والخطاف الجناحي، وتشارك في دفع الطعام وإغلاق البلعوم الأنفي.",
+  "den": "The thinnest pharyngeal constrictor, arising from the pterygomandibular raphe and pterygoid hamulus; it propels food and helps close the nasopharynx."
+ },
+ "right superior pulmonary vein": {
+  "ar": "الوريد الرئوي العلوي الأيمن",
+  "dar": "وريد ينقل الدم المؤكسج من الفصين العلوي والأوسط للرئة اليمنى إلى الأذين الأيسر.",
+  "den": "A vein carrying oxygenated blood from the right upper and middle lobes to the left atrium."
+ },
+ "right superior rectus": {
+  "ar": "العضلة المستقيمة العلوية اليمنى للعين",
+  "dar": "عضلة عينية خارجية تنشأ من الحلقة الوترية المشتركة وتُدغم في الصلبة أعلى القرنية، فترفع العين وتقربها. يعصبها العصب المحرك للعين.",
+  "den": "An extraocular muscle from the common tendinous ring to the sclera above the cornea that elevates and adducts the eye; supplied by the oculomotor nerve."
+ },
+ "right superior segmental bronchial tree": {
+  "ar": "الشجرة القصبية القطعية العلوية اليمنى",
+  "dar": "القصبة القطعية العلوية للفص السفلي من الرئة اليمنى وتفرعاتها، تنقل الهواء إلى القطعة العلوية من الفص السفلي.",
+  "den": "The superior segmental bronchus of the right lower lobe and its branches, conducting air to the superior segment of the lower lobe."
+ },
+ "right superior segmental vein": {
+  "ar": "الوريد القطعي العلوي الأيمن",
+  "dar": "وريد رئوي يصرف القطعة العلوية للفص السفلي الأيمن إلى الوريد الرئوي السفلي الأيمن.",
+  "den": "A pulmonary vein draining the superior segment of the right lower lobe into the right inferior pulmonary vein."
+ },
+ "right superior ulnar collateral artery": {
+  "ar": "الشريان الزندي الجانبي العلوي الأيمن",
+  "dar": "فرع من الشريان العضدي يرافق العصب الزندي إلى خلف اللقيمة الإنسية، ويتفاغر مع الشريان الزندي الراجع الخلفي.",
+  "den": "A branch of the brachial artery accompanying the ulnar nerve behind the medial epicondyle to anastomose with the posterior ulnar recurrent artery."
+ },
+ "right supinator": {
+  "ar": "العضلة الباطحة اليمنى",
+  "dar": "عضلة عميقة في خلف الساعد تلتف حول الجزء العلوي من الكعبرة، فتبطح الساعد. يمر عبرها العصب بين العظمين الخلفي.",
+  "den": "A deep posterior forearm muscle wrapping around the upper radius to supinate the forearm; the posterior interosseous nerve passes through it."
+ },
+ "right supra-orbital nerve": {
+  "ar": "العصب فوق الحجاج الأيمن",
+  "dar": "فرع من العصب الجبهي يخرج من الثلمة أو الثقبة فوق الحجاج، ويعطي الإحساس للجبهة وفروة الرأس والجفن العلوي.",
+  "den": "A branch of the frontal nerve leaving the supra-orbital notch or foramen to supply the forehead, scalp and upper eyelid."
+ },
+ "right supramarginal gyrus": {
+  "ar": "التلفيف فوق الهامشي الأيمن",
+  "dar": "تلفيف في الفص الجداري السفلي يحيط بنهاية الشق الوحشي، يشارك في معالجة اللغة والإحساس الجسدي والتعاطف.",
+  "den": "A gyrus of the inferior parietal lobule arching over the end of the lateral sulcus, involved in language, somatosensory processing and empathy."
+ },
+ "right suprarenal vein": {
+  "ar": "الوريد الكظري الأيمن",
+  "dar": "وريد قصير يصرف الغدة الكظرية اليمنى مباشرة إلى الوريد الأجوف السفلي.",
+  "den": "A short vein draining the right adrenal gland directly into the inferior vena cava."
+ },
+ "right suprascapular artery": {
+  "ar": "الشريان فوق الكتف الأيمن",
+  "dar": "فرع من الجذع الدرقي العنقي يمر فوق الرباط الكتفي المستعرض، ويغذي العضلتين فوق الشوكة وتحت الشوكة.",
+  "den": "A branch of the thyrocervical trunk passing over the transverse scapular ligament to supply supraspinatus and infraspinatus."
+ },
+ "right suprascapular vein": {
+  "ar": "الوريد فوق الكتف الأيمن",
+  "dar": "وريد يرافق الشريان فوق الكتف ويصرف عضلات الكتف الخلفية إلى الوريد الوداجي الظاهر.",
+  "den": "A vein accompanying the suprascapular artery, draining the posterior scapular muscles into the external jugular vein."
+ },
+ "right supraspinatus": {
+  "ar": "العضلة فوق الشوكة اليمنى",
+  "dar": "إحدى عضلات الكفة المدورة، تملأ الحفرة فوق الشوكة وتُدغم في المدور الكبير، فتبدأ إبعاد الذراع وتثبت مفصل الكتف.",
+  "den": "A rotator cuff muscle filling the supraspinous fossa and inserting on the greater tubercle; it initiates arm abduction and stabilises the shoulder."
+ },
+ "right supratrochlear nerve": {
+  "ar": "العصب فوق البكرة الأيمن",
+  "dar": "فرع من العصب الجبهي يمر فوق البكرة، ويعطي الإحساس للجزء الإنسي من الجبهة والجفن العلوي.",
+  "den": "A branch of the frontal nerve passing above the trochlea to supply the medial forehead and upper eyelid."
+ },
+ "right talus": {
+  "ar": "عظم الكاحل الأيمن",
+  "dar": "عظم رسغي يتمفصل مع الظنبوب والشظية في مفصل الكاحل، وينقل وزن الجسم من الساق إلى القدم، ولا تُدغم فيه أي عضلة.",
+  "den": "A tarsal bone articulating with the tibia and fibula at the ankle joint and transmitting body weight to the foot; no muscles attach to it."
+ },
+ "right temporal bone": {
+  "ar": "العظم الصدغي الأيمن",
+  "dar": "عظم في جانب الجمجمة وقاعدتها، يحتوي على أعضاء السمع والتوازن، ويتمفصل مع الفك السفلي في المفصل الصدغي الفكي.",
+  "den": "A bone of the side and base of the skull housing the organs of hearing and balance and articulating with the mandible at the temporomandibular joint."
+ },
+ "right tensor fasciae latae": {
+  "ar": "العضلة الموترة للفافة العريضة اليمنى",
+  "dar": "عضلة على الجانب الوحشي للورك تنشأ من الشوكة الحرقفية الأمامية العلوية وتُدغم في السبيل الحرقفي الظنبوبي، فتثبت الورك والركبة وتساعد في ثني الورك وإبعاده.",
+  "den": "A lateral hip muscle from the anterior superior iliac spine into the iliotibial tract; it stabilises hip and knee and assists hip flexion and abduction."
+ },
+ "right tensor veli palatini": {
+  "ar": "العضلة الموترة لشراع الحنك اليمنى",
+  "dar": "عضلة يلتف وترها حول الخطاف الجناحي لتنتشر في الحنك الرخو، فتشده وتفتح النفير السمعي أثناء البلع. يعصبها العصب الفكي السفلي.",
+  "den": "A muscle whose tendon hooks round the pterygoid hamulus into the soft palate; it tenses the palate and opens the auditory tube in swallowing; supplied by the mandibular nerve."
+ },
+ "right tenth rib": {
+  "ar": "الضلع العاشر الأيمن",
+  "dar": "ضلع كاذب يتصل غضروفه بغضروف الضلع الذي فوقه مكوّنًا الحافة الضلعية، ويحمي أعضاء الصدر وأعلى البطن.",
+  "den": "A false rib whose cartilage joins the cartilage above to form the costal margin, protecting thoracic and upper abdominal organs."
+ },
+ "right teres major": {
+  "ar": "العضلة المدورة الكبيرة اليمنى",
+  "dar": "عضلة تمتد من الزاوية السفلية للكتف إلى الشفة الإنسية لميزاب عظم العضد، فتقرب الذراع وتديره للداخل وتبسطه.",
+  "den": "A muscle from the inferior angle of the scapula to the medial lip of the intertubercular groove; it adducts, medially rotates and extends the arm."
+ },
+ "right teres minor": {
+  "ar": "العضلة المدورة الصغيرة اليمنى",
+  "dar": "إحدى عضلات الكفة المدورة، تمتد من الحافة الوحشية للكتف إلى المدور الكبير، فتدير الذراع للخارج. يعصبها العصب الإبطي.",
+  "den": "A rotator cuff muscle from the lateral scapular border to the greater tubercle that laterally rotates the arm; supplied by the axillary nerve."
+ },
+ "right testicular artery": {
+  "ar": "الشريان الخصوي الأيمن",
+  "dar": "شريان طويل رفيع ينشأ من الأبهر البطني وينزل خلف البريتون ثم عبر القناة الإربية في الحبل المنوي ليغذي الخصية.",
+  "den": "A long slender artery from the abdominal aorta descending retroperitoneally and through the inguinal canal in the spermatic cord to supply the testis."
+ },
+ "right testicular vein": {
+  "ar": "الوريد الخصوي الأيمن",
+  "dar": "وريد يتكون من الضفيرة المحلاقية في الحبل المنوي، ويصعد ليصب مباشرة في الوريد الأجوف السفلي.",
+  "den": "A vein formed from the pampiniform plexus in the spermatic cord, ascending to drain directly into the inferior vena cava."
+ },
+ "right testis": {
+  "ar": "الخصية اليمنى",
+  "dar": "غدة تناسلية ذكرية بيضوية في كيس الصفن، تنتج النطاف وهرمون التستوستيرون.",
+  "den": "An oval male gonad in the scrotum that produces sperm and testosterone."
+ },
+ "right thalamogeniculate artery": {
+  "ar": "الشريان المهادي الركبي الأيمن",
+  "dar": "فروع ثاقبة من الشريان الدماغي الخلفي تغذي الأجزاء الخلفية الوحشية من المهاد والجسمين الركبيين.",
+  "den": "Perforating branches of the posterior cerebral artery supplying the posterolateral thalamus and geniculate bodies."
+ },
+ "right thalamoperforating artery": {
+  "ar": "الشريان المهادي الثاقب الأيمن",
+  "dar": "فروع ثاقبة من الجزء القريب للشريان الدماغي الخلفي تغذي الأجزاء الأمامية والإنسية من المهاد.",
+  "den": "Perforating branches from the proximal posterior cerebral artery supplying the anterior and medial thalamus."
+ },
+ "right thalamus": {
+  "ar": "المهاد الأيمن",
+  "dar": "كتلة كبيرة من المادة الرمادية في الدماغ البيني، تمثل محطة الترحيل الرئيسية للمعلومات الحسية والحركية إلى القشرة المخية، وتشارك في الوعي والانتباه.",
+  "den": "A large grey-matter mass in the diencephalon, the main relay of sensory and motor information to the cerebral cortex, also involved in consciousness and attention."
+ },
+ "right third common palmar digital artery": {
+  "ar": "الشريان الراحي الإصبعي المشترك الثالث الأيمن",
+  "dar": "شريان ينشأ من القوس الشريانية الراحية السطحية ويسير بين عظام مشط اليد، ثم ينقسم إلى شريانين إصبعيين راحيين خاصين يغذيان الجانبين المتقابلين لإصبعين متجاورين.",
+  "den": "Arises from the superficial palmar arch, runs between the metacarpals and divides into proper palmar digital arteries supplying the adjacent sides of two fingers."
+ },
+ "right third costal cartilage": {
+  "ar": "الغضروف الضلعي الثالث الأيمن",
+  "dar": "غضروف زجاجي يصل الطرف الأمامي للضلع بجسم القص، ويمنح القفص الصدري مرونة أثناء التنفس.",
+  "den": "Hyaline cartilage joining the anterior end of the rib to the body of the sternum, giving the thoracic cage flexibility during breathing."
+ },
+ "right third metacarpal bone": {
+  "ar": "عظم مشط اليد الثالث الأيمن",
+  "dar": "عظم مشط اليد الداعم للإصبع الوسطى، يتميز بناتئ إبري عند قاعدته ويتمفصل مع العظم الكبير.",
+  "den": "The metacarpal of the middle finger, with a styloid process at its base, articulating with the capitate."
+ },
+ "right third metatarsal bone": {
+  "ar": "عظم مشط القدم الثالث الأيمن",
+  "dar": "عظم مشط القدم الثالث، يتمفصل مع العظم الإسفيني الوحشي ويدعم الإصبع الثالثة.",
+  "den": "The third metatarsal, articulating with the lateral cuneiform and supporting the third toe."
+ },
+ "right third rib": {
+  "ar": "الضلع الثالث الأيمن",
+  "dar": "ضلع حقيقي يتصل مباشرة بالقص عبر غضروفه الضلعي، ويحمي أعضاء الصدر ويشارك في حركات التنفس.",
+  "den": "A true rib connected directly to the sternum by its costal cartilage, protecting the thoracic organs and taking part in breathing movements."
+ },
+ "right thoracodorsal artery": {
+  "ar": "الشريان الصدري الظهري الأيمن",
+  "dar": "استمرار للشريان تحت الكتف يرافق العصب الصدري الظهري، ويغذي العضلة الظهرية العريضة.",
+  "den": "A continuation of the subscapular artery accompanying the thoracodorsal nerve to supply latissimus dorsi."
+ },
+ "right thoracodorsal vein": {
+  "ar": "الوريد الصدري الظهري الأيمن",
+  "dar": "وريد يرافق الشريان الصدري الظهري ويصرف العضلة الظهرية العريضة إلى الوريد تحت الكتف.",
+  "den": "A vein accompanying the thoracodorsal artery, draining latissimus dorsi into the subscapular vein."
+ },
+ "right thyro-arytenoid": {
+  "ar": "العضلة الدرقية الطرجهالية اليمنى",
+  "dar": "عضلة حنجرية تمتد من الغضروف الدرقي إلى الغضروف الطرجهالي بجانب الحبل الصوتي، فترخي الحبال الصوتية وتقصرها.",
+  "den": "A laryngeal muscle from the thyroid to the arytenoid cartilage beside the vocal fold, relaxing and shortening the vocal folds."
+ },
+ "right thyrocervical trunk": {
+  "ar": "الجذع الدرقي العنقي الأيمن",
+  "dar": "فرع قصير من الشريان تحت الترقوة يعطي الشرايين الدرقي السفلي وفوق الكتف والمستعرض العنقي.",
+  "den": "A short branch of the subclavian artery giving the inferior thyroid, suprascapular and transverse cervical arteries."
+ },
+ "right thyrohyoid": {
+  "ar": "العضلة الدرقية اللامية اليمنى",
+  "dar": "عضلة تحت لامية قصيرة تمتد من الغضروف الدرقي إلى العظم اللامي، فتخفض العظم اللامي أو ترفع الحنجرة.",
+  "den": "A short infrahyoid muscle from the thyroid cartilage to the hyoid, depressing the hyoid or raising the larynx."
+ },
+ "right thyrohyoid membrane": {
+  "ar": "الغشاء الدرقي اللامي الأيمن",
+  "dar": "غشاء ليفي مرن يصل الحافة العلوية للغضروف الدرقي بالعظم اللامي، ويثقبه العصب الحنجري الداخلي والشريان الحنجري العلوي.",
+  "den": "A fibroelastic membrane joining the upper thyroid cartilage to the hyoid, pierced by the internal laryngeal nerve and superior laryngeal artery."
+ },
+ "right tibia": {
+  "ar": "عظم الظنبوب الأيمن",
+  "dar": "العظم الإنسي والأكبر للساق، يحمل وزن الجسم ويتمفصل مع عظم الفخذ في الركبة ومع عظم الكاحل في مفصل الكاحل.",
+  "den": "The larger medial leg bone, bearing body weight and articulating with the femur at the knee and the talus at the ankle."
+ },
+ "right tibialis anterior": {
+  "ar": "العضلة الظنبوبية الأمامية اليمنى",
+  "dar": "عضلة في الحجيرة الأمامية للساق تُدغم في العظم الإسفيني الإنسي وعظم المشط الأول، فتثني الكاحل ظهريًا وتقلب القدم للداخل.",
+  "den": "An anterior leg muscle inserting on the medial cuneiform and first metatarsal; it dorsiflexes the ankle and inverts the foot."
+ },
+ "right tibialis posterior": {
+  "ar": "العضلة الظنبوبية الخلفية اليمنى",
+  "dar": "أعمق عضلات الحجيرة الخلفية للساق، تُدغم أساسًا في العظم الزورقي، فتقلب القدم للداخل وتدعم القوس الطولية الإنسية.",
+  "den": "The deepest posterior leg muscle, inserting mainly on the navicular; it inverts the foot and supports the medial longitudinal arch."
+ },
+ "right transverse cervical artery": {
+  "ar": "الشريان المستعرض العنقي الأيمن",
+  "dar": "فرع من الجذع الدرقي العنقي يعبر قاعدة العنق، ويغذي العضلة شبه المنحرفة وعضلات الكتف.",
+  "den": "A branch of the thyrocervical trunk crossing the base of the neck to supply trapezius and scapular muscles."
+ },
+ "right transversus thoracis": {
+  "ar": "العضلة الصدرية المستعرضة اليمنى",
+  "dar": "عضلة رقيقة على السطح الداخلي لجدار الصدر الأمامي، تمتد من القص إلى الغضاريف الضلعية، فتخفض الأضلاع أثناء الزفير القسري.",
+  "den": "A thin muscle on the inner anterior chest wall from the sternum to the costal cartilages, depressing the ribs in forced expiration."
+ },
+ "right trapezium": {
+  "ar": "العظم المربعي الأيمن",
+  "dar": "عظم رسغي في الصف البعيد على الجانب الكعبري، يتمفصل مع عظم مشط الإبهام بمفصل سرجي يتيح حركة المقابلة.",
+  "den": "A distal-row carpal bone on the radial side forming a saddle joint with the thumb metacarpal that allows opposition."
+ },
+ "right trapezoid": {
+  "ar": "العظم شبه المنحرف الأيمن",
+  "dar": "أصغر عظام الصف البعيد للرسغ، يقع بين المربعي والعظم الكبير ويتمفصل مع عظم مشط اليد الثاني.",
+  "den": "The smallest distal-row carpal bone, between the trapezium and capitate, articulating with the second metacarpal."
+ },
+ "right triquetral": {
+  "ar": "العظم المثلثي الأيمن",
+  "dar": "عظم رسغي هرمي في الصف القريب على الجانب الزندي، يتمفصل مع العظم الحمصي والهلالي والكلابي.",
+  "den": "A pyramidal proximal-row carpal bone on the ulnar side, articulating with the pisiform, lunate and hamate."
+ },
+ "right trochlear nerve": {
+  "ar": "العصب البكري الأيمن",
+  "dar": "العصب القحفي الرابع، أرفع الأعصاب القحفية والوحيد الذي يخرج من السطح الخلفي لجذع الدماغ، يعصب العضلة المائلة العلوية للعين.",
+  "den": "The fourth cranial nerve, the thinnest and the only one emerging from the dorsal brainstem; it supplies the superior oblique muscle of the eye."
+ },
+ "right twelfth rib": {
+  "ar": "الضلع الثاني عشر الأيمن",
+  "dar": "ضلع عائم لا يتصل بالقص، تنتهي نهايته الأمامية حرة في جدار البطن، ويحمي الكلية ويعطي ارتكازًا لعضلات الظهر والبطن.",
+  "den": "A floating rib with a free anterior end in the abdominal wall, protecting the kidney and giving attachment to back and abdominal muscles."
+ },
+ "right ulna": {
+  "ar": "عظم الزند الأيمن",
+  "dar": "العظم الإنسي للساعد، يتمفصل مع عظم العضد في مفصل المرفق بالناتئ المرفقي، ويشكل محورًا تدور حوله الكعبرة.",
+  "den": "The medial forearm bone articulating with the humerus at the elbow via the olecranon and forming the axis around which the radius rotates."
+ },
+ "right ulnar artery": {
+  "ar": "الشريان الزندي الأيمن",
+  "dar": "الفرع الانتهائي الأكبر للشريان العضدي، ينزل على الجانب الزندي للساعد ويشكل القوس الشريانية الراحية السطحية.",
+  "den": "The larger terminal branch of the brachial artery, descending on the ulnar side of the forearm and forming the superficial palmar arch."
+ },
+ "right ulnar vein": {
+  "ar": "الوريد الزندي الأيمن",
+  "dar": "وريد عميق يرافق الشريان الزندي، ويتحد مع الأوردة الكعبرية لتكوين الأوردة العضدية.",
+  "den": "A deep vein accompanying the ulnar artery and joining the radial veins to form the brachial veins."
+ },
+ "right upper central secondary incisor tooth": {
+  "ar": "القاطعة المركزية العلوية اليمنى (دائمة)",
+  "dar": "قاطعة دائمة تقع بجوار الخط الناصف، ذات حافة حادة تقطع الطعام وتساهم في النطق والمظهر، في الفك العلوي.",
+  "den": "A permanent incisor next to the midline with a sharp incisal edge for cutting food; it also aids speech and appearance, in the maxilla."
+ },
+ "right upper first secondary molar tooth": {
+  "ar": "الرحى الأولى العلوية اليمنى (دائمة)",
+  "dar": "أكبر الأضراس الدائمة وأول ما يبزغ منها، ذات حدبات متعددة وجذور عدة لطحن الطعام، في الفك العلوي.",
+  "den": "The first permanent molar to erupt, a large multi-cusped, multi-rooted tooth for grinding food, in the maxilla."
+ },
+ "right upper first secondary premolar tooth": {
+  "ar": "الضاحكة الأولى العلوية اليمنى (دائمة)",
+  "dar": "سن دائم يقع خلف الناب، ذو حدبتين يساعد في تمزيق الطعام وطحنه، في الفك العلوي.",
+  "den": "A permanent tooth behind the canine, with cusps that help tear and grind food, in the maxilla."
+ },
+ "right upper lateral secondary incisor tooth": {
+  "ar": "القاطعة الجانبية العلوية اليمنى (دائمة)",
+  "dar": "قاطعة دائمة تقع بين القاطعة المركزية والناب، تُستخدم في قطع الطعام، في الفك العلوي.",
+  "den": "A permanent incisor between the central incisor and the canine, used for cutting food, in the maxilla."
+ },
+ "right upper second secondary molar tooth": {
+  "ar": "الرحى الثانية العلوية اليمنى (دائمة)",
+  "dar": "رحى دائمة تقع خلف الرحى الأولى، تُستخدم في طحن الطعام، في الفك العلوي.",
+  "den": "A permanent molar behind the first molar, used for grinding food, in the maxilla."
+ },
+ "right upper second secondary premolar tooth": {
+  "ar": "الضاحكة الثانية العلوية اليمنى (دائمة)",
+  "dar": "سن دائم يقع بين الضاحكة الأولى والرحى الأولى، يساعد في سحق الطعام وطحنه، في الفك العلوي.",
+  "den": "A permanent tooth between the first premolar and first molar that helps crush and grind food, in the maxilla."
+ },
+ "right upper secondary canine tooth": {
+  "ar": "الناب العلوي الأيمن (دائم)",
+  "dar": "سن دائم ذو جذر طويل وتاج مدبب، يُستخدم في تمزيق الطعام ويساعد في توجيه إطباق الفكين، في الفك العلوي.",
+  "den": "A permanent tooth with a long root and pointed crown, used for tearing food and guiding jaw closure, in the maxilla."
+ },
+ "right ureter": {
+  "ar": "الحالب الأيمن",
+  "dar": "أنبوب عضلي ينقل البول من حويضة الكلية اليمنى إلى المثانة بحركات تمعجية.",
+  "den": "A muscular tube carrying urine from the right renal pelvis to the bladder by peristalsis."
+ },
+ "right vastus intermedius": {
+  "ar": "العضلة المتسعة المتوسطة اليمنى",
+  "dar": "إحدى رؤوس العضلة رباعية الرؤوس، تقع عميقًا تحت المستقيمة الفخذية على السطح الأمامي لعظم الفخذ، وتبسط الركبة.",
+  "den": "A head of quadriceps lying deep to rectus femoris on the anterior femur; it extends the knee."
+ },
+ "right vastus lateralis": {
+  "ar": "العضلة المتسعة الوحشية اليمنى",
+  "dar": "أكبر رؤوس العضلة رباعية الرؤوس، تقع على الجانب الوحشي للفخذ وتبسط الركبة، وتستعمل موضعًا للحقن العضلي.",
+  "den": "The largest head of quadriceps on the lateral thigh; it extends the knee and is used as an intramuscular injection site."
+ },
+ "right vastus medialis": {
+  "ar": "العضلة المتسعة الإنسية اليمنى",
+  "dar": "رأس من العضلة رباعية الرؤوس على الجانب الإنسي للفخذ، تبسط الركبة وتساعد أليافها السفلية المائلة في تثبيت الرضفة.",
+  "den": "A head of quadriceps on the medial thigh; it extends the knee and its lower oblique fibres help stabilise the patella."
+ },
+ "right vertebral artery": {
+  "ar": "الشريان الفقري الأيمن",
+  "dar": "فرع من الشريان تحت الترقوة يصعد عبر الثقوب المستعرضة للفقرات العنقية ويدخل الجمجمة، ويتحد مع نظيره لتكوين الشريان القاعدي.",
+  "den": "A branch of the subclavian artery ascending through the cervical transverse foramina into the skull, joining its fellow to form the basilar artery."
+ },
+ "right vitreous body": {
+  "ar": "الجسم الزجاجي الأيمن",
+  "dar": "مادة هلامية شفافة تملأ تجويف العين خلف العدسة، تحافظ على شكل المقلة وتسند الشبكية.",
+  "den": "A transparent gel filling the eye behind the lens, maintaining the shape of the eyeball and supporting the retina."
+ },
+ "right vocal ligament": {
+  "ar": "الرباط الصوتي الأيمن",
+  "dar": "الحافة العلوية الثخينة للمخروط المرن، تمتد من الغضروف الدرقي إلى الناتئ الصوتي للغضروف الطرجهالي، وتشكل دعامة الحبل الصوتي.",
+  "den": "The thickened upper edge of the conus elasticus from the thyroid cartilage to the vocal process of the arytenoid, forming the framework of the vocal fold."
+ },
+ "right vocalis": {
+  "ar": "العضلة الصوتية اليمنى",
+  "dar": "الجزء الإنسي من العضلة الدرقية الطرجهالية بجانب الرباط الصوتي، تضبط توتر الحبل الصوتي بدقة لتعديل طبقة الصوت.",
+  "den": "The medial part of thyro-arytenoid alongside the vocal ligament, finely adjusting vocal fold tension to modulate pitch."
+ },
+ "right zygomatic bone": {
+  "ar": "العظم الوجني الأيمن",
+  "dar": "عظم الوجنة، يشكل بروز الخد وجزءًا من الجدار الوحشي وأرضية الحجاج، ويشارك في تكوين القوس الوجنية.",
+  "den": "The cheekbone, forming the prominence of the cheek and parts of the lateral wall and floor of the orbit, and contributing to the zygomatic arch."
+ },
+ "sacrum": {
+  "ar": "العجز (عظم العجز)",
+  "dar": "عظم مثلثي يتكون من التحام خمس فقرات عجزية، يقع بين عظمي الورك ويشكل الجدار الخلفي للحوض، وينقل وزن الجسم إلى الطرفين السفليين.",
+  "den": "A triangular bone formed by five fused sacral vertebrae, wedged between the hip bones as the back of the pelvis and transmitting body weight to the lower limbs."
+ },
+ "second lumbar vertebra": {
+  "ar": "الفقرة القطنية الثانية",
+  "dar": "فقرة قطنية ذات جسم كبير على شكل الكلية تتحمل وزن الجزء العلوي من الجسم، وتسمح بحركات الانثناء والبسط في أسفل الظهر.",
+  "den": "A lumbar vertebra with a large kidney-shaped body that bears the weight of the upper body and allows flexion and extension of the lower back."
+ },
+ "second lumbrical of left foot": {
+  "ar": "العضلة الخراطينية الثانية للقدم اليسرى",
+  "dar": "عضلة صغيرة في أخمص القدم تنشأ من وتري العضلة القابضة الطويلة للأصابع وتُدغم في الإصبع الثالثة، تثني المفصل المشطي السلامي وتبسط المفاصل بين السلامية.",
+  "den": "A small plantar muscle arising from the flexor digitorum longus tendons and inserting on the third toe; it flexes the metatarsophalangeal joint and extends the interphalangeal joints."
+ },
+ "second lumbrical of right foot": {
+  "ar": "العضلة الخراطينية الثانية للقدم اليمنى",
+  "dar": "عضلة صغيرة في أخمص القدم تنشأ من وتري العضلة القابضة الطويلة للأصابع وتُدغم في الإصبع الثالثة، تثني المفصل المشطي السلامي وتبسط المفاصل بين السلامية.",
+  "den": "A small plantar muscle arising from the flexor digitorum longus tendons and inserting on the third toe; it flexes the metatarsophalangeal joint and extends the interphalangeal joints."
+ },
+ "second plantar interosseous of left foot": {
+  "ar": "العضلة بين العظام الأخمصية الثانية للقدم اليسرى",
+  "dar": "عضلة تنشأ من الجانب الإنسي لعظم المشط المجاور وتُدغم في الإصبع الرابعة، تقرّب الإصبع نحو الإصبع الثانية وتثني مفصلها المشطي السلامي.",
+  "den": "Arises from the medial side of its metatarsal and inserts on the fourth toe; it adducts the toe toward the second toe and flexes its metatarsophalangeal joint."
+ },
+ "second plantar interosseous of right foot": {
+  "ar": "العضلة بين العظام الأخمصية الثانية للقدم اليمنى",
+  "dar": "عضلة تنشأ من الجانب الإنسي لعظم المشط المجاور وتُدغم في الإصبع الرابعة، تقرّب الإصبع نحو الإصبع الثانية وتثني مفصلها المشطي السلامي.",
+  "den": "Arises from the medial side of its metatarsal and inserts on the fourth toe; it adducts the toe toward the second toe and flexes its metatarsophalangeal joint."
+ },
+ "second right anterior branch of anterior interventricular branch of left coronary artery": {
+  "ar": "الفرع الأمامي الأيمن الثاني للفرع بين البطينين الأمامي للشريان التاجي الأيسر",
+  "dar": "فرع صغير ينشأ من الجانب الأيمن للشريان بين البطينين الأمامي، ويغذي الجزء المجاور من الجدار الأمامي للبطين الأيمن.",
+  "den": "A small branch from the right side of the anterior interventricular artery supplying the adjacent anterior wall of the right ventricle."
+ },
+ "second septal branch of right posterior interventricular artery": {
+  "ar": "الفرع الحاجزي الثاني للشريان بين البطينين الخلفي الأيمن",
+  "dar": "فرع ثاقب من الشريان بين البطينين الخلفي يدخل الحاجز بين البطينين ويغذي ثلثه الخلفي.",
+  "den": "A perforating branch of the posterior interventricular artery entering and supplying the posterior third of the interventricular septum."
+ },
+ "second thoracic vertebra": {
+  "ar": "الفقرة الصدرية الثانية",
+  "dar": "فقرة صدرية تحمل وجيهات ضلعية على جسمها وناتئيها المستعرضين للتمفصل مع الأضلاع، وتشارك في تكوين الجدار الخلفي للقفص الصدري.",
+  "den": "A thoracic vertebra bearing costal facets on its body and transverse processes for articulation with the ribs, forming part of the posterior thoracic wall."
+ },
+ "septal branch of anterior interventricular artery": {
+  "ar": "الفرع الحاجزي للشريان بين البطينين الأمامي",
+  "dar": "فرع ثاقب من الشريان بين البطينين الأمامي يغذي الثلثين الأماميين للحاجز بين البطينين بما فيه أجزاء من الجهاز الموصل للقلب.",
+  "den": "A perforating branch of the anterior interventricular artery supplying the anterior two-thirds of the interventricular septum, including parts of the conducting system."
+ },
+ "septal leaflet of tricuspid valve": {
+  "ar": "الوريقة الحاجزية للصمام ثلاثي الشرفات",
+  "dar": "وريقة الصمام ثلاثي الشرفات الملاصقة للحاجز بين البطينين، تمنع ارتداد الدم إلى الأذين الأيمن أثناء الانقباض.",
+  "den": "The tricuspid leaflet attached along the interventricular septum, preventing backflow into the right atrium during systole."
+ },
+ "septal nasal cartilage": {
+  "ar": "الغضروف الحاجزي الأنفي",
+  "dar": "غضروف زجاجي رباعي يشكل الجزء الأمامي من الحاجز الأنفي، ويدعم ظهر الأنف وطرفه.",
+  "den": "A quadrangular hyaline cartilage forming the anterior nasal septum and supporting the nasal dorsum and tip."
+ },
+ "septal papillary muscle of right ventricle": {
+  "ar": "العضلة الحليمية الحاجزية للبطين الأيمن",
+  "dar": "عضلة حليمية صغيرة تنشأ من الحاجز بين البطينين، تتصل بالحبال الوترية لوريقات الصمام ثلاثي الشرفات.",
+  "den": "A small papillary muscle arising from the interventricular septum, attached by chordae tendineae to the tricuspid leaflets."
+ },
+ "septum of neuraxis": {
+  "ar": "حاجز المحور العصبي",
+  "dar": "حاجز من النسيج الضام أو الدبقي في الجهاز العصبي المركزي، يفصل بين أجزاء متناظرة، مثل الحاجز الناصف في الحبل الشوكي.",
+  "den": "A connective or glial partition within the central nervous system separating symmetrical parts, such as the median septum of the spinal cord."
+ },
+ "sesamoid bone of left foot": {
+  "ar": "العظم السمسماني للقدم اليسرى",
+  "dar": "عظم صغير داخل وتر العضلة القابضة القصيرة لإبهام القدم تحت رأس عظم المشط الأول، يحمي الوتر ويزيد من قوة شده ويتحمل جزءًا من الوزن.",
+  "den": "A small bone within the flexor hallucis brevis tendon beneath the first metatarsal head, protecting the tendon, improving its leverage and bearing weight."
+ },
+ "sesamoid bone of right foot": {
+  "ar": "العظم السمسماني للقدم اليمنى",
+  "dar": "عظم صغير داخل وتر العضلة القابضة القصيرة لإبهام القدم تحت رأس عظم المشط الأول، يحمي الوتر ويزيد من قوة شده ويتحمل جزءًا من الوزن.",
+  "den": "A small bone within the flexor hallucis brevis tendon beneath the first metatarsal head, protecting the tendon, improving its leverage and bearing weight."
+ },
+ "set of anterior cervical intertransversarii": {
+  "ar": "مجموعة العضلات الأمامية بين النواتئ المستعرضة العنقية",
+  "dar": "عضلات قصيرة تصل الحديبات الأمامية للنواتئ المستعرضة للفقرات العنقية المتجاورة، تساعد في ثني العنق جانبيًا.",
+  "den": "Short muscles joining the anterior tubercles of adjacent cervical transverse processes, assisting lateral flexion of the neck."
+ },
+ "set of anterior intercostal veins": {
+  "ar": "مجموعة الأوردة الوربية الأمامية",
+  "dar": "أوردة صغيرة في الجزء الأمامي من المسافات الوربية، تصرف إلى الوريدين الصدري الباطن والعضلي الحجابي.",
+  "den": "Small veins in the anterior intercostal spaces draining into the internal thoracic and musculophrenic veins."
+ },
+ "set of calcaneal branches of posterior tibial artery": {
+  "ar": "مجموعة الفروع العقبية للشريان الظنبوبي الخلفي",
+  "dar": "فروع من الشريان الظنبوبي الخلفي تغذي الجلد والأنسجة على الجانب الإنسي والخلفي للعقب.",
+  "den": "Branches of the posterior tibial artery supplying the skin and tissues of the medial and posterior heel."
+ },
+ "set of common plantar digital arteries": {
+  "ar": "مجموعة الشرايين الإصبعية الأخمصية المشتركة",
+  "dar": "شرايين تنشأ من الشرايين المشطية الأخمصية وتنقسم إلى شرايين إصبعية خاصة تغذي الجانبين المتقابلين لأصابع القدم.",
+  "den": "Arteries arising from the plantar metatarsal arteries and dividing into proper digital arteries supplying adjacent sides of the toes."
+ },
+ "set of dorsal digital arteries": {
+  "ar": "مجموعة الشرايين الإصبعية الظهرية",
+  "dar": "شرايين صغيرة تنشأ من الشرايين المشطية الظهرية وتسير على ظهر الأصابع لتغذي الجلد والمفاصل.",
+  "den": "Small arteries from the dorsal metatarsal or metacarpal arteries running along the backs of the digits to supply skin and joints."
+ },
+ "set of dorsal digital veins": {
+  "ar": "مجموعة الأوردة الإصبعية الظهرية",
+  "dar": "أوردة صغيرة على ظهر الأصابع تصب في الشبكة الوريدية الظهرية لليد أو القدم.",
+  "den": "Small veins on the backs of the digits draining into the dorsal venous network of the hand or foot."
+ },
+ "set of dorsal interossei of left hand": {
+  "ar": "مجموعة العضلات بين العظام الظهرية لليد اليسرى",
+  "dar": "أربع عضلات ثنائية الريش بين عظام مشط اليد، تبعد الأصابع عن محور الإصبع الوسطى وتثني المفاصل السنعية السلامية. يعصبها العصب الزندي.",
+  "den": "Four bipennate muscles between the metacarpals that abduct the fingers from the axis of the middle finger and flex the metacarpophalangeal joints; supplied by the ulnar nerve."
+ },
+ "set of dorsal interossei of right hand": {
+  "ar": "مجموعة العضلات بين العظام الظهرية لليد اليمنى",
+  "dar": "أربع عضلات ثنائية الريش بين عظام مشط اليد، تبعد الأصابع عن محور الإصبع الوسطى وتثني المفاصل السنعية السلامية. يعصبها العصب الزندي.",
+  "den": "Four bipennate muscles between the metacarpals that abduct the fingers from the axis of the middle finger and flex the metacarpophalangeal joints; supplied by the ulnar nerve."
+ },
+ "set of dorsal metacarpal arteries": {
+  "ar": "مجموعة الشرايين المشطية الظهرية لليد",
+  "dar": "شرايين تنشأ من الشبكة الرسغية الظهرية وتسير على ظهر عظام مشط اليد، ثم تنقسم إلى شرايين إصبعية ظهرية.",
+  "den": "Arteries from the dorsal carpal network running on the backs of the metacarpals and dividing into dorsal digital arteries."
+ },
+ "set of interspinales cervicis": {
+  "ar": "مجموعة العضلات بين الشوكية العنقية",
+  "dar": "أزواج من العضلات القصيرة تصل النواتئ الشوكية المتجاورة للفقرات العنقية، تساعد في بسط العنق وتثبيته.",
+  "den": "Pairs of short muscles joining adjacent cervical spinous processes, assisting neck extension and stability."
+ },
+ "set of interspinales lumborum": {
+  "ar": "مجموعة العضلات بين الشوكية القطنية",
+  "dar": "عضلات قصيرة تصل النواتئ الشوكية المتجاورة للفقرات القطنية، تساعد في بسط العمود القطني وتثبيته.",
+  "den": "Short muscles joining adjacent lumbar spinous processes, assisting extension and stability of the lumbar spine."
+ },
+ "set of left levatores costarum breves": {
+  "ar": "مجموعة العضلات الرافعة للأضلاع القصيرة اليسرى",
+  "dar": "عضلات صغيرة تمتد من النواتئ المستعرضة للفقرات C7–T11 إلى الضلع التالي مباشرة، ترفع الأضلاع وتساعد في ثني العمود جانبيًا.",
+  "den": "Small muscles from the C7–T11 transverse processes to the rib immediately below, elevating the ribs and aiding lateral spinal flexion."
+ },
+ "set of left levatores costarum longi": {
+  "ar": "مجموعة العضلات الرافعة للأضلاع الطويلة اليسرى",
+  "dar": "عضلات تمتد من النواتئ المستعرضة للفقرات الصدرية السفلية متخطية ضلعًا لتُدغم في الضلع الثاني أسفلها، ترفع الأضلاع.",
+  "den": "Muscles from the lower thoracic transverse processes that skip one rib to insert on the second rib below, elevating the ribs."
+ },
+ "set of lumbricals of left hand": {
+  "ar": "مجموعة العضلات الخراطينية لليد اليسرى",
+  "dar": "أربع عضلات صغيرة تنشأ من أوتار العضلة القابضة العميقة للأصابع وتُدغم في الامتدادات الظهرية، فتثني المفاصل السنعية السلامية وتبسط المفاصل بين السلامية.",
+  "den": "Four small muscles from the flexor digitorum profundus tendons to the dorsal expansions, flexing the metacarpophalangeal and extending the interphalangeal joints."
+ },
+ "set of lumbricals of right hand": {
+  "ar": "مجموعة العضلات الخراطينية لليد اليمنى",
+  "dar": "أربع عضلات صغيرة تنشأ من أوتار العضلة القابضة العميقة للأصابع وتُدغم في الامتدادات الظهرية، فتثني المفاصل السنعية السلامية وتبسط المفاصل بين السلامية.",
+  "den": "Four small muscles from the flexor digitorum profundus tendons to the dorsal expansions, flexing the metacarpophalangeal and extending the interphalangeal joints."
+ },
+ "set of oesophageal branches of thoracic aorta": {
+  "ar": "مجموعة الفروع المريئية للأبهر الصدري",
+  "dar": "فروع صغيرة تنشأ من السطح الأمامي للأبهر الصدري وتغذي الثلث الأوسط من المريء.",
+  "den": "Small branches from the front of the thoracic aorta supplying the middle third of the oesophagus."
+ },
+ "set of palmar interossei of left hand": {
+  "ar": "مجموعة العضلات بين العظام الراحية لليد اليسرى",
+  "dar": "عضلات أحادية الريش على الجانب الراحي لعظام مشط اليد، تقرب الأصابع نحو محور الإصبع الوسطى. يعصبها العصب الزندي.",
+  "den": "Unipennate muscles on the palmar side of the metacarpals that adduct the fingers toward the axis of the middle finger; supplied by the ulnar nerve."
+ },
+ "set of palmar interossei of right hand": {
+  "ar": "مجموعة العضلات بين العظام الراحية لليد اليمنى",
+  "dar": "عضلات أحادية الريش على الجانب الراحي لعظام مشط اليد، تقرب الأصابع نحو محور الإصبع الوسطى. يعصبها العصب الزندي.",
+  "den": "Unipennate muscles on the palmar side of the metacarpals that adduct the fingers toward the axis of the middle finger; supplied by the ulnar nerve."
+ },
+ "set of perforating arteries": {
+  "ar": "مجموعة الشرايين الثاقبة",
+  "dar": "فروع من الشريان الفخذي العميق تثقب العضلة المقربة الكبيرة للوصول إلى خلف الفخذ، فتغذي أوتار المأبض والعضلة المتسعة الوحشية وعظم الفخذ.",
+  "den": "Branches of the deep femoral artery piercing adductor magnus to reach the back of the thigh, supplying the hamstrings, vastus lateralis and femur."
+ },
+ "set of perforating veins": {
+  "ar": "مجموعة الأوردة الثاقبة",
+  "dar": "أوردة تخترق اللفافة العميقة لتصل الأوردة السطحية بالعميقة، وتحتوي صمامات توجه الدم من السطحية إلى العميقة.",
+  "den": "Veins piercing the deep fascia to connect superficial and deep veins, with valves directing blood from superficial to deep."
+ },
+ "set of plantar digital arteries proper": {
+  "ar": "مجموعة الشرايين الإصبعية الأخمصية الخاصة",
+  "dar": "شرايين تسير على الجانبين الأخمصيين لكل إصبع من أصابع القدم، وتغذي الجلد والأوتار والمفاصل.",
+  "den": "Arteries running along the plantar sides of each toe supplying the skin, tendons and joints."
+ },
+ "set of plantar digital veins": {
+  "ar": "مجموعة الأوردة الإصبعية الأخمصية",
+  "dar": "أوردة صغيرة على السطح الأخمصي لأصابع القدم تصب في الأوردة المشطية الأخمصية.",
+  "den": "Small veins on the plantar surface of the toes draining into the plantar metatarsal veins."
+ },
+ "set of posterior cervical intertransversarii": {
+  "ar": "مجموعة العضلات الخلفية بين النواتئ المستعرضة العنقية",
+  "dar": "عضلات قصيرة تصل الحديبات الخلفية للنواتئ المستعرضة العنقية المتجاورة، تساعد في ثني العنق جانبيًا وتثبيته.",
+  "den": "Short muscles joining the posterior tubercles of adjacent cervical transverse processes, assisting lateral flexion and stability of the neck."
+ },
+ "set of posterior temporal branches of lateral occipital artery": {
+  "ar": "مجموعة الفروع الصدغية الخلفية للشريان القذالي الوحشي",
+  "dar": "فروع من الشريان القذالي الوحشي تغذي الجزء الخلفي من السطح السفلي للفص الصدغي والتلفيف المغزلي.",
+  "den": "Branches of the lateral occipital artery supplying the posterior inferior temporal surface and fusiform gyrus."
+ },
+ "set of right levatores costarum breves": {
+  "ar": "مجموعة العضلات الرافعة للأضلاع القصيرة اليمنى",
+  "dar": "عضلات صغيرة تمتد من النواتئ المستعرضة للفقرات C7–T11 إلى الضلع التالي مباشرة، ترفع الأضلاع وتساعد في ثني العمود جانبيًا.",
+  "den": "Small muscles from the C7–T11 transverse processes to the rib immediately below, elevating the ribs and aiding lateral spinal flexion."
+ },
+ "set of right levatores costarum longi": {
+  "ar": "مجموعة العضلات الرافعة للأضلاع الطويلة اليمنى",
+  "dar": "عضلات تمتد من النواتئ المستعرضة للفقرات الصدرية السفلية متخطية ضلعًا لتُدغم في الضلع الثاني أسفلها، ترفع الأضلاع.",
+  "den": "Muscles from the lower thoracic transverse processes that skip one rib to insert on the second rib below, elevating the ribs."
+ },
+ "seventh cervical vertebra": {
+  "ar": "الفقرة العنقية السابعة",
+  "dar": "آخر الفقرات العنقية، تُعرف بالفقرة البارزة لطول ناتئها الشوكي الذي يُجسّ بسهولة أسفل العنق، ويرتبط به الرباط القفوي.",
+  "den": "The last cervical vertebra (vertebra prominens), with a long spinous process easily palpable at the base of the neck and attached to the nuchal ligament."
+ },
+ "seventh thoracic vertebra": {
+  "ar": "الفقرة الصدرية السابعة",
+  "dar": "فقرة صدرية تحمل وجيهات ضلعية على جسمها وناتئيها المستعرضين للتمفصل مع الأضلاع، وتشارك في تكوين الجدار الخلفي للقفص الصدري.",
+  "den": "A thoracic vertebra bearing costal facets on its body and transverse processes for articulation with the ribs, forming part of the posterior thoracic wall."
+ },
+ "short head of left biceps brachii": {
+  "ar": "الرأس القصير للعضلة ذات الرأسين العضدية اليسرى",
+  "dar": "ينشأ من قمة الناتئ الغرابي للكتف ويتحد مع الرأس الطويل، فيثني المرفق ويبطح الساعد ويساعد في ثني الذراع.",
+  "den": "Arises from the tip of the coracoid process and joins the long head to flex the elbow, supinate the forearm and assist arm flexion."
+ },
+ "short head of left biceps femoris": {
+  "ar": "الرأس القصير للعضلة ذات الرأسين الفخذية اليسرى",
+  "dar": "ينشأ من الخط الخشن لعظم الفخذ ويتحد مع الرأس الطويل ليُدغم في رأس الشظية، فيثني الركبة. يعصبه الجزء الشظوي المشترك للعصب الوركي.",
+  "den": "Arises from the linea aspera and joins the long head to insert on the fibular head, flexing the knee; supplied by the common fibular part of the sciatic nerve."
+ },
+ "short head of right biceps brachii": {
+  "ar": "الرأس القصير للعضلة ذات الرأسين العضدية اليمنى",
+  "dar": "ينشأ من قمة الناتئ الغرابي للكتف ويتحد مع الرأس الطويل، فيثني المرفق ويبطح الساعد ويساعد في ثني الذراع.",
+  "den": "Arises from the tip of the coracoid process and joins the long head to flex the elbow, supinate the forearm and assist arm flexion."
+ },
+ "short head of right biceps femoris": {
+  "ar": "الرأس القصير للعضلة ذات الرأسين الفخذية اليمنى",
+  "dar": "ينشأ من الخط الخشن لعظم الفخذ ويتحد مع الرأس الطويل ليُدغم في رأس الشظية، فيثني الركبة. يعصبه الجزء الشظوي المشترك للعصب الوركي.",
+  "den": "Arises from the linea aspera and joins the long head to insert on the fibular head, flexing the knee; supplied by the common fibular part of the sciatic nerve."
+ },
+ "sigmoid artery": {
+  "ar": "الشريان السيني",
+  "dar": "فرع من الشريان المساريقي السفلي يسير في مساريق القولون السيني ويغذيه.",
+  "den": "A branch of the inferior mesenteric artery running in the sigmoid mesocolon to supply the sigmoid colon."
+ },
+ "sigmoid vein": {
+  "ar": "الوريد السيني",
+  "dar": "وريد يصرف القولون السيني إلى الوريد المساريقي السفلي.",
+  "den": "A vein draining the sigmoid colon into the inferior mesenteric vein."
+ },
+ "sixth cervical vertebra": {
+  "ar": "الفقرة العنقية السادسة",
+  "dar": "فقرة عنقية نموذجية ذات جسم صغير وثقبة مستعرضة يمر عبرها الشريان الفقري، وناتئ شوكي مشقوق؛ تدعم الرأس وتسمح بحركة العنق.",
+  "den": "A typical cervical vertebra with a small body, transverse foramina transmitting the vertebral artery and a bifid spinous process; it supports the head and allows neck movement."
+ },
+ "sixth thoracic vertebra": {
+  "ar": "الفقرة الصدرية السادسة",
+  "dar": "فقرة صدرية تحمل وجيهات ضلعية على جسمها وناتئيها المستعرضين للتمفصل مع الأضلاع، وتشارك في تكوين الجدار الخلفي للقفص الصدري.",
+  "den": "A thoracic vertebra bearing costal facets on its body and transverse processes for articulation with the ribs, forming part of the posterior thoracic wall."
+ },
+ "skin": {
+  "ar": "الجلد",
+  "dar": "أكبر أعضاء الجسم، يغطي سطحه ويحميه من العوامل الخارجية، وينظم الحرارة، ويحتوي على مستقبلات الحس، ويتكون من البشرة والأدمة.",
+  "den": "The largest organ, covering and protecting the body, regulating temperature and containing sensory receptors; it consists of epidermis and dermis."
+ },
+ "small cardiac vein": {
+  "ar": "الوريد القلبي الصغير",
+  "dar": "وريد يسير في الثلم التاجي الأيمن مع الشريان التاجي الأيمن، يصرف الجانب الأيمن من القلب إلى الجيب التاجي.",
+  "den": "A vein running in the right coronary groove with the right coronary artery, draining the right side of the heart into the coronary sinus."
+ },
+ "sphenoid bone": {
+  "ar": "العظم الوتدي",
+  "dar": "عظم مفرد على شكل فراشة في قاعدة الجمجمة، يتمفصل مع جميع عظام القحف، ويحوي السرج التركي الذي تستقر فيه الغدة النخامية.",
+  "den": "A single butterfly-shaped bone at the skull base articulating with all cranial bones and containing the sella turcica that houses the pituitary."
+ },
+ "sphenoid part of left middle cerebral artery": {
+  "ar": "الجزء الوتدي من الشريان الدماغي الأوسط الأيسر",
+  "dar": "الجزء الأول الأفقي من الشريان الدماغي الأوسط، يسير وحشيًا قرب الجناح الصغير للعظم الوتدي ويعطي الشرايين العدسية المخططة للعقد القاعدية والمحفظة الداخلية.",
+  "den": "The first horizontal segment of the middle cerebral artery, running laterally near the lesser wing of the sphenoid and giving lenticulostriate arteries to the basal ganglia and internal capsule."
+ },
+ "sphenoid part of right middle cerebral artery": {
+  "ar": "الجزء الوتدي من الشريان الدماغي الأوسط الأيمن",
+  "dar": "الجزء الأول الأفقي من الشريان الدماغي الأوسط، يسير وحشيًا قرب الجناح الصغير للعظم الوتدي ويعطي الشرايين العدسية المخططة للعقد القاعدية والمحفظة الداخلية.",
+  "den": "The first horizontal segment of the middle cerebral artery, running laterally near the lesser wing of the sphenoid and giving lenticulostriate arteries to the basal ganglia and internal capsule."
+ },
+ "spinal part of left deltoid": {
+  "ar": "الجزء الشوكي من العضلة الدالية اليسرى",
+  "dar": "الجزء الخلفي من العضلة الدالية، ينشأ من شوكة الكتف، فيبسط الذراع ويديرها للخارج.",
+  "den": "The posterior part of deltoid arising from the spine of the scapula; it extends and laterally rotates the arm."
+ },
+ "spinal part of right deltoid": {
+  "ar": "الجزء الشوكي من العضلة الدالية اليمنى",
+  "dar": "الجزء الخلفي من العضلة الدالية، ينشأ من شوكة الكتف، فيبسط الذراع ويديرها للخارج.",
+  "den": "The posterior part of deltoid arising from the spine of the scapula; it extends and laterally rotates the arm."
+ },
+ "spinalis": {
+  "ar": "العضلة الشوكية",
+  "dar": "أكثر أعمدة ناصبة الفقار إنسية، تصل النواتئ الشوكية للفقرات ببعضها، فتبسط العمود الفقري.",
+  "den": "The most medial column of erector spinae, linking vertebral spinous processes and extending the vertebral column."
+ },
+ "spleen": {
+  "ar": "الطحال",
+  "dar": "عضو لمفاوي في الربع العلوي الأيسر من البطن تحت الحجاب الحاجز، يرشح الدم ويزيل كريات الدم الحمراء الهرمة ويشارك في المناعة.",
+  "den": "A lymphoid organ in the upper left abdomen under the diaphragm that filters blood, removes old red cells and contributes to immunity."
+ },
+ "splenic artery": {
+  "ar": "الشريان الطحالي",
+  "dar": "أكبر فروع الجذع البطني، يسير متعرجًا على الحافة العلوية للبنكرياس إلى الطحال، ويغذي الطحال والبنكرياس وجزءًا من المعدة.",
+  "den": "The largest branch of the coeliac trunk, running tortuously along the upper pancreas to the spleen, supplying the spleen, pancreas and part of the stomach."
+ },
+ "splenic vein": {
+  "ar": "الوريد الطحالي",
+  "dar": "وريد يصرف الطحال ويسير خلف البنكرياس، ويستقبل الوريد المساريقي السفلي، ثم يتحد مع الوريد المساريقي العلوي لتكوين الوريد البابي.",
+  "den": "A vein draining the spleen, running behind the pancreas, receiving the inferior mesenteric vein and joining the superior mesenteric vein to form the portal vein."
+ },
+ "sternocostal part of left pectoralis major": {
+  "ar": "الجزء القصي الضلعي من العضلة الصدرية الكبرى اليسرى",
+  "dar": "الجزء الأكبر من العضلة الصدرية الكبرى، ينشأ من القص والغضاريف الضلعية العلوية، فيقرب الذراع ويديرها للداخل ويبسطها من وضع الثني.",
+  "den": "The larger part of pectoralis major arising from the sternum and upper costal cartilages; it adducts, medially rotates and extends the flexed arm."
+ },
+ "sternocostal part of right pectoralis major": {
+  "ar": "الجزء القصي الضلعي من العضلة الصدرية الكبرى اليمنى",
+  "dar": "الجزء الأكبر من العضلة الصدرية الكبرى، ينشأ من القص والغضاريف الضلعية العلوية، فيقرب الذراع ويديرها للداخل ويبسطها من وضع الثني.",
+  "den": "The larger part of pectoralis major arising from the sternum and upper costal cartilages; it adducts, medially rotates and extends the flexed arm."
+ },
+ "stomach": {
+  "ar": "المعدة",
+  "dar": "الجزء المتسع من القناة الهضمية بين المريء والاثني عشر، يخزن الطعام ويمزجه بالعصارة الحمضية والإنزيمات لبدء هضم البروتينات.",
+  "den": "The dilated part of the digestive tract between the oesophagus and duodenum that stores food and mixes it with acid and enzymes to begin protein digestion."
+ },
+ "straight part of left cricothyroid": {
+  "ar": "الجزء المستقيم من العضلة الحلقية الدرقية اليسرى",
+  "dar": "الجزء الأمامي العمودي من العضلة الحلقية الدرقية، يمتد من قوس الغضروف الحلقي إلى الحافة السفلية للصفيحة الدرقية، ويشد الحبال الصوتية لرفع طبقة الصوت.",
+  "den": "The anterior vertical part of cricothyroid from the cricoid arch to the lower border of the thyroid lamina; it tenses the vocal folds to raise pitch."
+ },
+ "straight part of right cricothyroid": {
+  "ar": "الجزء المستقيم من العضلة الحلقية الدرقية اليمنى",
+  "dar": "الجزء الأمامي العمودي من العضلة الحلقية الدرقية، يمتد من قوس الغضروف الحلقي إلى الحافة السفلية للصفيحة الدرقية، ويشد الحبال الصوتية لرفع طبقة الصوت.",
+  "den": "The anterior vertical part of cricothyroid from the cricoid arch to the lower border of the thyroid lamina; it tenses the vocal folds to raise pitch."
+ },
+ "stria of telencephalon": {
+  "ar": "مخطط الدماغ الانتهائي",
+  "dar": "حزمة رقيقة من الألياف البيضاء في الدماغ الانتهائي، مثل المخطط الانتهائي الذي يصل اللوزة الدماغية بالوطاء والمنطقة الحاجزية.",
+  "den": "A thin band of white fibres in the telencephalon, such as the stria terminalis connecting the amygdala with the hypothalamus and septal area."
+ },
+ "superficial dorsal vein of penis": {
+  "ar": "الوريد الظهري السطحي للقضيب",
+  "dar": "وريد تحت جلد ظهر القضيب يصرف الجلد والنسيج تحت الجلد إلى الأوردة الفرجية الظاهرة.",
+  "den": "A vein under the skin of the penile dorsum draining skin and subcutaneous tissue into the external pudendal veins."
+ },
+ "superficial head of left flexor pollicis brevis": {
+  "ar": "الرأس السطحي للعضلة القابضة القصيرة للإبهام اليسرى",
+  "dar": "ينشأ من القيد المثني والعظم المربعي ويُدغم في قاعدة السلامية القريبة للإبهام، فيثني الإبهام. يعصبه العصب المتوسط.",
+  "den": "Arises from the flexor retinaculum and trapezium and inserts on the proximal phalanx of the thumb, flexing it; supplied by the median nerve."
+ },
+ "superficial head of right flexor pollicis brevis": {
+  "ar": "الرأس السطحي للعضلة القابضة القصيرة للإبهام اليمنى",
+  "dar": "ينشأ من القيد المثني والعظم المربعي ويُدغم في قاعدة السلامية القريبة للإبهام، فيثني الإبهام. يعصبه العصب المتوسط.",
+  "den": "Arises from the flexor retinaculum and trapezium and inserts on the proximal phalanx of the thumb, flexing it; supplied by the median nerve."
+ },
+ "superior branch of left oculomotor nerve": {
+  "ar": "الفرع العلوي للعصب المحرك للعين الأيسر",
+  "dar": "فرع من العصب المحرك للعين يدخل الحجاج عبر الشق الحجاجي العلوي، ويعصب العضلة المستقيمة العلوية والعضلة الرافعة للجفن العلوي.",
+  "den": "A branch of the oculomotor nerve entering the orbit through the superior orbital fissure to supply the superior rectus and levator palpebrae superioris."
+ },
+ "superior branch of medial segmental artery": {
+  "ar": "الفرع العلوي للشريان القطعي الإنسي",
+  "dar": "فرع من الشريان الرئوي للقطعة الإنسية للفص الأوسط من الرئة اليمنى، يغذي الجزء العلوي منها.",
+  "den": "A branch of the medial segmental pulmonary artery of the right middle lobe supplying the upper part of that segment."
+ },
+ "superior branch of right oculomotor nerve": {
+  "ar": "الفرع العلوي للعصب المحرك للعين الأيمن",
+  "dar": "فرع من العصب المحرك للعين يدخل الحجاج عبر الشق الحجاجي العلوي، ويعصب العضلة المستقيمة العلوية والعضلة الرافعة للجفن العلوي.",
+  "den": "A branch of the oculomotor nerve entering the orbit through the superior orbital fissure to supply the superior rectus and levator palpebrae superioris."
+ },
+ "superior branch of right superior segmental artery": {
+  "ar": "الفرع العلوي للشريان القطعي العلوي الأيمن",
+  "dar": "فرع من الشريان الرئوي للقطعة العلوية من الفص السفلي، يغذي الجزء العلوي من هذه القطعة.",
+  "den": "A branch of the superior segmental pulmonary artery of the lower lobe supplying the upper part of that segment."
+ },
+ "superior lingular artery": {
+  "ar": "الشريان اللسيني العلوي",
+  "dar": "فرع من الشريان الرئوي الأيسر يغذي القطعة اللسينية العلوية من الفص العلوي للرئة اليسرى.",
+  "den": "A branch of the left pulmonary artery supplying the superior lingular segment of the left upper lobe."
+ },
+ "superior lingular bronchial tree": {
+  "ar": "الشجرة القصبية اللسينية العلوية",
+  "dar": "القصبة القطعية اللسينية العلوية وتفرعاتها، تنقل الهواء إلى القطعة اللسينية العلوية من الرئة اليسرى.",
+  "den": "The superior lingular segmental bronchus and its branches, conducting air to the superior lingular segment of the left lung."
+ },
+ "superior lingular vein": {
+  "ar": "الوريد اللسيني العلوي",
+  "dar": "وريد رئوي يصرف القطعة اللسينية العلوية إلى الوريد الرئوي العلوي الأيسر.",
+  "den": "A pulmonary vein draining the superior lingular segment into the left superior pulmonary vein."
+ },
+ "superior mesenteric artery": {
+  "ar": "الشريان المساريقي العلوي",
+  "dar": "فرع مفرد من الأبهر البطني تحت الجذع البطني، يغذي الأمعاء الدقيقة من الاثني عشر السفلي حتى ثلثي القولون المستعرض.",
+  "den": "An unpaired branch of the abdominal aorta below the coeliac trunk supplying the midgut from the lower duodenum to two-thirds of the transverse colon."
+ },
+ "superior mesenteric vein": {
+  "ar": "الوريد المساريقي العلوي",
+  "dar": "وريد يصرف الأمعاء الدقيقة والأعور والقولون الصاعد والمستعرض، ويتحد مع الوريد الطحالي خلف عنق البنكرياس لتكوين الوريد البابي.",
+  "den": "A vein draining the small intestine, caecum and ascending and transverse colon, joining the splenic vein behind the pancreatic neck to form the portal vein."
+ },
+ "superior oblique part of left longus colli": {
+  "ar": "الجزء المائل العلوي من العضلة الطويلة العنقية اليسرى",
+  "dar": "جزء من العضلة الطويلة العنقية يمتد من النواتئ المستعرضة للفقرات العنقية الوسطى إلى الحديبة الأمامية للفقرة الأولى، فيثني العنق.",
+  "den": "A part of longus colli from the mid-cervical transverse processes to the anterior tubercle of the atlas; it flexes the neck."
+ },
+ "superior part of anterior segmental vein": {
+  "ar": "الجزء العلوي من الوريد القطعي الأمامي",
+  "dar": "رافد وريدي رئوي يصرف الجزء العلوي من القطعة الأمامية للفص العلوي إلى الوريد الرئوي العلوي.",
+  "den": "A pulmonary venous tributary draining the upper part of the anterior segment of the upper lobe into the superior pulmonary vein."
+ },
+ "superior part of medial segmental vein": {
+  "ar": "الجزء العلوي من الوريد القطعي الإنسي",
+  "dar": "رافد وريدي رئوي يصرف الجزء العلوي من القطعة الإنسية للفص الأوسط إلى الوريد الرئوي العلوي الأيمن.",
+  "den": "A pulmonary venous tributary draining the upper part of the medial segment of the middle lobe into the right superior pulmonary vein."
+ },
+ "superior phrenic vein": {
+  "ar": "الوريد الحجابي العلوي",
+  "dar": "وريد صغير يصرف السطح العلوي الخلفي للحجاب الحاجز إلى الوريد الفرد أو نصف الفرد.",
+  "den": "A small vein draining the upper posterior surface of the diaphragm into the azygos or hemiazygos vein."
+ },
+ "superior rectal artery": {
+  "ar": "الشريان المستقيمي العلوي",
+  "dar": "الاستمرار الانتهائي للشريان المساريقي السفلي، ينزل إلى الحوض ويغذي المستقيم والجزء العلوي من القناة الشرجية.",
+  "den": "The terminal continuation of the inferior mesenteric artery, descending into the pelvis to supply the rectum and upper anal canal."
+ },
+ "superior rectal vein": {
+  "ar": "الوريد المستقيمي العلوي",
+  "dar": "وريد يصرف المستقيم والقناة الشرجية العلوية إلى الوريد المساريقي السفلي، ويشكل موضع تفاغر بابي جهازي مع الأوردة المستقيمية الأخرى.",
+  "den": "A vein draining the rectum and upper anal canal into the inferior mesenteric vein, forming a portosystemic anastomosis with other rectal veins."
+ },
+ "superior segmental branch of left renal artery": {
+  "ar": "الفرع القطعي العلوي للشريان الكلوي الأيسر",
+  "dar": "فرع من القسم الأمامي للشريان الكلوي يغذي القطعة العلوية (القمية) من الكلية، وهو شريان انتهائي.",
+  "den": "A branch of the anterior division of the renal artery supplying the superior (apical) renal segment; it is an end artery."
+ },
+ "superior segmental branch of right renal artery": {
+  "ar": "الفرع القطعي العلوي للشريان الكلوي الأيمن",
+  "dar": "فرع من القسم الأمامي للشريان الكلوي يغذي القطعة العلوية (القمية) من الكلية، وهو شريان انتهائي.",
+  "den": "A branch of the anterior division of the renal artery supplying the superior (apical) renal segment; it is an end artery."
+ },
+ "superior vena cava": {
+  "ar": "الوريد الأجوف العلوي",
+  "dar": "وريد كبير يتكون من اتحاد الوريدين العضديين الرأسيين، ويحمل الدم غير المؤكسج من الرأس والعنق والطرفين العلويين والصدر إلى الأذين الأيمن.",
+  "den": "A large vein formed by the two brachiocephalic veins, carrying deoxygenated blood from the head, neck, upper limbs and chest to the right atrium."
+ },
+ "superior vermian branch of medial branch of left superior cerebellar artery": {
+  "ar": "الفرع الدودي العلوي للفرع الإنسي للشريان المخيخي العلوي الأيسر",
+  "dar": "فرع من الفرع الإنسي للشريان المخيخي العلوي يغذي الدودة العلوية للمخيخ.",
+  "den": "A branch of the medial branch of the superior cerebellar artery supplying the superior vermis of the cerebellum."
+ },
+ "superior vermian branch of medial branch of right superior cerebellar artery": {
+  "ar": "الفرع الدودي العلوي للفرع الإنسي للشريان المخيخي العلوي الأيمن",
+  "dar": "فرع من الفرع الإنسي للشريان المخيخي العلوي يغذي الدودة العلوية للمخيخ.",
+  "den": "A branch of the medial branch of the superior cerebellar artery supplying the superior vermis of the cerebellum."
+ },
+ "suspensory ligament of left lens": {
+  "ar": "الرباط المعلق لعدسة العين اليسرى",
+  "dar": "ألياف دقيقة (الهدبيات) تمتد من الجسم الهدبي إلى محفظة العدسة، تعلق العدسة وتنقل تأثير العضلة الهدبية لتغيير شكلها أثناء المطابقة.",
+  "den": "Fine zonular fibres from the ciliary body to the lens capsule that suspend the lens and transmit ciliary muscle action to change its shape in accommodation."
+ },
+ "suspensory ligament of right lens": {
+  "ar": "الرباط المعلق لعدسة العين اليمنى",
+  "dar": "ألياف دقيقة (الهدبيات) تمتد من الجسم الهدبي إلى محفظة العدسة، تعلق العدسة وتنقل تأثير العضلة الهدبية لتغيير شكلها أثناء المطابقة.",
+  "den": "Fine zonular fibres from the ciliary body to the lens capsule that suspend the lens and transmit ciliary muscle action to change its shape in accommodation."
+ },
+ "taenia libera": {
+  "ar": "الشريطة الحرة",
+  "dar": "إحدى الشرائط القولونية الثلاث، وهي حزمة طولية من العضلات الملساء على السطح الأمامي للقولون لا يرتبط بها ثرب أو مساريق.",
+  "den": "One of the three taeniae coli, a longitudinal smooth-muscle band on the anterior colon with no omental or mesenteric attachment."
+ },
+ "taenia mesocolica": {
+  "ar": "الشريطة المساريقية",
+  "dar": "إحدى الشرائط القولونية الثلاث، تقع على السطح الخلفي الإنسي للقولون عند ارتباط المساريق القولونية.",
+  "den": "One of the three taeniae coli, lying on the posteromedial colon where the mesocolon attaches."
+ },
+ "taenia omentalis": {
+  "ar": "الشريطة الثربية",
+  "dar": "إحدى الشرائط القولونية الثلاث، تقع على السطح الخلفي الوحشي للقولون، ويرتبط بها الثرب الكبير على القولون المستعرض.",
+  "den": "One of the three taeniae coli on the posterolateral colon, to which the greater omentum attaches on the transverse colon."
+ },
+ "tarsal plate of left lower eyelid": {
+  "ar": "الصفيحة الرسغية للجفن السفلي الأيسر",
+  "dar": "صفيحة من النسيج الضام الكثيف تشكل هيكل الجفن السفلي وتدعمه، وتحتوي على غدد ميبوميوس التي تفرز طبقة دهنية للدموع.",
+  "den": "A plate of dense connective tissue forming the framework of the lower eyelid and containing meibomian glands that secrete the tear film's oily layer."
+ },
+ "tarsal plate of left upper eyelid": {
+  "ar": "الصفيحة الرسغية للجفن العلوي الأيسر",
+  "dar": "صفيحة من النسيج الضام الكثيف أكبر من السفلية، تشكل هيكل الجفن العلوي ويُدغم فيها جزء من العضلة الرافعة للجفن العلوي، وتحتوي على غدد ميبوميوس.",
+  "den": "A larger dense connective-tissue plate forming the framework of the upper eyelid, receiving part of levator palpebrae superioris and containing meibomian glands."
+ },
+ "tarsal plate of right lower eyelid": {
+  "ar": "الصفيحة الرسغية للجفن السفلي الأيمن",
+  "dar": "صفيحة من النسيج الضام الكثيف تشكل هيكل الجفن السفلي وتدعمه، وتحتوي على غدد ميبوميوس التي تفرز طبقة دهنية للدموع.",
+  "den": "A plate of dense connective tissue forming the framework of the lower eyelid and containing meibomian glands that secrete the tear film's oily layer."
+ },
+ "tarsal plate of right upper eyelid": {
+  "ar": "الصفيحة الرسغية للجفن العلوي الأيمن",
+  "dar": "صفيحة من النسيج الضام الكثيف أكبر من السفلية، تشكل هيكل الجفن العلوي ويُدغم فيها جزء من العضلة الرافعة للجفن العلوي، وتحتوي على غدد ميبوميوس.",
+  "den": "A larger dense connective-tissue plate forming the framework of the upper eyelid, receiving part of levator palpebrae superioris and containing meibomian glands."
+ },
+ "temporo-occipital branch of left middle cerebral artery": {
+  "ar": "الفرع الصدغي القذالي للشريان الدماغي الأوسط الأيسر",
+  "dar": "فرع قشري من الشريان الدماغي الأوسط يغذي الجزء الخلفي من الفص الصدغي والجزء المجاور من الفص القذالي.",
+  "den": "A cortical branch of the middle cerebral artery supplying the posterior temporal lobe and adjacent occipital lobe."
+ },
+ "temporo-occipital branch of right middle cerebral artery": {
+  "ar": "الفرع الصدغي القذالي للشريان الدماغي الأوسط الأيمن",
+  "dar": "فرع قشري من الشريان الدماغي الأوسط يغذي الجزء الخلفي من الفص الصدغي والجزء المجاور من الفص القذالي.",
+  "den": "A cortical branch of the middle cerebral artery supplying the posterior temporal lobe and adjacent occipital lobe."
+ },
+ "tendinous arch of levator ani": {
+  "ar": "القوس الوترية للعضلة الرافعة للشرج",
+  "dar": "تثخن خطي في اللفافة السدادية على الجدار الجانبي للحوض، تنشأ منه ألياف العضلة الرافعة للشرج.",
+  "den": "A linear thickening of the obturator fascia on the pelvic side wall from which fibres of levator ani arise."
+ },
+ "tendon of levator palpebrae superioris": {
+  "ar": "وتر العضلة الرافعة للجفن العلوي",
+  "dar": "سفاق عريض للعضلة الرافعة للجفن العلوي يُدغم في الصفيحة الرسغية وجلد الجفن العلوي، وينقل قوة العضلة لرفع الجفن.",
+  "den": "The broad aponeurosis of levator palpebrae superioris inserting into the tarsal plate and skin of the upper eyelid, transmitting the pull that raises the lid."
+ },
+ "tenth thoracic vertebra": {
+  "ar": "الفقرة الصدرية العاشرة",
+  "dar": "فقرة صدرية تحمل وجيهات ضلعية على جسمها وناتئيها المستعرضين للتمفصل مع الأضلاع، وتشارك في تكوين الجدار الخلفي للقفص الصدري.",
+  "den": "A thoracic vertebra bearing costal facets on its body and transverse processes for articulation with the ribs, forming part of the posterior thoracic wall."
+ },
+ "third cervical vertebra": {
+  "ar": "الفقرة العنقية الثالثة",
+  "dar": "فقرة عنقية نموذجية ذات جسم صغير وثقبة مستعرضة يمر عبرها الشريان الفقري، وناتئ شوكي مشقوق؛ تدعم الرأس وتسمح بحركة العنق.",
+  "den": "A typical cervical vertebra with a small body, transverse foramina transmitting the vertebral artery and a bifid spinous process; it supports the head and allows neck movement."
+ },
+ "third lumbar vertebra": {
+  "ar": "الفقرة القطنية الثالثة",
+  "dar": "فقرة قطنية ذات جسم كبير على شكل الكلية تتحمل وزن الجزء العلوي من الجسم، وتسمح بحركات الانثناء والبسط في أسفل الظهر.",
+  "den": "A lumbar vertebra with a large kidney-shaped body that bears the weight of the upper body and allows flexion and extension of the lower back."
+ },
+ "third lumbrical of left foot": {
+  "ar": "العضلة الخراطينية الثالثة للقدم اليسرى",
+  "dar": "عضلة صغيرة في أخمص القدم تنشأ من وتري العضلة القابضة الطويلة للأصابع وتُدغم في الإصبع الرابعة، تثني المفصل المشطي السلامي وتبسط المفاصل بين السلامية.",
+  "den": "A small plantar muscle arising from the flexor digitorum longus tendons and inserting on the fourth toe; it flexes the metatarsophalangeal joint and extends the interphalangeal joints."
+ },
+ "third lumbrical of right foot": {
+  "ar": "العضلة الخراطينية الثالثة للقدم اليمنى",
+  "dar": "عضلة صغيرة في أخمص القدم تنشأ من وتري العضلة القابضة الطويلة للأصابع وتُدغم في الإصبع الرابعة، تثني المفصل المشطي السلامي وتبسط المفاصل بين السلامية.",
+  "den": "A small plantar muscle arising from the flexor digitorum longus tendons and inserting on the fourth toe; it flexes the metatarsophalangeal joint and extends the interphalangeal joints."
+ },
+ "third plantar interosseous of left foot": {
+  "ar": "العضلة بين العظام الأخمصية الثالثة للقدم اليسرى",
+  "dar": "عضلة تنشأ من الجانب الإنسي لعظم المشط المجاور وتُدغم في الإصبع الخامسة، تقرّب الإصبع نحو الإصبع الثانية وتثني مفصلها المشطي السلامي.",
+  "den": "Arises from the medial side of its metatarsal and inserts on the fifth toe; it adducts the toe toward the second toe and flexes its metatarsophalangeal joint."
+ },
+ "third plantar interosseous of right foot": {
+  "ar": "العضلة بين العظام الأخمصية الثالثة للقدم اليمنى",
+  "dar": "عضلة تنشأ من الجانب الإنسي لعظم المشط المجاور وتُدغم في الإصبع الخامسة، تقرّب الإصبع نحو الإصبع الثانية وتثني مفصلها المشطي السلامي.",
+  "den": "Arises from the medial side of its metatarsal and inserts on the fifth toe; it adducts the toe toward the second toe and flexes its metatarsophalangeal joint."
+ },
+ "third right anterior branch of anterior interventricular branch of left coronary artery": {
+  "ar": "الفرع الأمامي الأيمن الثالث للفرع بين البطينين الأمامي للشريان التاجي الأيسر",
+  "dar": "فرع صغير ينشأ من الجانب الأيمن للشريان بين البطينين الأمامي، ويغذي الجزء المجاور من الجدار الأمامي للبطين الأيمن.",
+  "den": "A small branch from the right side of the anterior interventricular artery supplying the adjacent anterior wall of the right ventricle."
+ },
+ "third thoracic vertebra": {
+  "ar": "الفقرة الصدرية الثالثة",
+  "dar": "فقرة صدرية تحمل وجيهات ضلعية على جسمها وناتئيها المستعرضين للتمفصل مع الأضلاع، وتشارك في تكوين الجدار الخلفي للقفص الصدري.",
+  "den": "A thoracic vertebra bearing costal facets on its body and transverse processes for articulation with the ribs, forming part of the posterior thoracic wall."
+ },
+ "third ventricle": {
+  "ar": "البطين الثالث",
+  "dar": "تجويف ضيق في الخط الناصف بين المهادين، يحتوي على السائل الدماغي الشوكي ويتصل بالبطينين الجانبيين وبالقناة الدماغية المؤدية إلى البطين الرابع.",
+  "den": "A narrow midline cavity between the two thalami containing cerebrospinal fluid, connected to the lateral ventricles and to the cerebral aqueduct leading to the fourth ventricle."
+ },
+ "thoracic rotator": {
+  "ar": "العضلة المدورة الصدرية",
+  "dar": "عضلات عميقة قصيرة في المنطقة الصدرية تصل النواتئ المستعرضة بصفائح الفقرات أعلاها، وتساعد في تدوير العمود الصدري وتثبيته.",
+  "den": "Short deep thoracic muscles joining transverse processes to the laminae above, aiding rotation and stabilisation of the thoracic spine."
+ },
+ "thyroid cartilage": {
+  "ar": "الغضروف الدرقي",
+  "dar": "أكبر غضاريف الحنجرة، يتكون من صفيحتين تلتقيان أماميًا مكونتين البروز الحنجري (تفاحة آدم)، ويحمي الحبال الصوتية.",
+  "den": "The largest laryngeal cartilage, two laminae meeting anteriorly to form the laryngeal prominence (Adam's apple), protecting the vocal folds."
+ },
+ "tongue": {
+  "ar": "اللسان",
+  "dar": "عضو عضلي متحرك في الفم، يساعد في المضغ والبلع والكلام، ويحمل براعم التذوق.",
+  "den": "A mobile muscular organ in the mouth that aids chewing, swallowing and speech and carries the taste buds."
+ },
+ "trachea": {
+  "ar": "الرغامى (القصبة الهوائية)",
+  "dar": "أنبوب هوائي تدعمه حلقات غضروفية على شكل حرف C، يمتد من الحنجرة إلى الصدر حيث ينقسم إلى القصبتين الرئيسيتين.",
+  "den": "An airway supported by C-shaped cartilage rings, extending from the larynx into the chest where it divides into the two main bronchi."
+ },
+ "transverse arytenoid": {
+  "ar": "العضلة الطرجهالية المستعرضة",
+  "dar": "عضلة مفردة تصل الغضروفين الطرجهاليين أفقيًا، فتقربهما لإغلاق الجزء الخلفي من فتحة المزمار.",
+  "den": "An unpaired muscle running horizontally between the arytenoid cartilages, drawing them together to close the posterior glottis."
+ },
+ "transverse colon": {
+  "ar": "القولون المستعرض",
+  "dar": "أطول أجزاء القولون وأكثرها حركة، يعبر البطن من الثنية الكبدية إلى الثنية الطحالية معلقًا بمساريق القولون المستعرض، ويمتص الماء والأملاح.",
+  "den": "The longest and most mobile part of the colon, crossing the abdomen from the hepatic to the splenic flexure on the transverse mesocolon and absorbing water and salts."
+ },
+ "transverse head of left adductor hallucis": {
+  "ar": "الرأس المستعرض للعضلة المقربة لإبهام القدم اليسرى",
+  "dar": "ينشأ من الأربطة الأخمصية للمفاصل المشطية السلامية الوحشية ويعبر أفقيًا ليُدغم في السلامية القريبة لإبهام القدم، فيقرب الإبهام ويدعم القوس المستعرضة.",
+  "den": "Arises from the plantar ligaments of the lateral metatarsophalangeal joints and crosses to the proximal phalanx of the big toe, adducting it and supporting the transverse arch."
+ },
+ "transverse head of left adductor pollicis": {
+  "ar": "الرأس المستعرض للعضلة المقربة للإبهام اليسرى",
+  "dar": "ينشأ من جسم عظم مشط اليد الثالث ويُدغم في قاعدة السلامية القريبة للإبهام، فيقرب الإبهام لتقوية القبضة. يعصبه العصب الزندي.",
+  "den": "Arises from the shaft of the third metacarpal and inserts on the proximal phalanx of the thumb, adducting it for a strong grip; supplied by the ulnar nerve."
+ },
+ "transverse head of right adductor hallucis": {
+  "ar": "الرأس المستعرض للعضلة المقربة لإبهام القدم اليمنى",
+  "dar": "ينشأ من الأربطة الأخمصية للمفاصل المشطية السلامية الوحشية ويعبر أفقيًا ليُدغم في السلامية القريبة لإبهام القدم، فيقرب الإبهام ويدعم القوس المستعرضة.",
+  "den": "Arises from the plantar ligaments of the lateral metatarsophalangeal joints and crosses to the proximal phalanx of the big toe, adducting it and supporting the transverse arch."
+ },
+ "transverse head of right adductor pollicis": {
+  "ar": "الرأس المستعرض للعضلة المقربة للإبهام اليمنى",
+  "dar": "ينشأ من جسم عظم مشط اليد الثالث ويُدغم في قاعدة السلامية القريبة للإبهام، فيقرب الإبهام لتقوية القبضة. يعصبه العصب الزندي.",
+  "den": "Arises from the shaft of the third metacarpal and inserts on the proximal phalanx of the thumb, adducting it for a strong grip; supplied by the ulnar nerve."
+ },
+ "transverse mesocolon": {
+  "ar": "مساريق القولون المستعرض",
+  "dar": "طية بريتونية تعلق القولون المستعرض بالجدار البطني الخلفي، وتحمل الشريان القولوني الأوسط وأوعيته.",
+  "den": "A peritoneal fold suspending the transverse colon from the posterior abdominal wall and carrying the middle colic vessels."
+ },
+ "transverse part of left trapezius": {
+  "ar": "الجزء المستعرض من العضلة شبه المنحرفة اليسرى",
+  "dar": "الجزء الأوسط من العضلة شبه المنحرفة، تمتد أليافه أفقيًا من النواتئ الشوكية العلوية للصدر إلى الأخرم وشوكة الكتف، فيسحب الكتف نحو العمود الفقري.",
+  "den": "The middle part of trapezius with horizontal fibres from the upper thoracic spines to the acromion and scapular spine; it retracts the scapula."
+ },
+ "transverse part of right trapezius": {
+  "ar": "الجزء المستعرض من العضلة شبه المنحرفة اليمنى",
+  "dar": "الجزء الأوسط من العضلة شبه المنحرفة، تمتد أليافه أفقيًا من النواتئ الشوكية العلوية للصدر إلى الأخرم وشوكة الكتف، فيسحب الكتف نحو العمود الفقري.",
+  "den": "The middle part of trapezius with horizontal fibres from the upper thoracic spines to the acromion and scapular spine; it retracts the scapula."
+ },
+ "tributary of middle hepatic vein": {
+  "ar": "رافد الوريد الكبدي الأوسط",
+  "dar": "وريد صغير يصرف الدم من القطع الكبدية المركزية إلى الوريد الكبدي الأوسط.",
+  "den": "A small vein draining central liver segments into the middle hepatic vein."
+ },
+ "tributary of plantar venous arch": {
+  "ar": "رافد القوس الوريدية الأخمصية",
+  "dar": "وريد صغير من أخمص القدم أو أصابعها يصب في القوس الوريدية الأخمصية العميقة.",
+  "den": "A small vein from the sole or toes draining into the deep plantar venous arch."
+ },
+ "trochlea of left superior oblique": {
+  "ar": "بكرة العضلة المائلة العلوية اليسرى",
+  "dar": "حلقة غضروفية ليفية مثبتة في الجزء العلوي الإنسي للحجاج، يمر عبرها وتر العضلة المائلة العلوية ليغير اتجاه شدّه.",
+  "den": "A fibrocartilaginous pulley in the upper medial orbit through which the superior oblique tendon passes, changing its direction of pull."
+ },
+ "trochlea of right superior oblique": {
+  "ar": "بكرة العضلة المائلة العلوية اليمنى",
+  "dar": "حلقة غضروفية ليفية مثبتة في الجزء العلوي الإنسي للحجاج، يمر عبرها وتر العضلة المائلة العلوية ليغير اتجاه شدّه.",
+  "den": "A fibrocartilaginous pulley in the upper medial orbit through which the superior oblique tendon passes, changing its direction of pull."
+ },
+ "trunk of anterior interventricular branch of left coronary artery": {
+  "ar": "جذع الفرع بين البطينين الأمامي للشريان التاجي الأيسر",
+  "dar": "الجزء الرئيسي من الفرع بين البطينين الأمامي، يسير في الثلم الأمامي بين البطينين نحو قمة القلب ويعطي الفروع القطرية والحاجزية لتغذية الجدار الأمامي للبطينين والحاجز.",
+  "den": "The main stem of the anterior interventricular (LAD) artery running in the anterior groove toward the apex, giving diagonal and septal branches to the anterior ventricles and septum."
+ },
+ "trunk of apical segmental vein": {
+  "ar": "جذع الوريد القطعي القمي",
+  "dar": "الجزء الرئيسي من الوريد الذي يصرف القطعة القمية للفص العلوي الأيمن إلى الوريد الرئوي العلوي.",
+  "den": "The main stem of the vein draining the apical segment of the right upper lobe into the superior pulmonary vein."
+ },
+ "trunk of gastroduodenal artery": {
+  "ar": "جذع الشريان المعدي الاثناعشري",
+  "dar": "الجزء الرئيسي من الشريان المعدي الاثناعشري الناشئ من الشريان الكبدي المشترك، ينزل خلف الجزء الأول من الاثني عشر ويعطي الشرايين البنكرياسية الاثناعشرية العلوية والمعدي الثربي الأيمن.",
+  "den": "The main stem of the gastroduodenal artery from the common hepatic artery, descending behind the first part of the duodenum and giving the superior pancreaticoduodenal and right gastro-omental arteries."
+ },
+ "trunk of inferior terminal branch of left middle cerebral artery": {
+  "ar": "جذع الفرع الانتهائي السفلي للشريان الدماغي الأوسط الأيسر",
+  "dar": "الجذع السفلي للشريان الدماغي الأوسط بعد تفرعه في الشق الوحشي، يعطي فروعًا تغذي الفص الصدغي والجزء السفلي من الفص الجداري.",
+  "den": "The inferior trunk of the middle cerebral artery after its bifurcation in the lateral sulcus, giving branches to the temporal and inferior parietal lobes."
+ },
+ "trunk of inferior terminal branch of right middle cerebral artery": {
+  "ar": "جذع الفرع الانتهائي السفلي للشريان الدماغي الأوسط الأيمن",
+  "dar": "الجذع السفلي للشريان الدماغي الأوسط بعد تفرعه في الشق الوحشي، يعطي فروعًا تغذي الفص الصدغي والجزء السفلي من الفص الجداري.",
+  "den": "The inferior trunk of the middle cerebral artery after its bifurcation in the lateral sulcus, giving branches to the temporal and inferior parietal lobes."
+ },
+ "trunk of left coronary artery": {
+  "ar": "جذع الشريان التاجي الأيسر",
+  "dar": "الجذع الرئيسي القصير للشريان التاجي الأيسر الناشئ من الجيب الأبهري الأيسر، ينقسم إلى الفرع بين البطينين الأمامي والفرع المنعطف ويغذي معظم البطين الأيسر.",
+  "den": "The short main stem of the left coronary artery from the left aortic sinus, dividing into the anterior interventricular and circumflex branches that supply most of the left ventricle."
+ },
+ "trunk of left hepatic artery": {
+  "ar": "جذع الشريان الكبدي الأيسر",
+  "dar": "الجزء الرئيسي من الشريان الكبدي الأيسر الناشئ من الشريان الكبدي الخاص، يغذي النصف الأيسر من الكبد.",
+  "den": "The main stem of the left hepatic artery from the proper hepatic artery, supplying the left half of the liver."
+ },
+ "trunk of left portal vein": {
+  "ar": "جذع الوريد البابي الأيسر",
+  "dar": "الجزء الرئيسي من الوريد البابي الأيسر، له جزء مستعرض وجزء سري، ويوزع الدم البابي على النصف الأيسر من الكبد.",
+  "den": "The main stem of the left portal vein with transverse and umbilical parts, distributing portal blood to the left half of the liver."
+ },
+ "trunk of left renal artery": {
+  "ar": "جذع الشريان الكلوي الأيسر",
+  "dar": "الجزء الرئيسي من الشريان الكلوي الأيسر قبل تفرعه، وهو أقصر من الأيمن، ويسير إلى سرة الكلية اليسرى.",
+  "den": "The main stem of the left renal artery before it divides; shorter than the right, it runs to the left renal hilum."
+ },
+ "trunk of left thoraco-acromial artery": {
+  "ar": "جذع الشريان الصدري الأخرمي الأيسر",
+  "dar": "جذع قصير من الشريان الإبطي يثقب اللفافة الترقوية الصدرية وينقسم إلى فروع صدرية وأخرمية ودالية وترقوية.",
+  "den": "A short trunk from the axillary artery piercing the clavipectoral fascia and dividing into pectoral, acromial, deltoid and clavicular branches."
+ },
+ "trunk of right coronary artery": {
+  "ar": "جذع الشريان التاجي الأيمن",
+  "dar": "الجزء الرئيسي من الشريان التاجي الأيمن الناشئ من الجيب الأبهري الأيمن، يسير في الثلم التاجي الأيمن ويغذي الأذين والبطين الأيمنين والعقدة الجيبية الأذينية غالبًا.",
+  "den": "The main course of the right coronary artery from the right aortic sinus along the right coronary groove, supplying the right atrium and ventricle and usually the sinoatrial node."
+ },
+ "trunk of right hepatic artery": {
+  "ar": "جذع الشريان الكبدي الأيمن",
+  "dar": "الجزء الرئيسي من الشريان الكبدي الأيمن، يمر عادة خلف القناة الكبدية المشتركة ويعطي الشريان المراري قبل أن يغذي النصف الأيمن من الكبد.",
+  "den": "The main stem of the right hepatic artery, usually passing behind the common hepatic duct and giving the cystic artery before supplying the right liver."
+ },
+ "trunk of right portal vein": {
+  "ar": "جذع الوريد البابي الأيمن",
+  "dar": "الجزء الرئيسي القصير من الوريد البابي الأيمن، ينقسم إلى فرعين أمامي وخلفي يوزعان الدم البابي على النصف الأيمن من الكبد.",
+  "den": "The short main stem of the right portal vein dividing into anterior and posterior branches that distribute portal blood to the right liver."
+ },
+ "trunk of right renal artery": {
+  "ar": "جذع الشريان الكلوي الأيمن",
+  "dar": "الجزء الرئيسي من الشريان الكلوي الأيمن قبل تفرعه، يمر خلف الوريد الأجوف السفلي نحو سرة الكلية اليمنى.",
+  "den": "The main stem of the right renal artery before it divides, passing behind the inferior vena cava toward the right renal hilum."
+ },
+ "trunk of right thoraco-acromial artery": {
+  "ar": "جذع الشريان الصدري الأخرمي الأيمن",
+  "dar": "جذع قصير من الشريان الإبطي يثقب اللفافة الترقوية الصدرية وينقسم إلى فروع صدرية وأخرمية ودالية وترقوية.",
+  "den": "A short trunk from the axillary artery piercing the clavipectoral fascia and dividing into pectoral, acromial, deltoid and clavicular branches."
+ },
+ "trunk of superior mesenteric artery": {
+  "ar": "جذع الشريان المساريقي العلوي",
+  "dar": "الجزء الرئيسي من الشريان المساريقي العلوي، يمر أمام الجزء الثالث من الاثني عشر في جذر المساريق، ويعطي الفروع المعوية والقولونية.",
+  "den": "The main stem of the superior mesenteric artery, crossing the third part of the duodenum in the root of the mesentery and giving intestinal and colic branches."
+ },
+ "tuber cinereum": {
+  "ar": "الحدبة الرمادية",
+  "dar": "بروز من المادة الرمادية في قاعدة الوطاء بين التصالب البصري والجسمين الحلميين، يتصل به ساق الغدة النخامية.",
+  "den": "A grey-matter eminence on the base of the hypothalamus between the optic chiasm and mammillary bodies, from which the pituitary stalk arises."
+ },
+ "twelfth thoracic vertebra": {
+  "ar": "الفقرة الصدرية الثانية عشرة",
+  "dar": "آخر الفقرات الصدرية، فقرة انتقالية تشبه الفقرات القطنية في جزئها السفلي، وتتمفصل مع الضلع الثاني عشر.",
+  "den": "The last thoracic vertebra, a transitional vertebra resembling lumbar vertebrae inferiorly, articulating with the twelfth rib."
+ },
+ "ulnar head of left flexor carpi ulnaris": {
+  "ar": "الرأس الزندي للعضلة القابضة الزندية للرسغ اليسرى",
+  "dar": "ينشأ من الناتئ المرفقي والحافة الخلفية للزند، ويمر العصب الزندي بينه وبين الرأس العضدي، ويشارك في ثني الرسغ وتقريبه.",
+  "den": "Arises from the olecranon and posterior border of the ulna; the ulnar nerve passes between it and the humeral head; it helps flex and adduct the wrist."
+ },
+ "ulnar head of left pronator teres": {
+  "ar": "الرأس الزندي للعضلة الكابة المدورة اليسرى",
+  "dar": "الرأس الأصغر للعضلة الكابة المدورة، ينشأ من الناتئ الإكليلي للزند ويمر العصب المتوسط بينه وبين الرأس العضدي، ويشارك في كب الساعد.",
+  "den": "The smaller head of pronator teres from the coronoid process of the ulna; the median nerve passes between it and the humeral head; it assists pronation."
+ },
+ "ulnar head of right flexor carpi ulnaris": {
+  "ar": "الرأس الزندي للعضلة القابضة الزندية للرسغ اليمنى",
+  "dar": "ينشأ من الناتئ المرفقي والحافة الخلفية للزند، ويمر العصب الزندي بينه وبين الرأس العضدي، ويشارك في ثني الرسغ وتقريبه.",
+  "den": "Arises from the olecranon and posterior border of the ulna; the ulnar nerve passes between it and the humeral head; it helps flex and adduct the wrist."
+ },
+ "ulnar head of right pronator teres": {
+  "ar": "الرأس الزندي للعضلة الكابة المدورة اليمنى",
+  "dar": "الرأس الأصغر للعضلة الكابة المدورة، ينشأ من الناتئ الإكليلي للزند ويمر العصب المتوسط بينه وبين الرأس العضدي، ويشارك في كب الساعد.",
+  "den": "The smaller head of pronator teres from the coronoid process of the ulna; the median nerve passes between it and the humeral head; it assists pronation."
+ },
+ "ureteric segment of left renal artery": {
+  "ar": "القطعة الحالبية للشريان الكلوي الأيسر",
+  "dar": "فرع صغير من الشريان الكلوي يغذي الجزء العلوي من الحالب وحويضة الكلية.",
+  "den": "A small branch of the renal artery supplying the upper ureter and renal pelvis."
+ },
+ "ureteric segment of right renal artery": {
+  "ar": "القطعة الحالبية للشريان الكلوي الأيمن",
+  "dar": "فرع صغير من الشريان الكلوي يغذي الجزء العلوي من الحالب وحويضة الكلية.",
+  "den": "A small branch of the renal artery supplying the upper ureter and renal pelvis."
+ },
+ "urethra": {
+  "ar": "الإحليل",
+  "dar": "قناة تنقل البول من المثانة إلى خارج الجسم، وتنقل أيضًا السائل المنوي عند الذكور.",
+  "den": "The canal carrying urine from the bladder to the exterior, and also semen in males."
+ },
+ "urinary bladder": {
+  "ar": "المثانة البولية",
+  "dar": "عضو عضلي أجوف في الحوض يخزن البول القادم من الحالبين ويطرحه عبر الإحليل بانقباض عضلته الدافعة.",
+  "den": "A hollow muscular pelvic organ storing urine from the ureters and expelling it through the urethra by contraction of the detrusor muscle."
+ },
+ "uvular muscle": {
+  "ar": "عضلة اللهاة",
+  "dar": "عضلة صغيرة داخل اللهاة تنشأ من الشوكة الأنفية الخلفية وسفاق الحنك، فتقصر اللهاة وترفعها لإغلاق البلعوم الأنفي أثناء البلع.",
+  "den": "A small muscle within the uvula from the posterior nasal spine and palatine aponeurosis that shortens and elevates the uvula to seal the nasopharynx in swallowing."
+ },
+ "vertical intermediate part of left longus colli": {
+  "ar": "الجزء المتوسط العمودي من العضلة الطويلة العنقية اليسرى",
+  "dar": "الجزء العمودي من العضلة الطويلة العنقية، يصل أجسام الفقرات الصدرية العلوية والعنقية السفلية بأجسام الفقرات العنقية العلوية، فيثني العنق.",
+  "den": "The vertical part of longus colli connecting the bodies of upper thoracic and lower cervical vertebrae to those of upper cervical vertebrae; it flexes the neck."
+ },
+ "vomer": {
+  "ar": "الميكعة (العظم الميكعي)",
+  "dar": "عظم رقيق مسطح يشكل الجزء الخلفي السفلي من الحاجز الأنفي، ويتمفصل مع العظم الوتدي والفك العلوي والعظم الحنكي.",
+  "den": "A thin flat bone forming the posteroinferior nasal septum, articulating with the sphenoid, maxillae and palatine bones."
+ },
+ "wall of left atrium": {
+  "ar": "جدار الأذين الأيسر",
+  "dar": "الجدار العضلي الرقيق للأذين، ينقبض لدفع الدم إلى البطين المقابل في نهاية الانبساط.",
+  "den": "The thin muscular wall of the atrium, contracting at the end of diastole to push blood into the ventricle."
+ },
+ "wall of right atrium": {
+  "ar": "جدار الأذين الأيمن",
+  "dar": "الجدار العضلي الرقيق للأذين، ينقبض لدفع الدم إلى البطين المقابل في نهاية الانبساط.",
+  "den": "The thin muscular wall of the atrium, contracting at the end of diastole to push blood into the ventricle."
+ },
+ "wall of ventricle": {
+  "ar": "جدار البطين",
+  "dar": "الجدار العضلي الثخين للبطين، يتكون أساسًا من عضلة القلب التي تنقبض لضخ الدم إلى الدورة الرئوية أو الجهازية.",
+  "den": "The thick muscular wall of a ventricle, made mainly of myocardium that contracts to pump blood into the pulmonary or systemic circulation."
+ },
+ "white matter of left cerebral hemisphere": {
+  "ar": "المادة البيضاء لنصف الكرة المخية الأيسر",
+  "dar": "نسيج تحت القشرة المخية مكوّن من محاور عصبية مغمدة بالميالين، يربط مناطق القشرة ببعضها وبالنصف الآخر وبالمراكز الأدنى.",
+  "den": "The tissue beneath the cerebral cortex made of myelinated axons, connecting cortical regions with each other, the other hemisphere and lower centres."
+ },
+ "white matter of right cerebral hemisphere": {
+  "ar": "المادة البيضاء لنصف الكرة المخية الأيمن",
+  "dar": "نسيج تحت القشرة المخية مكوّن من محاور عصبية مغمدة بالميالين، يربط مناطق القشرة ببعضها وبالنصف الآخر وبالمراكز الأدنى.",
+  "den": "The tissue beneath the cerebral cortex made of myelinated axons, connecting cortical regions with each other, the other hemisphere and lower centres."
+ },
+ "xiphoid process": {
+  "ar": "الناتئ الرهابي",
+  "dar": "أصغر أجزاء القص وأسفلها، يكون غضروفيًا في الصغر ويتعظم مع العمر، ويعطي ارتكازًا للحجاب الحاجز وعضلات البطن.",
+  "den": "The smallest, lowest part of the sternum, cartilaginous in youth and ossifying with age, giving attachment to the diaphragm and abdominal muscles."
+ }
+}
