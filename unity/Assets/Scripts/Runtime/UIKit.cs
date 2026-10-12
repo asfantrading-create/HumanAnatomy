@@ -61,7 +61,7 @@ namespace Asfan.Anatomy
 
         public static void Init()
         {
-            if (font == null) font = Font.CreateDynamicFontFromOSFont(new[] { "Tahoma", "Segoe UI", "Arial", "Noto Sans Arabic", "DejaVu Sans" }, 16);
+            if (font == null) font = Font.CreateDynamicFontFromOSFont(new[] { "Tahoma", "Segoe UI", "Segoe UI Symbol", "Arial", "Noto Sans Arabic", "DejaVu Sans" }, 16);
             if (rounded == null)
             {
                 const int n = 32, r = 10;
@@ -220,6 +220,69 @@ namespace Asfan.Anatomy
             sr.movementType = ScrollRect.MovementType.Clamped;
             sr.scrollSensitivity = 30;
             return content;
+        }
+
+        /// <summary>Text input; Arabic is shown shaped through an overlay label (the field itself only knows logical order).</summary>
+        public static InputField Input(Transform parent, string value, string placeholder, UnityAction<string> onEnd, bool multiline = false, float height = 34, UnityAction<string> onChange = null)
+        {
+            var img = Panel(parent, "Input", dark ? new Color(0.09f, 0.12f, 0.18f) : new Color(1, 1, 1));
+            var outline = img.gameObject.AddComponent<Outline>();
+            outline.effectColor = dark ? new Color(0.25f, 0.31f, 0.42f) : new Color(0.78f, 0.82f, 0.88f);
+            var le = img.gameObject.AddComponent<LayoutElement>();
+            le.minHeight = height; le.preferredHeight = height; le.flexibleWidth = 1;
+            var align = multiline ? (L.Ar ? TextAnchor.UpperRight : TextAnchor.UpperLeft) : (L.Ar ? TextAnchor.MiddleRight : TextAnchor.MiddleLeft);
+            var trt = Rect(img.transform, "Text").Anchor(Vector2.zero, Vector2.one, new Vector2(9, 5), new Vector2(-9, -5));
+            var text = trt.gameObject.AddComponent<Text>();
+            text.font = font; text.fontSize = 14; text.color = Fg; text.alignment = align; text.supportRichText = false;
+            var ph = Label(img.transform, placeholder, 14, Muted, FontStyle.Italic, align);
+            ((RectTransform)ph.transform).Anchor(Vector2.zero, Vector2.one, new Vector2(9, 5), new Vector2(-9, -5));
+            if (multiline) ph.horizontalOverflow = HorizontalWrapMode.Wrap;
+            var shown = Label(img.transform, "", 14, Fg, FontStyle.Normal, align);
+            ((RectTransform)shown.transform).Anchor(Vector2.zero, Vector2.one, new Vector2(9, 5), new Vector2(-9, -5));
+            if (multiline) shown.horizontalOverflow = HorizontalWrapMode.Wrap;
+            var f = img.gameObject.AddComponent<InputField>();
+            f.textComponent = text;
+            f.placeholder = ph;
+            f.lineType = multiline ? InputField.LineType.MultiLineNewline : InputField.LineType.SingleLine;
+            f.customCaretColor = true;
+            f.caretColor = Accent;
+            f.selectionColor = new Color(0.16f, 0.62f, 0.96f, 0.35f);
+            f.text = value ?? "";
+            void Sync(string v)
+            {
+                bool ar = ArabicShaper.HasArabic(v);
+                text.color = ar ? new Color(0, 0, 0, 0) : Fg;
+                shown.gameObject.SetActive(ar);
+                if (ar) SetText(shown, v);
+            }
+            f.onValueChanged.AddListener(v => { Sync(v); onChange?.Invoke(v); });
+            if (onEnd != null) f.onEndEdit.AddListener(onEnd);
+            Sync(f.text);
+            return f;
+        }
+
+        /// <summary>True while the user is typing in a text field (keyboard shortcuts are then ignored).</summary>
+        public static bool Typing
+        {
+            get
+            {
+                var es = UnityEngine.EventSystems.EventSystem.current;
+                var go = es != null ? es.currentSelectedGameObject : null;
+                var f = go != null ? go.GetComponent<InputField>() : null;
+                return f != null && f.isFocused;
+            }
+        }
+
+        /// <summary>Thin progress bar (0..1).</summary>
+        public static RectTransform Bar(Transform parent, float value, Color color, float height = 8)
+        {
+            var track = Panel(parent, "Bar", dark ? new Color(0.2f, 0.25f, 0.33f) : new Color(0.86f, 0.89f, 0.93f));
+            var le = track.gameObject.AddComponent<LayoutElement>();
+            le.minHeight = height; le.preferredHeight = height; le.flexibleWidth = 1;
+            var fill = Panel(track.transform, "Fill", color);
+            ((RectTransform)fill.transform).Anchor(Vector2.zero, new Vector2(Mathf.Clamp01(value), 1), Vector2.zero, Vector2.zero);
+            if (L.Ar) { var r = (RectTransform)fill.transform; r.anchorMin = new Vector2(1 - Mathf.Clamp01(value), 0); r.anchorMax = Vector2.one; }
+            return (RectTransform)track.transform;
         }
 
         public static Text Heading(Transform parent, string text)

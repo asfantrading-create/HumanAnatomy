@@ -89,22 +89,23 @@ namespace Asfan.Anatomy
 
         static readonly int IdBaseColor = Shader.PropertyToID("_BaseColor"), IdEmission = Shader.PropertyToID("_Emission"),
             IdSrc = Shader.PropertyToID("_SrcBlend"), IdDst = Shader.PropertyToID("_DstBlend"), IdZWrite = Shader.PropertyToID("_ZWrite"),
-            IdZTest = Shader.PropertyToID("_ZTest");
+            IdZTest = Shader.PropertyToID("_ZTest"), IdPick = Shader.PropertyToID("_PickId");
 
         public static Color Hex(string hex) => ColorUtility.TryParseHtmlString(hex, out var c) ? c : Color.gray;
 
         public IEnumerator Load()
         {
             string dir = Application.streamingAssetsPath;
-            string jsonPath = Path.Combine(dir, "anatomy.json"), binPath = Path.Combine(dir, "anatomy.bin");
+            string jsonPath = Path.Combine(dir, "anatomy.idx"), binPath = Path.Combine(dir, "anatomy.dat");
             if (!File.Exists(jsonPath) || !File.Exists(binPath)) { error = L.T("missing"); yield break; }
             shader = Shader.Find("Anatomy/Lit");
 
             byte[] bin = null;
             var read = Task.Run(() =>
             {
-                manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(jsonPath));
-                bin = File.ReadAllBytes(binPath);
+                manifest = JsonUtility.FromJson<Manifest>(AssetCrypto.ReadText(jsonPath));
+                bin = AssetCrypto.ReadBytes(binPath);
+                LearningData.Load();
             });
             while (!read.IsCompleted) { progress = 0.05f; yield return null; }
             if (read.IsFaulted) { error = read.Exception?.GetBaseException().Message; yield break; }
@@ -133,6 +134,7 @@ namespace Asfan.Anatomy
             {
                 Build(decoded[i]);
                 parts.Add(decoded[i]);
+                byId[decoded[i].def.id] = decoded[i];
                 if (sw.ElapsedMilliseconds > 30) { progress = 0.15f + 0.85f * i / decoded.Length; sw.Restart(); yield return null; }
             }
             bin = null;
@@ -203,7 +205,7 @@ namespace Asfan.Anatomy
             mesh.RecalculateBounds();
             p.mesh = mesh;
             p.bounds = mesh.bounds;
-            p.explodeDir = p.bounds.center - BodyCenter;
+            p.explodeDir = Vector3.Scale(p.bounds.center - BodyCenter, new Vector3(1, 0.6f, 1));
 
             var go = new GameObject(d.id);
             var parent = transform.Find(d.system);
@@ -235,8 +237,17 @@ namespace Asfan.Anatomy
             float op = Mathf.Min(1, (sys?.opacity ?? 1) * (p.def.alpha <= 0 ? 1 : p.def.alpha));
             if (xray && XRay.TryGetValue(p.def.system, out var x)) op = Mathf.Min(op, x);
             if (isolated != null && !isolated.Contains(p)) op = Mathf.Min(op, p.def.system == "skin" ? 0.04f : 0.08f);
+            // during a quiz question everything except the structure asked about is ghosted
+            if (quizTarget != null && quizTarget != p && (quizName || quizRevealed)) op = Mathf.Min(op, p.def.system == "skin" ? 0.03f : 0.07f);
+            if (tourHighlight != null && tourHighlight.Count > 0 && !tourHighlight.Contains(p)) op = Mathf.Min(op, p.def.system == "skin" ? 0.05f : 0.12f);
             return op;
         }
+
+        /// <summary>Quiz/exam target drawn in green on top of everything (name mode, or after a "find" answer).</summary>
+        public Part quizTarget;
+        public bool quizName = true, quizRevealed;
+        public HashSet<Part> tourHighlight;
+        public bool QuizShown(Part p) => quizTarget == p && (quizName || quizRevealed);
 
         public HashSet<Part> isolated;
 
@@ -249,7 +260,9 @@ namespace Asfan.Anatomy
         public void ApplyPart(Part p)
         {
             float op = EffectiveOpacity(p);
-            bool vis = IsVisible(p);
+            bool onTop = QuizShown(p);
+            bool vis = IsVisible(p) || onTop;
+            if (onTop) op = 1;
             p.opacity = op;
             if (p.go.activeSelf != vis) p.go.SetActive(vis);
             if (!vis) return;
@@ -273,9 +286,14 @@ namespace Asfan.Anatomy
                 m.SetFloat(IdZWrite, 1);
                 m.renderQueue = 2000;
             }
-            m.SetFloat(IdZTest, (float)CompareFunction.LessEqual);
+            m.SetFloat(IdZTest, (float)(onTop ? CompareFunction.Always : CompareFunction.LessEqual));
+            if (onTop) { m.renderQueue = 4000; m.SetColor(IdBaseColor, new Color(0.07f, 0.76f, 0.35f, 1)); }
+            // labels / id pass: only clearly visible structures take part
+            m.SetVector(IdPick, new Vector4(((p.index + 1) & 255) / 255f, (((p.index + 1) >> 8) & 255) / 255f, (((p.index + 1) >> 16) & 255) / 255f,
+                op >= 0.45f && p.def.system != "skin" ? 1 : 0));
             Color e = Color.black;
-            if (selected == p) e = new Color(0.10f, 0.38f, 0.75f);
+            if (onTop) e = new Color(0f, 0.55f, 0.22f);
+            else if (selected == p || (tourHighlight != null && tourHighlight.Contains(p))) e = new Color(0.10f, 0.38f, 0.75f);
             else if (hovered == p) e = new Color(0.20f, 0.24f, 0.32f);
             m.SetColor(IdEmission, e);
         }
@@ -301,7 +319,7 @@ namespace Asfan.Anatomy
                 if (p.femaleCol != null) p.mesh.colors32 = f ? p.femaleCol : p.maleCol;
                 p.mesh.RecalculateBounds();
                 p.bounds = p.mesh.bounds;
-                p.explodeDir = p.bounds.center - BodyCenter;
+                p.explodeDir = Vector3.Scale(p.bounds.center - BodyCenter, new Vector3(1, 0.6f, 1));
             }
             heartPivot = Center(heartSet);
             lungPivot = Center(lungSet) + new Vector3(0, 0.06f, 0);
@@ -328,16 +346,55 @@ namespace Asfan.Anatomy
             if (p != null) ApplyPart(p);
         }
 
-        public void Hide(Part p) { if (p == null) return; p.hidden = true; if (selected == p) selected = null; ApplyAll(); }
+        public void Hide(Part p) { if (p == null) return; PushUndo(); p.hidden = true; if (selected == p) selected = null; ApplyAll(); }
+
+        // ------------------------------------------------------------------ undo (hide / isolate / show all / systems)
+        readonly Stack<Action> undo = new Stack<Action>();
+        public void PushUndo()
+        {
+            var hidden = parts.FindAll(q => q.hidden);
+            var iso = isolated;
+            var vis = systemList.ConvertAll(s => s.visible);
+            undo.Push(() =>
+            {
+                foreach (var q in parts) q.hidden = false;
+                foreach (var q in hidden) q.hidden = true;
+                isolated = iso;
+                for (int i = 0; i < vis.Count; i++) systemList[i].visible = vis[i];
+            });
+            if (undo.Count > 50) { var keep = undo.ToArray(); undo.Clear(); for (int i = 39; i >= 0; i--) undo.Push(keep[i]); }
+        }
+        public bool Undo()
+        {
+            if (undo.Count == 0) return false;
+            undo.Pop()();
+            ApplyAll();
+            return true;
+        }
+
+        /// <summary>Shows only the given systems (skin faint), as lessons and exams do.</summary>
+        public void ShowOnlySystems(ICollection<string> ids)
+        {
+            foreach (var s in systemList)
+            {
+                s.visible = ids.Contains(s.def.id) || s.def.id == "skin";
+                s.opacity = s.def.id == "skin" ? 0.08f : 1;
+            }
+        }
+
+        public Part ById(string id) { byId.TryGetValue(id ?? "", out var p); return p; }
+        readonly Dictionary<string, Part> byId = new Dictionary<string, Part>();
 
         public void Isolate(Part p)
         {
+            PushUndo();
             isolated = p == null ? null : new HashSet<Part>(parts.FindAll(q => q == p || (q.def.group == p.def.group && q.def.system == p.def.system)));
             ApplyAll();
         }
 
         public void ShowAll()
         {
+            PushUndo();
             foreach (var p in parts) p.hidden = false;
             foreach (var s in systemList) s.visible = true;
             isolated = null;

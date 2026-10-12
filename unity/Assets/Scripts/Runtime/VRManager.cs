@@ -123,6 +123,7 @@ namespace Asfan.Anatomy
         // ------------------------------------------------------------------ enter / exit
         public void EnterVR()
         {
+            if (app.license != null && !app.license.Current.allowed) return;
             if (State == Status.Available || State == Status.Failed) StartCoroutine(EnterRoutine());
         }
 
@@ -546,6 +547,9 @@ namespace Asfan.Anatomy
         }
 
         // ------------------------------------------------------------------ hand menu
+        string menuPage = "main";
+        bool hadTour;
+
         public void RebuildMenu()
         {
             if (!InVR || left == null) return;
@@ -555,6 +559,7 @@ namespace Asfan.Anatomy
 
         void BuildMenu()
         {
+            hadTour = app.lessons.tour != null;
             menuButtons.Clear();
             menuByKey.Clear();
             var go = new GameObject("VR Menu", typeof(RectTransform));
@@ -588,6 +593,25 @@ namespace Asfan.Anatomy
             gl.childAlignment = TextAnchor.UpperCenter;
 
             var m = app.model;
+            if (menuPage == "lessons")
+            {
+                foreach (var t in LearningData.Tours)
+                {
+                    var tour = t;
+                    Add(grid, "tour:" + t.id, t.Title, () => { menuPage = "main"; app.lessons.StartTour(tour); RebuildMenu(); }, 15);
+                }
+                Add(grid, "back", L.T("close"), () => { menuPage = "main"; RebuildMenu(); }, 16, new Color(0.35f, 0.38f, 0.45f));
+                RefreshMenu();
+                return;
+            }
+            if (app.lessons.tour != null)
+            {
+                Add(grid, "tourPrev", L.T("prev"), app.lessons.PrevStep, 18, new Color(0.2f, 0.4f, 0.7f));
+                Add(grid, "tourNext", L.T("next"), app.lessons.NextStep, 18, new Color(0.2f, 0.5f, 0.85f));
+                Add(grid, "tourSpeak", L.T("speak"), () => { if (app.lessons.Step != null) app.voice.SpeakText(app.lessons.Step.Text); }, 18);
+                Add(grid, "tourEnd", L.T("finish"), app.lessons.EndTour, 18, new Color(0.45f, 0.3f, 0.3f));
+            }
+            else Add(grid, "lessons", L.T("toursTitle"), () => { menuPage = "lessons"; RebuildMenu(); }, 16, new Color(0.2f, 0.5f, 0.85f));
             foreach (var s in m.systemList)
             {
                 var st = s;
@@ -635,6 +659,8 @@ namespace Asfan.Anatomy
         public void RefreshMenu()
         {
             if (!menu) return;
+            // the lesson buttons appear while a lesson runs
+            if (hadTour != (app.lessons.tour != null)) { RebuildMenu(); return; }
             var m = app.model;
             foreach (var s in m.systemList)
                 if (menuByKey.TryGetValue("sys:" + s.def.id, out var b)) UIKit.SetOn(b, s.visible);
@@ -643,8 +669,9 @@ namespace Asfan.Anatomy
             On("heart", m.heartbeat); On("breath", m.breathing); On("flow", m.flow);
             On("explode", m.explode > 0); On("section", m.freePlaneOn); On("freeze", sectionFrozen);
             var p = m.selected;
-            UIKit.SetText(menuTitle, p != null ? p.Name : L.T("title"));
-            var d = p != null ? p.Desc : L.T("noSel");
+            var tour = app.lessons.tour;
+            UIKit.SetText(menuTitle, tour != null ? tour.Title + "  (" + (app.lessons.step + 1) + "/" + tour.steps.Count + ")" : p != null ? p.Name : L.T("title"));
+            var d = tour != null ? app.lessons.Step.Text : p != null ? p.Desc : L.T("noSel");
             if (d != null && d.Length > 260) d = d.Substring(0, 257) + "…";
             UIKit.SetText(menuDesc, d);
         }

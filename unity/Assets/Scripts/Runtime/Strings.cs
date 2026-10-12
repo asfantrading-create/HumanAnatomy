@@ -59,10 +59,65 @@ namespace Asfan.Anatomy
             ["vrScaleDown"] = new[] { "تصغير −", "Smaller −" },
             ["footer"] = new[] { "© ASFAN — عمّان، الأردن   |   واتساب +962776140404   |   info@asfanco.com   |   النماذج: BodyParts3D © DBCLS (CC BY 4.0)",
                                  "© ASFAN — Amman, Jordan   |   WhatsApp +962776140404   |   info@asfanco.com   |   Models: BodyParts3D © DBCLS (CC BY 4.0)" },
+            ["undo"] = new[] { "تراجع", "Undo" },
+            ["shotSaved"] = new[] { "تم حفظ الصورة في: {path}", "Screenshot saved to: {path}" },
+            ["certSaved"] = new[] { "تم حفظ الشهادة في: {path}", "Certificate saved to: {path}" },
+            ["certFailed"] = new[] { "تعذّر حفظ الشهادة.", "Could not save the certificate." },
+            ["lessonSaved"] = new[] { "تم حفظ الدرس في: {path}", "Lesson saved to: {path}" },
+            ["openFolder"] = new[] { "فتح المجلد", "Open folder" },
+            ["lessonsIn"] = new[] { "ملفات الدروس المحفوظة في: {dir}", "Lesson files in: {dir}" },
+            ["browseFile"] = new[] { "استعراض…", "Browse…" },
+            ["noFiles"] = new[] { "لا توجد ملفات دروس في هذا المجلد بعد.", "There are no lesson files in this folder yet." },
+            ["fav"] = new[] { "إضافة للمفضلة", "Add to favourites" },
+            ["unfav"] = new[] { "في المفضلة ✓", "In favourites ✓" },
+            ["version"] = new[] { "الإصدار", "Version" },
+            ["aboutText"] = new[] { "برنامج تعليمي تفاعلي لتشريح جسم الإنسان كاملاً بالأبعاد الثلاثية، على الشاشة وبنظارات الواقع الافتراضي، من شركة أصفان – عمّان، الأردن.",
+                                    "An interactive 3D anatomy program for the whole human body, on screen and in VR headsets, by ASFAN – Amman, Jordan." },
+            ["vrLocked"] = new[] { "فعّل الترخيص لاستخدام الواقع الافتراضي", "Activate a licence to use VR" },
+            ["fullscreen"] = new[] { "ملء الشاشة", "Full screen" },
+            ["needSystems"] = new[] { "اختر جهازاً واحداً على الأقل.", "Choose at least one system." },
+            ["vrControls"] = new[] { "التحكم في النظارة", "VR controls" },
+            ["learnBtn"] = new[] { "مركز التعلّم", "Learning centre" },
+            ["quizBtn"] = new[] { "اختبار سريع", "Quick quiz" },
+            ["licenseBtn"] = new[] { "الترخيص", "Licence" },
+            ["trialChip"] = new[] { "نسخة تجريبية · {d} يوم", "Trial · {d} days" },
+            ["activeChip"] = new[] { "الترخيص مفعّل", "Licensed" },
+            ["presets"] = new[] { "عرض سريع", "Presets" },
+            ["remove"] = new[] { "حذف", "Delete" },
+            ["timeLeft"] = new[] { "الوقت المتبقي {t}", "Time left {t}" },
+            ["contactWa"] = new[] { "واتساب", "WhatsApp" },
+            ["contactMail"] = new[] { "البريد الإلكتروني", "E-mail" },
+            ["licLocked"] = new[] { "انتهت الفترة التجريبية. أدخل مفتاح الترخيص للمتابعة.", "The trial has ended. Enter a licence key to continue." },
+            ["quitApp"] = new[] { "إغلاق البرنامج", "Quit" },
             ["hint"] = new[] { "زر الفأرة الأيسر: تدوير   •   الأيمن: تحريك   •   العجلة: تكبير   •   نقرة مزدوجة: تركيز", "Left mouse: rotate   •   Right: pan   •   Wheel: zoom   •   Double-click: focus" },
         };
 
-        public static string T(string key) => S.TryGetValue(key, out var v) ? v[Ar ? 0 : 1] : key;
+        /// <summary>Interface string; falls back to the desktop edition's strings (learning.dat). Variables: T("score", "s", 3, "t", 5).</summary>
+        public static string T(string key, params object[] vars)
+        {
+            string s;
+            if (S.TryGetValue(key, out var v)) s = v[Ar ? 0 : 1];
+            else if (LearningData.Strings[Ar ? 0 : 1].TryGetValue(key, out var w)) s = w;
+            else return key;
+            for (int i = 0; i + 1 < vars.Length; i += 2) s = s.Replace("{" + vars[i] + "}", System.Convert.ToString(vars[i + 1], System.Globalization.CultureInfo.InvariantCulture));
+            return Clean(s);
+        }
+
+        /// <summary>Removes markup and characters the legacy text renderer cannot draw (colour emoji, direction marks).</summary>
+        public static string Clean(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return s ?? "";
+            s = s.Replace("<br>", "\n").Replace("<b>", "").Replace("</b>", "").Replace("✅", "✓").Replace("❌", "✗").Replace("\u200e", "").Replace("\u200f", "");
+            var sb = new System.Text.StringBuilder(s.Length);
+            for (int i = 0; i < s.Length; i++)
+            {
+                char c = s[i];
+                if (char.IsHighSurrogate(c)) { i++; continue; }      // emoji outside the BMP
+                if (c == '\ufe0f') continue;
+                sb.Append(c);
+            }
+            return sb.ToString().Trim();
+        }
 
         // regions / organ groups (same keys as the desktop application)
         static readonly Dictionary<string, string[]> G = new Dictionary<string, string[]>

@@ -23,11 +23,27 @@ namespace Asfan.Anatomy
             if (instant) { target = goalTarget; distance = goalDistance; yaw = goalYaw; pitch = goalPitch; Apply(); }
         }
 
-        public void Focus(Bounds b)
+        public void Focus(Bounds b, float minDistance = 0.12f)
         {
             goalTarget = b.center;
-            goalDistance = Mathf.Clamp(b.extents.magnitude * 3.2f, 0.25f, 4f);
+            goalDistance = Mathf.Clamp(Mathf.Max(minDistance, b.extents.magnitude * 2.8f), 0.12f, 6f);
         }
+
+        public void SetGoal(Vector3 tgt, float yawDeg, float pitchDeg, float dist)
+        {
+            goalTarget = tgt; goalYaw = yawDeg; goalPitch = Mathf.Clamp(pitchDeg, -85, 85); goalDistance = Mathf.Clamp(dist, 0.12f, 8f);
+            // take the short way round
+            yaw = goalYaw + Mathf.DeltaAngle(goalYaw, yaw);
+        }
+
+        /// <summary>Camera position and target of the goal pose (used for saved views).</summary>
+        public void GoalPose(out Vector3 pos, out Vector3 tgt)
+        {
+            tgt = goalTarget;
+            pos = goalTarget - Quaternion.Euler(goalPitch, goalYaw, 0) * Vector3.forward * goalDistance;
+        }
+
+        public void AddYaw(float deg) => goalYaw += deg;
 
         void LateUpdate()
         {
@@ -41,7 +57,7 @@ namespace Asfan.Anatomy
             {
                 var d = mouse - lastMouse;
                 if ((mouse - downPos).sqrMagnitude > 16) Dragged = true;
-                if (DesktopInput.Held(0) && !DesktopInput.Shift)
+                if (DesktopInput.Held(0) && !DesktopInput.Shift && !DesktopInput.Alt)
                 {
                     goalYaw += d.x * 0.3f;
                     goalPitch = Mathf.Clamp(goalPitch - d.y * 0.3f, -85, 85);

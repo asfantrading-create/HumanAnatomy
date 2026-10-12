@@ -21,6 +21,7 @@ namespace Asfan.Anatomy.EditorTools
     {
         const string Marker = "ProjectSettings/AsfanAnatomySetup.txt";
         const string ScenePath = "Assets/Scenes/Main.unity";
+        public const string AppVersion = "6.0.0";
 
         static ProjectSetup()
         {
@@ -56,6 +57,7 @@ namespace Asfan.Anatomy.EditorTools
         {
             PlayerSettings.companyName = "ASFAN";
             PlayerSettings.productName = "Human Anatomy 3D";
+            PlayerSettings.bundleVersion = AppVersion;
             PlayerSettings.colorSpace = ColorSpace.Linear;
             PlayerSettings.runInBackground = true;
             PlayerSettings.resizableWindow = true;
@@ -144,11 +146,27 @@ namespace Asfan.Anatomy.EditorTools
         }
 
         [MenuItem("Tools/ASFAN Anatomy/Build Windows Program", priority = 20)]
-        public static void BuildWindows()
+        public static void BuildWindows() => Build(false);
+
+        [MenuItem("Tools/ASFAN Anatomy/Build Windows Program (IL2CPP - protected code)", priority = 21)]
+        public static void BuildWindowsIl2cpp() => Build(true);
+
+        static string BuildsDir => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "Builds"));
+
+        /// <summary>
+        /// Builds HumanAnatomy3D.exe into unity/Builds/HumanAnatomy3D and, when Inno Setup 6 is installed,
+        /// the installer unity/Builds/Installer/HumanAnatomy3D-VR-Setup-x.y.z.exe.
+        /// IL2CPP compiles the C# code to native code (harder to reverse engineer); it needs the
+        /// "Windows Build Support (IL2CPP)" module and Visual Studio with "Desktop development with C++".
+        /// </summary>
+        static void Build(bool il2cpp)
         {
             if (!File.Exists(Marker)) Run();
-            var dir = EditorUtility.SaveFolderPanel("Output folder", Path.GetFullPath(Path.Combine(Application.dataPath, "..", "Builds")), "HumanAnatomy3D");
-            if (string.IsNullOrEmpty(dir)) return;
+            CopyVoice();
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, il2cpp ? ScriptingImplementation.IL2CPP : ScriptingImplementation.Mono2x);
+            var dir = Path.Combine(BuildsDir, "HumanAnatomy3D");
+            if (Directory.Exists(dir)) Directory.Delete(dir, true);
+            Directory.CreateDirectory(dir);
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {
                 scenes = new[] { ScenePath },
@@ -156,8 +174,45 @@ namespace Asfan.Anatomy.EditorTools
                 target = BuildTarget.StandaloneWindows64,
                 options = BuildOptions.None
             });
-            Debug.Log("[ASFAN Anatomy] Build " + report.summary.result + " -> " + dir);
-            if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded) EditorUtility.RevealInFinder(Path.Combine(dir, "HumanAnatomy3D.exe"));
+            var result = report.summary.result;
+            Debug.Log("[ASFAN Anatomy] Build " + result + " -> " + dir + " (" + (report.summary.totalSize / 1048576) + " MB)");
+            if (result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
+            {
+                EditorUtility.DisplayDialog("ASFAN Human Anatomy 3D", "Build " + result + ". See the Console window for the errors.", "OK");
+                return;
+            }
+            var installer = MakeInstaller(dir);
+            EditorUtility.DisplayDialog("ASFAN Human Anatomy 3D",
+                "Build succeeded:\n" + Path.Combine(dir, "HumanAnatomy3D.exe") + "\n\n" +
+                (installer != null ? "Installer:\n" + installer : "Inno Setup 6 was not found, so no installer was made.\nInstall it from https://jrsoftware.org/isdl.php and build again, or ship the whole folder."), "OK");
+            EditorUtility.RevealInFinder(installer ?? Path.Combine(dir, "HumanAnatomy3D.exe"));
+        }
+
+        static string MakeInstaller(string buildDir)
+        {
+            string iscc = null;
+            foreach (var p in new[] {
+                System.Environment.GetEnvironmentVariable("ProgramFiles(x86)") + @"\Inno Setup 6\ISCC.exe",
+                System.Environment.GetEnvironmentVariable("ProgramFiles") + @"\Inno Setup 6\ISCC.exe",
+                System.Environment.GetEnvironmentVariable("LOCALAPPDATA") + @"\Programs\Inno Setup 6\ISCC.exe" })
+                if (!string.IsNullOrEmpty(p) && File.Exists(p)) { iscc = p; break; }
+            if (iscc == null) return null;
+            var iss = Path.GetFullPath(Path.Combine(Application.dataPath, "..", "Installer", "HumanAnatomy3D.iss"));
+            EditorUtility.DisplayProgressBar("ASFAN Human Anatomy 3D", "Creating the installer…", 0.5f);
+            try
+            {
+                var psi = new System.Diagnostics.ProcessStartInfo(iscc, "/Q \"/DSourceDir=" + buildDir + "\" \"/DAppVersion=" + AppVersion + "\" \"" + iss + "\"")
+                { UseShellExecute = false, CreateNoWindow = true, RedirectStandardError = true };
+                using (var proc = System.Diagnostics.Process.Start(psi))
+                {
+                    var err = proc.StandardError.ReadToEnd();
+                    proc.WaitForExit();
+                    if (proc.ExitCode != 0) { Debug.LogError("[ASFAN Anatomy] Inno Setup failed: " + err); return null; }
+                }
+            }
+            finally { EditorUtility.ClearProgressBar(); }
+            var setup = Path.Combine(BuildsDir, "Installer", "HumanAnatomy3D-VR-Setup-" + AppVersion + ".exe");
+            return File.Exists(setup) ? setup : null;
         }
     }
 }

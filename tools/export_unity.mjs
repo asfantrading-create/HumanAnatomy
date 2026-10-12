@@ -6,9 +6,13 @@
 // tools/convert_bp3d.py (use a higher triangle budget for Unity, e.g. 4000000).
 // The script runs the same JavaScript pipeline as the desktop application
 // (supplements, female body, groups, colours) and writes:
-//   <out-dir>/anatomy.json  manifest (parts, names, descriptions, systems, voice map)
-//   <out-dir>/anatomy.bin   quantised male/female vertices, indices and vertex colours
+//   <out-dir>/anatomy.idx   manifest (parts, names, descriptions, systems, voice map)
+//   <out-dir>/anatomy.dat   quantised male/female vertices, indices and vertex colours
+//   <out-dir>/learning.dat  interface strings, lessons and the question bank
+// All three are AES-256-CBC encrypted (key shared with AssetCrypto.cs) so the
+// commercial data is not readable from the installed program folder.
 // Coordinates are converted to Unity's left-handed frame (z flipped, body faces -Z).
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -153,16 +157,39 @@ for (const p of parts) {
   outParts.push(rec);
 }
 
+// ---------------------------------------------------------------------------
+const KEY = crypto.createHash('sha256').update('ASFAN|HumanAnatomy3D|unity-assets|v1').digest();
+function encrypt(buf) {
+  const iv = crypto.randomBytes(16);
+  const c = crypto.createCipheriv('aes-256-cbc', KEY, iv);
+  return Buffer.concat([Buffer.from('HA3E'), iv, c.update(buf), c.final()]);
+}
+const write = (name, data) => fs.writeFileSync(path.join(outDir, name), encrypt(Buffer.isBuffer(data) ? data : Buffer.from(data, 'utf8')));
+
 fs.mkdirSync(outDir, { recursive: true });
-fs.writeFileSync(path.join(outDir, 'anatomy.bin'), Buffer.concat(chunks));
+for (const old of ['anatomy.bin', 'anatomy.json', 'anatomy.bin.meta', 'anatomy.json.meta']) fs.rmSync(path.join(outDir, old), { force: true });
+write('anatomy.dat', Buffer.concat(chunks));
 const flip = (v) => [+v.x.toFixed(5), +v.y.toFixed(5), +(-v.z).toFixed(5)];
-fs.writeFileSync(path.join(outDir, 'anatomy.json'), JSON.stringify({
+write('anatomy.idx', JSON.stringify({
   version: 1,
   source: 'BodyParts3D, (c) The Database Center for Life Science, licensed under CC Attribution 4.0 International',
   systems: SYSTEMS.map((s) => ({ id: s.id, ar: s.ar, en: s.en, color: s.color, opacity: s.opacity })),
   heart: flip(heartPivot), sa: flip(sa),
   voiceKeys: Object.keys(voice), voiceIds: Object.values(voice),
   parts: outParts
+}));
+
+// learning data: interface strings, guided lessons (regexes as source/flags) and concept questions
+const { STRINGS } = await import(path.join(root, 'src/js/i18n.js'));
+const { TOURS } = await import(path.join(root, 'src/js/tours.js'));
+const { CONCEPT_QUESTIONS } = await import(path.join(root, 'src/js/questions.js'));
+write('learning.dat', JSON.stringify({
+  strings: STRINGS,
+  tours: TOURS.map((t) => ({
+    id: t.id, level: t.level || 'school', sex: t.sex || '', ar: t.ar, en: t.en, systems: t.systems || [],
+    steps: t.steps.map((s) => ({ ar: s.ar, en: s.en, group: s.group || '', match: s.match ? s.match.source : '', flags: s.match ? s.match.flags : '' }))
+  })),
+  questions: CONCEPT_QUESTIONS
 }));
 const tris = outParts.reduce((s, p) => s + p.ni / 3, 0);
 console.log(`wrote ${outParts.length} parts, ${Math.round(tris)} triangles, ${(offset / 1e6).toFixed(1)} MB`);
