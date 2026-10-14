@@ -162,7 +162,10 @@ namespace Asfan.Anatomy
         /// <summary>Selects a structure (null clears), says its name and updates both interfaces.</summary>
         public void SelectPart(Part p, bool focus = false)
         {
+            // picked from a list or search: the rest of the body becomes a faint shadow
+            if (focus || p != model.focusPart) model.focusPart = focus ? p : null;   // clicking the focused part again keeps the focus
             model.Select(p);
+            if (p == null || focus) model.ApplyAll();
             if (p != null)
             {
                 Progress.MarkViewed(p.def.id);
@@ -171,6 +174,26 @@ namespace Asfan.Anatomy
             if (p != null && ui.learnOpen && lessons.exam == null) ui.learnOpen = false;
             RefreshAll();
             if (focus && p != null && !vr.InVR) FocusParts(new List<Part> { p });
+        }
+
+        /// <summary>
+        /// Full screen ⇄ maximised window. A maximised window keeps the Windows taskbar visible,
+        /// so the bottom toolbar is never hidden behind it.
+        /// </summary>
+        public void ToggleFullScreen()
+        {
+            bool full = Screen.fullScreenMode == FullScreenMode.FullScreenWindow || Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
+            if (full)
+            {
+                Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
+                if (Application.platform != RuntimePlatform.WindowsPlayer)
+                {
+                    // other platforms: a window a little smaller than the desktop
+                    int w = Display.main.systemWidth, h = Display.main.systemHeight;
+                    Screen.SetResolution(Mathf.RoundToInt(w * 0.9f), Mathf.RoundToInt(h * 0.85f), FullScreenMode.Windowed);
+                }
+            }
+            else Screen.SetResolution(Display.main.systemWidth, Display.main.systemHeight, FullScreenMode.FullScreenWindow);
         }
 
         public void RefreshAll()
@@ -223,6 +246,7 @@ namespace Asfan.Anatomy
             for (int a = 0; a < 3; a++) model.secOn[a] = false;
             foreach (var p in model.parts) p.hidden = false;
             model.isolated = null;
+            model.focusPart = null;
             foreach (var s in model.systemList) { s.visible = true; s.opacity = s.def.opacity; }
             autoRotate = false;
             model.Select(null);
@@ -267,6 +291,7 @@ namespace Asfan.Anatomy
             foreach (var h in MiniJson.Arr(v, "hidden") ?? new List<object>()) hidden.Add(System.Convert.ToString(h));
             foreach (var p in model.parts) p.hidden = hidden.Contains(p.def.id);
             model.isolated = null;
+            model.focusPart = null;
             model.xray = MiniJson.Bool(v, "xray");
             model.explode = (float)MiniJson.Num(v, "explode");
             var cam = V3(MiniJson.Arr(v, "camera"));
@@ -395,7 +420,7 @@ namespace Asfan.Anatomy
             if (ui.presenting)
             {
                 if (DesktopInput.Key(KeyCode.Space)) lessons.NextStep();
-                if (DesktopInput.Key(KeyCode.F11)) Screen.fullScreen = !Screen.fullScreen;
+                if (DesktopInput.Key(KeyCode.F11)) ToggleFullScreen();
                 return;
             }
             if (DesktopInput.Key(KeyCode.Alpha1)) SetView("front");
@@ -417,7 +442,7 @@ namespace Asfan.Anatomy
             if (DesktopInput.Key(KeyCode.Q)) { if (lessons.quiz != null) lessons.EndQuiz(); else lessons.StartQuiz(); }
             if (DesktopInput.Key(KeyCode.T)) { ui.learnOpen = !ui.learnOpen; ui.Refresh(); }
             if (DesktopInput.Key(KeyCode.P)) Screenshot();
-            if (DesktopInput.Key(KeyCode.F11)) Screen.fullScreen = !Screen.fullScreen;
+            if (DesktopInput.Key(KeyCode.F11)) ToggleFullScreen();
         }
     }
 }

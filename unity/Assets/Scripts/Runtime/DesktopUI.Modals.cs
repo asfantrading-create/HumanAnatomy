@@ -149,7 +149,7 @@ namespace Asfan.Anatomy
             UIKit.Heading(c, L.T("theme"));
             var th = UIKit.Row(c, 34);
             Btn(th, L.T("theme"), app.ToggleTheme);
-            Btn(th, L.T("fullscreen"), () => Screen.fullScreen = !Screen.fullScreen);
+            Btn(th, L.T("fullscreen"), app.ToggleFullScreen);
             UIKit.Heading(c, L.T("fontUp") + " / " + L.T("fontDown"));
             var f = UIKit.Row(c, 34);
             Btn(f, "A−", () => app.SetFontScale(FontScale - 0.1f));

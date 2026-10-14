@@ -347,7 +347,7 @@ namespace Asfan.Anatomy
             Pref(UIKit.Button(row, L.T("prev"), Le.PrevStep, null, 16).gameObject, 140);
             Pref(UIKit.Button(row, L.T("next"), Le.NextStep, UIKit.BtnOn, 16).gameObject, 140);
             Pref(UIKit.Button(row, L.T("speak"), () => { if (Le.Step != null) app.voice.SpeakText(Le.Step.Text); }, null, 16).gameObject, 120);
-            Pref(UIKit.Button(row, L.T("fullscreen"), () => Screen.fullScreen = !Screen.fullScreen, null, 16).gameObject, 140);
+            Pref(UIKit.Button(row, L.T("fullscreen"), app.ToggleFullScreen, null, 16).gameObject, 140);
             Pref(UIKit.Button(row, L.T("presentExit"), () => SetPresenting(false), new Color(0.7f, 0.2f, 0.2f), 16).gameObject, 170);
             presentUI.gameObject.SetActive(false);
         }
@@ -356,7 +356,6 @@ namespace Asfan.Anatomy
         {
             presenting = on;
             if (on) learnOpen = false;
-            if (!on && Screen.fullScreen && Application.platform != RuntimePlatform.WindowsEditor) { }
             Refresh();
         }
 

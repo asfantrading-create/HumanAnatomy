@@ -235,6 +235,12 @@ namespace Asfan.Anatomy
         {
             var sys = systems.TryGetValue(p.def.system, out var s) ? s : null;
             float op = Mathf.Min(1, (sys?.opacity ?? 1) * (p.def.alpha <= 0 ? 1 : p.def.alpha));
+            if (focusPart != null)
+            {
+                // focus on one structure: it is shown fully, everything else is a faint shadow
+                if (p == focusPart) return 1;
+                return Mathf.Min(op, p.def.system == "skin" ? 0.025f : 0.06f);
+            }
             if (xray && XRay.TryGetValue(p.def.system, out var x)) op = Mathf.Min(op, x);
             if (isolated != null && !isolated.Contains(p)) op = Mathf.Min(op, p.def.system == "skin" ? 0.04f : 0.08f);
             // during a quiz question everything except the structure asked about is ghosted
@@ -250,10 +256,13 @@ namespace Asfan.Anatomy
         public bool QuizShown(Part p) => quizTarget == p && (quizName || quizRevealed);
 
         public HashSet<Part> isolated;
+        /// <summary>Structure picked from a list: shown alone, the rest of the body as a shadow.</summary>
+        public Part focusPart;
 
         public bool IsVisible(Part p)
         {
             var sys = systems.TryGetValue(p.def.system, out var s) ? s : null;
+            if (p == focusPart && !p.hidden) return true;
             return SexOk(p) && (sys == null || sys.visible) && !p.hidden && EffectiveOpacity(p) > 0.01f;
         }
 
@@ -346,7 +355,7 @@ namespace Asfan.Anatomy
             if (p != null) ApplyPart(p);
         }
 
-        public void Hide(Part p) { if (p == null) return; PushUndo(); p.hidden = true; if (selected == p) selected = null; ApplyAll(); }
+        public void Hide(Part p) { if (p == null) return; PushUndo(); p.hidden = true; if (selected == p) selected = null; if (focusPart == p) focusPart = null; ApplyAll(); }
 
         // ------------------------------------------------------------------ undo (hide / isolate / show all / systems)
         readonly Stack<Action> undo = new Stack<Action>();
@@ -395,6 +404,7 @@ namespace Asfan.Anatomy
         public void ShowAll()
         {
             PushUndo();
+            focusPart = null;
             foreach (var p in parts) p.hidden = false;
             foreach (var s in systemList) s.visible = true;
             isolated = null;

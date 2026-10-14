@@ -53,10 +53,10 @@ namespace Asfan.Anatomy
 
         public static Color Bg => dark ? new Color(0.07f, 0.10f, 0.15f, 0.92f) : new Color(1f, 1f, 1f, 0.96f);
         public static Color Card => dark ? new Color(0.12f, 0.16f, 0.23f, 1f) : new Color(0.95f, 0.96f, 0.98f, 1f);
-        public static Color Fg => dark ? new Color(0.92f, 0.95f, 1f) : new Color(0.10f, 0.13f, 0.18f);
-        public static Color Muted => dark ? new Color(0.62f, 0.68f, 0.78f) : new Color(0.38f, 0.43f, 0.52f);
-        public static Color Accent => new Color(0.16f, 0.62f, 0.96f);
-        public static Color Btn => dark ? new Color(0.17f, 0.22f, 0.31f) : new Color(0.89f, 0.92f, 0.96f);
+        public static Color Fg => dark ? new Color(0.92f, 0.95f, 1f) : new Color(0.03f, 0.05f, 0.09f);
+        public static Color Muted => dark ? new Color(0.62f, 0.68f, 0.78f) : new Color(0.20f, 0.25f, 0.33f);
+        public static Color Accent => dark ? new Color(0.16f, 0.62f, 0.96f) : new Color(0.02f, 0.36f, 0.72f);
+        public static Color Btn => dark ? new Color(0.17f, 0.22f, 0.31f) : new Color(0.84f, 0.88f, 0.94f);
         public static Color BtnOn => new Color(0.16f, 0.55f, 0.90f);
 
         public static void Init()
@@ -109,6 +109,12 @@ namespace Asfan.Anatomy
         {
             var rt = Rect(parent, "Label");
             var t = rt.gameObject.AddComponent<Text>();
+            if (!dark && rt.GetComponentInParent<Canvas>() != null && rt.GetComponentInParent<Canvas>().renderMode == RenderMode.ScreenSpaceOverlay)
+            {
+                // the light theme uses heavier, slightly larger text so it reads well on white
+                if (style == FontStyle.Normal) style = FontStyle.Bold;
+                size += 1;
+            }
             t.font = font;
             t.fontSize = size;
             t.fontStyle = style;

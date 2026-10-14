@@ -275,6 +275,7 @@ namespace Asfan.Anatomy
             EndTour();
             EndQuiz();
             Progress.Student = name;
+            M.focusPart = null;
             var qs = BuildQuestions();
             if (qs.Count < 3) return false;
             M.ShowOnlySystems(examSystems);
