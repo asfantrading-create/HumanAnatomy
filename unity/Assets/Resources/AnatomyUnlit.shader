@@ -5,6 +5,7 @@ Shader "Anatomy/Unlit"
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         [HideInInspector] _ZWrite ("", Float) = 0
+        [HideInInspector] _ZTest ("", Float) = 4
     }
     SubShader
     {
@@ -13,6 +14,7 @@ Shader "Anatomy/Unlit"
         {
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite [_ZWrite]
+            ZTest [_ZTest]
             Cull Off
             CGPROGRAM
             #pragma vertex vert

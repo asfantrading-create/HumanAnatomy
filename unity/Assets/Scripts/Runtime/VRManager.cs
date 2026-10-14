@@ -35,6 +35,8 @@ namespace Asfan.Anatomy
             public bool trigger, grip, primary, secondary, stickClick;
             public bool triggerPrev, gripPrev, primaryPrev, secondaryPrev, stickClickPrev;
             public Vector2 stick;
+            public float triggerVal, gripVal;
+            public QuestController model;
             public bool Down(bool now, bool prev) => now && !prev;
         }
 
@@ -102,7 +104,7 @@ namespace Asfan.Anatomy
         float nextProbe, lostFor, lastPick;
         bool placed, sectionFrozen, turnReady = true;
         Part pointed;
-        Vector3 pointedAt, labelAt;
+        Vector3 pointedAt;
 
         // grab state
         int grabMode;            // 0 none, 1 left, 2 right, 3 both
@@ -301,10 +303,7 @@ namespace Asfan.Anatomy
             var h = new Hand { node = node };
             h.t = new GameObject(node.ToString()).transform;
             h.t.SetParent(rig, false);
-            var body = Primitive(PrimitiveType.Cube, h.t, new Vector3(0.035f, 0.03f, 0.11f), color * 0.8f);
-            body.localPosition = new Vector3(0, -0.01f, -0.03f);
-            var tip = Primitive(PrimitiveType.Sphere, h.t, Vector3.one * 0.02f, color);
-            tip.localPosition = new Vector3(0, 0, 0.03f);
+            h.model = QuestController.Build(h.t, node == XRNode.LeftHand);
             return h;
         }
 
@@ -384,8 +383,10 @@ namespace Asfan.Anatomy
             if (xin != null && XrInput.Bound(xin.trigger[i]))
             {
                 float Val(InputAction a) => XrInput.Bound(a) ? a.ReadValue<float>() : 0;
-                h.trigger = Val(xin.trigger[i]) > (h.triggerPrev ? 0.35f : 0.6f);
-                h.grip = Val(xin.grip[i]) > (h.gripPrev ? 0.35f : 0.6f);
+                h.triggerVal = Val(xin.trigger[i]);
+                h.gripVal = Val(xin.grip[i]);
+                h.trigger = h.triggerVal > (h.triggerPrev ? 0.35f : 0.6f);
+                h.grip = h.gripVal > (h.gripPrev ? 0.35f : 0.6f);
                 h.primary = Val(xin.primary[i]) > 0.5f;
                 h.secondary = Val(xin.secondary[i]) > 0.5f;
                 h.stickClick = Val(xin.stickClick[i]) > 0.5f;
@@ -398,6 +399,8 @@ namespace Asfan.Anatomy
                 : h.dev.TryGetFeatureValue(CommonUsages.triggerButton, out bool tb) && tb;
             h.grip = h.dev.TryGetFeatureValue(CommonUsages.grip, out float gv) ? gv > (h.gripPrev ? 0.35f : 0.6f)
                 : h.dev.TryGetFeatureValue(CommonUsages.gripButton, out bool gb) && gb;
+            h.triggerVal = h.trigger ? Mathf.Max(tv, 1) : tv;
+            h.gripVal = h.grip ? Mathf.Max(gv, 1) : gv;
             h.primary = h.dev.TryGetFeatureValue(CommonUsages.primaryButton, out bool pb) && pb;
             h.secondary = h.dev.TryGetFeatureValue(CommonUsages.secondaryButton, out bool sb) && sb;
             h.stickClick = h.dev.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out bool sc) && sc;
@@ -424,6 +427,8 @@ namespace Asfan.Anatomy
             ReadPoses();
             ReadButtons(left);
             ReadButtons(right);
+            foreach (var h in new[] { left, right })
+                if (h.model) h.model.Animate(h.triggerVal, h.gripVal, h.stick, h.primary, h.secondary);
             if (!placed && ReadHead(out _, out _)) { PlaceUser(); placed = true; }
 
             Locomotion();
@@ -566,7 +571,7 @@ namespace Asfan.Anatomy
                 if (hoverButton) { hoverButton.onClick.Invoke(); Haptic(right, 0.4f, 0.04f); }
                 else
                 {
-                    if (pointed != null) labelAt = pointedAt;
+                    if (pointed != null) SetLabelPoint(pointed, pointedAt, true);
                     app.SelectPart(pointed);
                     Haptic(right, pointed != null ? 0.5f : 0.15f, 0.05f);
                 }
@@ -630,6 +635,12 @@ namespace Asfan.Anatomy
         }
 
         // ------------------------------------------------------------------ name label
+        LineRenderer leader;
+        Transform leaderDot, leaderArrow;
+        Text labelSub;
+        Vector3 labelLocal;        // the selected point in the body frame (follows the body when it is moved)
+        Part labelPart;
+
         void BuildLabel()
         {
             var go = new GameObject("VR Label", typeof(RectTransform));
@@ -637,29 +648,119 @@ namespace Asfan.Anatomy
             label = go.AddComponent<Canvas>();
             label.renderMode = RenderMode.WorldSpace;
             label.worldCamera = headCam;
+            label.sortingOrder = 20;
             go.AddComponent<CanvasScaler>().dynamicPixelsPerUnit = 4;
             var rt = (RectTransform)go.transform;
-            rt.sizeDelta = new Vector2(900, 90);
-            rt.localScale = Vector3.one * 0.0005f;
-            var bg = UIKit.Panel(rt, "Bg", new Color(0.05f, 0.08f, 0.13f, 0.85f));
+            rt.sizeDelta = new Vector2(LabelW, 150);
+            rt.localScale = Vector3.one * LabelScale;
+            var bg = UIKit.Panel(rt, "Bg", new Color(0.04f, 0.07f, 0.12f, 0.92f));
             ((RectTransform)bg.transform).Anchor(Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            var bar = UIKit.Panel(rt, "Accent", new Color(0.3f, 0.75f, 1f), false);
+            ((RectTransform)bar.transform).Anchor(Vector2.zero, new Vector2(1, 0), Vector2.zero, new Vector2(0, 8));
             labelText = UIKit.Label(rt, "", 46, Color.white, FontStyle.Bold, TextAnchor.MiddleCenter);
-            ((RectTransform)labelText.transform).Anchor(Vector2.zero, Vector2.one, new Vector2(12, 0), new Vector2(-12, 0));
-            go.SetActive(false);
+            ((RectTransform)labelText.transform).Anchor(new Vector2(0, 0.42f), Vector2.one, new Vector2(18, 0), new Vector2(-18, -6));
+            labelSub = UIKit.Label(rt, "", 28, new Color(0.65f, 0.78f, 0.95f), FontStyle.Normal, TextAnchor.MiddleCenter);
+            ((RectTransform)labelSub.transform).Anchor(Vector2.zero, new Vector2(1, 0.45f), new Vector2(18, 10), new Vector2(-18, 0));
+
+            // leader: a line from the selected point to the label, drawn over the body so it is never hidden
+            var lineMat = new Material(unlit);
+            lineMat.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+            lineMat.renderQueue = 3990;
+            leader = new GameObject("Leader").AddComponent<LineRenderer>();
+            leader.transform.SetParent(rig, false);
+            leader.sharedMaterial = lineMat;
+            leader.positionCount = 3;
+            leader.useWorldSpace = true;
+            leader.widthMultiplier = 0.003f;
+            leader.numCornerVertices = 3;
+            leader.startColor = leader.endColor = new Color(0.4f, 0.85f, 1f, 1f);
+            leaderDot = Primitive(PrimitiveType.Sphere, rig, Vector3.one * 0.009f, new Color(1, 1, 1, 1));
+            leaderDot.GetComponent<Renderer>().sharedMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+            leaderDot.GetComponent<Renderer>().sharedMaterial.renderQueue = 3991;
+            leaderArrow = new GameObject("Arrow").transform;
+            leaderArrow.SetParent(rig, false);
+            leaderArrow.gameObject.AddComponent<MeshFilter>().sharedMesh = Cone();
+            var am = new Material(lineMat);
+            leaderArrow.gameObject.AddComponent<MeshRenderer>().sharedMaterial = am;
+            SetLabelVisible(false);
+        }
+
+        const float LabelW = 760, LabelScale = 0.00045f;
+
+        void SetLabelVisible(bool v)
+        {
+            if (label) label.gameObject.SetActive(v);
+            if (leader) leader.gameObject.SetActive(v);
+            if (leaderDot) leaderDot.gameObject.SetActive(v);
+            if (leaderArrow) leaderArrow.gameObject.SetActive(v);
+        }
+
+        /// <summary>Cone along +Z with its tip at the origin (the arrow head).</summary>
+        static Mesh Cone()
+        {
+            const int n = 12;
+            var v = new Vector3[n + 2];
+            var tri = new int[n * 6];
+            v[0] = Vector3.zero;                 // tip
+            v[1] = new Vector3(0, 0, -1);        // base centre
+            for (int i = 0; i < n; i++)
+            {
+                float a = i * Mathf.PI * 2 / n;
+                v[i + 2] = new Vector3(Mathf.Cos(a) * 0.35f, Mathf.Sin(a) * 0.35f, -1);
+                int k = (i + 1) % n;
+                tri[i * 6] = 0; tri[i * 6 + 1] = i + 2; tri[i * 6 + 2] = k + 2;
+                tri[i * 6 + 3] = 1; tri[i * 6 + 4] = k + 2; tri[i * 6 + 5] = i + 2;
+            }
+            var m = new Mesh { vertices = v, triangles = tri };
+            m.RecalculateBounds();
+            return m;
+        }
+
+        /// <summary>Remembers where the structure was picked (body frame) for the leader arrow.</summary>
+        void SetLabelPoint(Part p, Vector3 worldHit, bool hit)
+        {
+            labelPart = p;
+            var body = app.model.transform;
+            labelLocal = hit ? body.InverseTransformPoint(worldHit) : body.InverseTransformPoint(app.model.WorldBounds(p).center);
         }
 
         void UpdateLabel()
         {
             var p = app.model.selected;
             bool show = p != null && label != null;
-            if (label) label.gameObject.SetActive(show);
+            SetLabelVisible(show);
             if (!show) return;
+            if (labelPart != p) SetLabelPoint(p, Vector3.zero, false);   // selected from the menu, a lesson or the desktop
             UIKit.SetText(labelText, p.Name);
-            var b = app.model.WorldBounds(p);
-            var at = (labelAt != Vector3.zero && b.Contains(labelAt)) ? labelAt : b.center;
-            var pos = at + Vector3.up * 0.07f * Mathf.Max(0.5f, app.model.transform.localScale.x);
-            label.transform.position = pos;
-            label.transform.rotation = Quaternion.LookRotation(pos - head.position, Vector3.up);
+            UIKit.SetText(labelSub, p.OtherName);
+
+            var body = app.model.transform;
+            float scale = Mathf.Max(0.2f, body.localScale.x);
+            var target = body.TransformPoint(labelLocal);
+            // the body's vertical axis at the height of the selected point
+            var axis = body.TransformPoint(new Vector3(0, labelLocal.y, 0));
+            var right = head.right; right.y = 0;
+            if (right.sqrMagnitude < 1e-4f) right = Vector3.right;
+            right.Normalize();
+            // the label goes on the side of the body where the structure is (as seen by the user)
+            float side = Vector3.Dot(target - axis, right) >= 0 ? 1 : -1;
+            float halfW = LabelW * LabelScale * 0.5f;
+            var elbow = axis + right * side * (0.36f * scale);
+            var centre = axis + right * side * (0.36f * scale + 0.06f + halfW);
+            label.transform.position = centre;
+            label.transform.rotation = Quaternion.LookRotation(centre - head.position, Vector3.up);
+            var edge = centre - right * side * halfW;
+
+            leader.SetPosition(0, edge);
+            leader.SetPosition(1, elbow);
+            leader.SetPosition(2, target);
+            leaderDot.position = target;
+            // arrow head at the structure, pointing at it
+            var dir = target - elbow;
+            if (dir.sqrMagnitude < 1e-6f) dir = -right * side;
+            leaderArrow.position = target - dir.normalized * 0.006f;
+            leaderArrow.rotation = Quaternion.LookRotation(dir.normalized, Vector3.up);
+            leaderArrow.localScale = Vector3.one * 0.022f;
         }
 
         // ------------------------------------------------------------------ hand menu
