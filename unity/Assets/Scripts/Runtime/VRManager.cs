@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
+#if ENABLE_INPUT_SYSTEM
+// not "using UnityEngine.InputSystem": its CommonUsages / InputDevice would clash with UnityEngine.XR
+using InputAction = UnityEngine.InputSystem.InputAction;
+#endif
 
 namespace Asfan.Anatomy
 {
@@ -33,6 +37,52 @@ namespace Asfan.Anatomy
             public Vector2 stick;
             public bool Down(bool now, bool prev) => now && !prev;
         }
+
+#if ENABLE_INPUT_SYSTEM
+        /// <summary>Headset and controller input through the Input System (the primary path with OpenXR).</summary>
+        class XrInput
+        {
+            public InputAction headPos, headRot;
+            public readonly InputAction[] pos = new InputAction[2], rot = new InputAction[2], ppos = new InputAction[2], prot = new InputAction[2],
+                trigger = new InputAction[2], grip = new InputAction[2], primary = new InputAction[2], secondary = new InputAction[2],
+                stick = new InputAction[2], stickClick = new InputAction[2];
+            readonly List<InputAction> all = new List<InputAction>();
+
+            InputAction A(string binding, string alt = null)
+            {
+                var a = new InputAction(binding: binding);
+                if (alt != null) UnityEngine.InputSystem.InputActionSetupExtensions.AddBinding(a, alt);
+                all.Add(a);
+                a.Enable();
+                return a;
+            }
+
+            public XrInput()
+            {
+                headPos = A("<XRHMD>/centerEyePosition", "<XRHMD>/devicePosition");
+                headRot = A("<XRHMD>/centerEyeRotation", "<XRHMD>/deviceRotation");
+                for (int i = 0; i < 2; i++)
+                {
+                    var h = i == 0 ? "{LeftHand}" : "{RightHand}";
+                    pos[i] = A("<XRController>" + h + "/devicePosition");
+                    rot[i] = A("<XRController>" + h + "/deviceRotation");
+                    ppos[i] = A("<XRController>" + h + "/pointerPosition");
+                    prot[i] = A("<XRController>" + h + "/pointerRotation");
+                    trigger[i] = A("<XRController>" + h + "/{Trigger}");
+                    grip[i] = A("<XRController>" + h + "/{Grip}");
+                    primary[i] = A("<XRController>" + h + "/{PrimaryButton}");
+                    secondary[i] = A("<XRController>" + h + "/{SecondaryButton}");
+                    stick[i] = A("<XRController>" + h + "/{Primary2DAxis}");
+                    stickClick[i] = A("<XRController>" + h + "/{Primary2DAxisClick}");
+                }
+            }
+
+            public static bool Bound(InputAction a) => a != null && a.controls.Count > 0;
+
+            public void Dispose() { foreach (var a in all) { a.Disable(); a.Dispose(); } all.Clear(); }
+        }
+        XrInput xin;
+#endif
 
         static readonly InputFeatureUsage<Vector3> PointerPosition = new InputFeatureUsage<Vector3>("PointerPosition");
         static readonly InputFeatureUsage<Quaternion> PointerRotation = new InputFeatureUsage<Quaternion>("PointerRotation");
@@ -132,9 +182,14 @@ namespace Asfan.Anatomy
             State = Status.Starting;
             var m = Manager;
             if (m == null) { State = Status.Failed; yield break; }
+            SetMultiPass();
             if (m.activeLoader == null) yield return m.InitializeLoader();
             if (m.activeLoader == null) { State = Status.Failed; yield break; }
+            SetMultiPass();
             m.StartSubsystems();
+#if ENABLE_INPUT_SYSTEM
+            if (xin == null) xin = new XrInput();
+#endif
             SetFloorOrigin();
             BuildRig();
             app.OnVR(true);
@@ -148,6 +203,10 @@ namespace Asfan.Anatomy
         {
             if (!InVR) return;
             ShutdownXR();
+#if ENABLE_INPUT_SYSTEM
+            xin?.Dispose();
+            xin = null;
+#endif
             Application.onBeforeRender -= OnBeforeRender;
             if (rig) Destroy(rig.gameObject);
             rig = null;
@@ -160,6 +219,20 @@ namespace Asfan.Anatomy
             app.OnVR(false);
             State = Status.Available;
             app.RefreshAll();
+        }
+
+        /// <summary>
+        /// Renders each eye in its own pass. Single-pass instanced with the built-in pipeline can leave the
+        /// right eye black and the left one upside down and frozen to the head on PC runtimes.
+        /// </summary>
+        static void SetMultiPass()
+        {
+            try
+            {
+                var s = UnityEngine.XR.OpenXR.OpenXRSettings.Instance;
+                if (s != null) s.renderMode = UnityEngine.XR.OpenXR.OpenXRSettings.RenderMode.MultiPass;
+            }
+            catch (System.Exception e) { Debug.LogWarning("Could not set the OpenXR render mode: " + e.Message); }
         }
 
         static void SetFloorOrigin()
@@ -246,9 +319,17 @@ namespace Asfan.Anatomy
             ReadHand(right);
         }
 
-        static bool ReadHead(out Vector3 p, out Quaternion r)
+        bool ReadHead(out Vector3 p, out Quaternion r)
         {
             p = Vector3.zero; r = Quaternion.identity;
+#if ENABLE_INPUT_SYSTEM
+            if (xin != null && XrInput.Bound(xin.headPos) && XrInput.Bound(xin.headRot))
+            {
+                p = xin.headPos.ReadValue<Vector3>();
+                r = xin.headRot.ReadValue<Quaternion>();
+                if (r.x != 0 || r.y != 0 || r.z != 0 || r.w != 0) return true;
+            }
+#endif
             foreach (var node in new[] { XRNode.CenterEye, XRNode.Head })
             {
                 var d = InputDevices.GetDeviceAtXRNode(node);
@@ -259,9 +340,30 @@ namespace Asfan.Anatomy
             return false;
         }
 
-        static void ReadHand(Hand h)
+        void ReadHand(Hand h)
         {
             h.dev = InputDevices.GetDeviceAtXRNode(h.node);
+#if ENABLE_INPUT_SYSTEM
+            int i = h.node == XRNode.LeftHand ? 0 : 1;
+            if (xin != null && XrInput.Bound(xin.pos[i]) && XrInput.Bound(xin.rot[i]))
+            {
+                h.pos = xin.pos[i].ReadValue<Vector3>();
+                h.rot = xin.rot[i].ReadValue<Quaternion>();
+                h.tracked = h.rot.x != 0 || h.rot.y != 0 || h.rot.z != 0 || h.rot.w != 0;
+                h.t.gameObject.SetActive(h.tracked);
+                if (!h.tracked) return;
+                h.t.localPosition = h.pos;
+                h.t.localRotation = h.rot;
+                if (XrInput.Bound(xin.ppos[i]) && XrInput.Bound(xin.prot[i]))
+                {
+                    h.pointerPos = xin.ppos[i].ReadValue<Vector3>();
+                    h.pointerRot = xin.prot[i].ReadValue<Quaternion>();
+                    if (h.pointerRot.x == 0 && h.pointerRot.y == 0 && h.pointerRot.z == 0 && h.pointerRot.w == 0) { h.pointerPos = h.pos; h.pointerRot = h.rot; }
+                }
+                else { h.pointerPos = h.pos; h.pointerRot = h.rot; }
+                return;
+            }
+#endif
             h.tracked = h.dev.isValid && h.dev.TryGetFeatureValue(CommonUsages.devicePosition, out h.pos) && h.dev.TryGetFeatureValue(CommonUsages.deviceRotation, out h.rot);
             if (!h.tracked) { h.t.gameObject.SetActive(false); return; }
             h.t.gameObject.SetActive(true);
@@ -274,9 +376,23 @@ namespace Asfan.Anatomy
             }
         }
 
-        static void ReadButtons(Hand h)
+        void ReadButtons(Hand h)
         {
             h.triggerPrev = h.trigger; h.gripPrev = h.grip; h.primaryPrev = h.primary; h.secondaryPrev = h.secondary; h.stickClickPrev = h.stickClick;
+#if ENABLE_INPUT_SYSTEM
+            int i = h.node == XRNode.LeftHand ? 0 : 1;
+            if (xin != null && XrInput.Bound(xin.trigger[i]))
+            {
+                float Val(InputAction a) => XrInput.Bound(a) ? a.ReadValue<float>() : 0;
+                h.trigger = Val(xin.trigger[i]) > (h.triggerPrev ? 0.35f : 0.6f);
+                h.grip = Val(xin.grip[i]) > (h.gripPrev ? 0.35f : 0.6f);
+                h.primary = Val(xin.primary[i]) > 0.5f;
+                h.secondary = Val(xin.secondary[i]) > 0.5f;
+                h.stickClick = Val(xin.stickClick[i]) > 0.5f;
+                h.stick = XrInput.Bound(xin.stick[i]) ? xin.stick[i].ReadValue<Vector2>() : Vector2.zero;
+                return;
+            }
+#endif
             if (!h.dev.isValid) { h.trigger = h.grip = h.primary = h.secondary = h.stickClick = false; h.stick = Vector2.zero; return; }
             h.trigger = h.dev.TryGetFeatureValue(CommonUsages.trigger, out float tv) ? tv > (h.triggerPrev ? 0.35f : 0.6f)
                 : h.dev.TryGetFeatureValue(CommonUsages.triggerButton, out bool tb) && tb;

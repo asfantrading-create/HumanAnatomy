@@ -98,6 +98,10 @@ namespace Asfan.Anatomy.EditorTools
                 throw new System.Exception("could not assign the OpenXR loader");
             EditorUtility.SetDirty(manager);
 
+            // each eye in its own pass: reliable with the built-in render pipeline on PC VR runtimes
+            var openxr = UnityEngine.XR.OpenXR.OpenXRSettings.GetSettingsForBuildTargetGroup(group);
+            if (openxr != null) { openxr.renderMode = UnityEngine.XR.OpenXR.OpenXRSettings.RenderMode.MultiPass; EditorUtility.SetDirty(openxr); }
+
             FeatureHelpers.RefreshFeatures(group);
             int enabled = 0;
             foreach (var id in new[] { "com.unity.openxr.feature.input.oculustouch", "com.unity.openxr.feature.input.metaquestplus" })
