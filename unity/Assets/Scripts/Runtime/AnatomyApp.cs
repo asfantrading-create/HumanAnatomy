@@ -18,6 +18,7 @@ namespace Asfan.Anatomy
         public Lessons lessons;
         public IdLabels labels;
         public LicenseManager license;
+        public UpdateChecker updater;
         public Camera desktopCam;
         public bool autoRotate, highQuality = true;
         Material floorMat;
@@ -72,6 +73,8 @@ namespace Asfan.Anatomy
             vr.app = this;
             ui = gameObject.AddComponent<DesktopUI>();
             ui.app = this;
+            updater = gameObject.AddComponent<UpdateChecker>();
+            updater.app = this;
             license = new LicenseManager();
             license.Changed += s => { ui.OnLicense(s); };
             ApplyTheme();
@@ -87,6 +90,8 @@ namespace Asfan.Anatomy
                 SetView("front", true);
                 ui.Build();   // the systems list and the learning data are known now
                 if (license.Current.allowed) ui.ShowChooser();
+                // look for a new version a few seconds after start (silently when offline)
+                if (!Application.isEditor) StartCoroutine(CheckUpdateLater());
             }
             // re-check the subscription hourly while the program stays open
             while (true)
@@ -94,6 +99,13 @@ namespace Asfan.Anatomy
                 yield return new WaitForSecondsRealtime(3600);
                 license.Refresh();
             }
+        }
+
+        IEnumerator CheckUpdateLater()
+        {
+            yield return new WaitForSecondsRealtime(4);
+            while (ui.ModalOpen && license.Current.allowed) yield return new WaitForSecondsRealtime(2);   // after the body chooser
+            updater.Check(false);
         }
 
         public static string SystemName(string id)

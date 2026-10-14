@@ -157,6 +157,9 @@ namespace Asfan.Anatomy
             Btn(f, "A+", () => app.SetFontScale(FontScale + 0.1f));
             UIKit.Heading(c, L.T("lang"));
             Btn(c, L.T("lang"), app.ToggleLanguage);
+            UIKit.Heading(c, L.T("updates"));
+            Muted(c, L.T("updCurrent", "v", Application.version), 12);
+            Btn(c, L.T("checkUpdates"), () => { CloseModal(); app.updater.Check(true); });
         }
 
         // ------------------------------------------------------------------ teacher lesson files
@@ -185,6 +188,43 @@ namespace Asfan.Anatomy
                 var path = FileDialogs.Open(L.T("lessonOpen"), "Lesson (*.ha3d.json;*.json)|*.ha3d.json;*.json|All files (*.*)|*.*", dir);
                 if (path != null) OpenLessonFile(path);
             });
+        }
+
+        // ------------------------------------------------------------------ automatic update
+        public void ShowUpdate(UpdateChecker.Info info)
+        {
+            var c = Modal("update", L.T("updAvail", "v", info.version), 680, 560, info.mandatory);
+            Muted(c, L.T("updCurrent", "v", Application.version), 13);
+            if (info.size > 0) Muted(c, L.T("updSize", "mb", (info.size / 1048576f).ToString("0")), 13);
+            if (info.mandatory) UIKit.Para(c, L.T("updMandatory"), 14, new Color(0.95f, 0.55f, 0.2f));
+            if (info.Notes.Length > 0)
+            {
+                UIKit.Heading(c, L.T("updWhatsNew"));
+                UIKit.Para(c, info.Notes, 14, null);
+            }
+            var status = UIKit.Para(c, "", 14, UIKit.Accent);
+            var bar = UIKit.Bar(c, 0, UIKit.Accent, 10);
+            bar.gameObject.SetActive(false);
+            var row = UIKit.Row(c, 40);
+            Button now = null, later = null;
+            now = Btn(row, L.T("updNow"), () =>
+            {
+                now.interactable = false;
+                if (later) later.interactable = false;
+                bar.gameObject.SetActive(true);
+                app.updater.Install(info, p =>
+                {
+                    UIKit.SetText(status, p >= 1 ? L.T("updInstalling") : L.T("updDownloading", "p", Mathf.RoundToInt(p * 100)));
+                    var fill = (RectTransform)bar.GetChild(0);
+                    if (L.Ar) fill.anchorMin = new Vector2(1 - p, 0); else fill.anchorMax = new Vector2(p, 1);
+                }, err =>
+                {
+                    UIKit.SetText(status, err);
+                    now.interactable = true;
+                    if (later) later.interactable = true;
+                });
+            }, new Color(0.12f, 0.6f, 0.36f), 15);
+            if (!info.mandatory) later = Btn(row, L.T("updLater"), () => CloseModal(), null, 15);
         }
 
         // ------------------------------------------------------------------ licence

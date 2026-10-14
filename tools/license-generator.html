@@ -20,7 +20,9 @@
   .out { font-family:Consolas,monospace; font-size:12px; word-break:break-all; background:#f8fafc; border:1px dashed var(--line); border-radius:8px; padding:10px; direction:ltr; text-align:left; min-height:60px; }
   .muted { color:var(--muted); font-size:12px; } .ok { color:var(--accent); } .bad { color:var(--crit); }
   .lang { border:1px solid var(--line); border-radius:8px; overflow:hidden; display:inline-flex; } .lang button { margin:0; border-radius:0; background:#fff; color:var(--text); padding:6px 10px; } .lang button.active { background:#e6f7f4; color:var(--accent); }
-  @media (max-width:800px) { main { grid-template-columns:1fr; } }
+  .wide { grid-column:1 / -1; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:0 14px; }
+  @media (max-width:800px) { main { grid-template-columns:1fr; } .grid2 { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -57,6 +59,20 @@
     <textarea id="verifyIn" placeholder="HA3D1-..."></textarea>
     <button class="secondary" onclick="verifyKey()" data-i18n="verify"></button>
     <div id="verifyOut" class="muted" style="margin-top:8px"></div>
+  </section>
+  <section class="card wide">
+    <h2 data-i18n="upTitle"></h2>
+    <p class="muted" data-i18n="upHint"></p>
+    <div class="grid2">
+      <div><label data-i18n="upVersion"></label><input id="upVersion" placeholder="6.0.1" style="direction:ltr" /></div>
+      <div><label data-i18n="upRepo"></label><input id="upRepo" value="asfantrading-create/HumanAnatomy-Updates" style="direction:ltr" /></div>
+      <div><label data-i18n="upFile"></label><input id="upFile" type="file" accept=".exe" /></div>
+      <div><label data-i18n="upMin"></label><input id="upMin" placeholder="" style="direction:ltr" /></div>
+      <div><label data-i18n="upNotesAr"></label><textarea id="upNotesAr" style="direction:rtl;font-family:inherit;min-height:70px"></textarea></div>
+      <div><label data-i18n="upNotesEn"></label><textarea id="upNotesEn" style="font-family:inherit;min-height:70px"></textarea></div>
+    </div>
+    <button onclick="makeUpdate()" data-i18n="upMake"></button>
+    <div class="out" id="upOut" style="margin-top:10px"><span class="muted" data-i18n="upEmpty"></span></div>
   </section>
 </main>
 <script>
@@ -115,6 +131,47 @@ async function verifyKey() {
     const payload = JSON.parse(new TextDecoder().decode(payloadBytes));
     out.innerHTML = '<span class="' + (ok ? 'ok' : 'bad') + '">' + (ok ? t('valid') : t('invalid')) + '</span><br>' + t('summary')(payload);
   } catch (e) { out.innerHTML = '<span class="bad">' + t('invalid') + '</span>'; }
+}
+// ---------------------------------------------------------------------------
+// 4 · signed update description (update.json) for the automatic updater of the Unity edition
+Object.assign(I18N.ar, {
+  upTitle: '4 · نشر تحديث للبرنامج (update.json)',
+  upHint: 'بعد بناء ملف التثبيت الجديد: اختر الملف واكتب رقم الإصدار وملاحظات التحديث، ثم اضغط «إنشاء ملف التحديث». ارفع ملف التثبيت وملف update.json الناتج إلى إصدار (Release) جديد في مستودع التحديثات على GitHub باسم v + رقم الإصدار. سيظهر التحديث لكل العملاء عند فتح البرنامج.',
+  upVersion: 'رقم الإصدار الجديد (مثل 6.0.1، ويجب أن يطابق AppVersion)', upRepo: 'مستودع التحديثات العام على GitHub (المالك/الاسم)',
+  upFile: 'ملف التثبيت الجديد HumanAnatomy3D-VR-Setup-x.y.z.exe', upMin: 'أقل إصدار يجب تحديثه إجبارياً (اختياري)',
+  upNotesAr: 'ما الجديد (بالعربية)', upNotesEn: 'What is new (English)', upMake: 'إنشاء ملف التحديث update.json', upEmpty: 'لم يُنشأ ملف بعد.',
+  upNeed: 'أدخل المفتاح الخاص ورقم الإصدار واختر ملف التثبيت', upDone: 'تم إنشاء update.json وتنزيله. ارفعه مع ملف التثبيت إلى الإصدار: '
+});
+Object.assign(I18N.en, {
+  upTitle: '4 · Publish a program update (update.json)',
+  upHint: 'After building the new installer: choose the file, enter the version and the release notes and press “Create update file”. Upload the installer and the generated update.json to a new GitHub Release named v + version in the public updates repository. Every customer is offered the update when they open the program.',
+  upVersion: 'New version (e.g. 6.0.1, must match AppVersion)', upRepo: 'Public updates repository on GitHub (owner/name)',
+  upFile: 'New installer HumanAnatomy3D-VR-Setup-x.y.z.exe', upMin: 'Lowest version that must update (optional)',
+  upNotesAr: 'What is new (Arabic)', upNotesEn: 'What is new (English)', upMake: 'Create update file (update.json)', upEmpty: 'No file created yet.',
+  upNeed: 'Enter the private key and the version and choose the installer', upDone: 'update.json was created and downloaded. Upload it together with the installer to the release: '
+});
+async function makeUpdate() {
+  const privTxt = document.getElementById('priv').value.trim();
+  const version = document.getElementById('upVersion').value.trim().replace(/^v/i, '');
+  const repo = document.getElementById('upRepo').value.trim().replace(/^https?:\/\/github.com\//, '').replace(/\/+$/, '');
+  const file = document.getElementById('upFile').files[0];
+  if (!privTxt || !/^\d+\.\d+(\.\d+)?$/.test(version) || !file || !/^[\w.-]+\/[\w.-]+$/.test(repo)) return alert(t('upNeed'));
+  const jwk = JSON.parse(privTxt);
+  if (jwk.x !== PUB.x || jwk.y !== PUB.y) return alert(t('wrongKey'));
+  const buf = await file.arrayBuffer();
+  const sha256 = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buf))].map((b) => b.toString(16).padStart(2, '0')).join('');
+  const url = 'https://github.com/' + repo + '/releases/download/v' + version + '/' + encodeURIComponent(file.name);
+  // the program checks this signature with its built-in public key before it downloads anything
+  const message = new TextEncoder().encode(version + '\n' + url + '\n' + sha256);
+  const key = await crypto.subtle.importKey('jwk', jwk, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
+  const sig = b64u(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, key, message));
+  const info = { app: 'HA3D-UNITY', version, url, sha256, size: file.size, date: isoDate(new Date()),
+    minVersion: document.getElementById('upMin').value.trim() || undefined,
+    notesAr: document.getElementById('upNotesAr').value.trim(), notesEn: document.getElementById('upNotesEn').value.trim(), sig };
+  const json = JSON.stringify(info, null, 2);
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([json], { type: 'application/json' })); a.download = 'update.json'; a.click();
+  document.getElementById('upOut').textContent = t('upDone') + 'https://github.com/' + repo + '/releases/new?tag=v' + version + '\n\n' + json;
+  document.getElementById('upOut').style.whiteSpace = 'pre-wrap';
 }
 setLang('ar');
 </script>

@@ -89,6 +89,16 @@ namespace Asfan.Anatomy
             ["contactMail"] = new[] { "البريد الإلكتروني", "E-mail" },
             ["licLocked"] = new[] { "انتهت الفترة التجريبية. أدخل مفتاح الترخيص للمتابعة.", "The trial has ended. Enter a licence key to continue." },
             ["quitApp"] = new[] { "إغلاق البرنامج", "Quit" },
+            ["updAvail"] = new[] { "يتوفر تحديث جديد للبرنامج – الإصدار {v}", "A new version of the program is available – version {v}" },
+            ["updCurrent"] = new[] { "الإصدار المثبّت لديك: {v}", "Installed version: {v}" },
+            ["updWhatsNew"] = new[] { "ما الجديد", "What's new" },
+            ["updNow"] = new[] { "تحديث الآن", "Update now" },
+            ["updLater"] = new[] { "لاحقاً", "Later" },
+            ["updSize"] = new[] { "حجم التنزيل: {mb} ميغابايت", "Download size: {mb} MB" },
+            ["updMandatory"] = new[] { "هذا التحديث ضروري لمتابعة استخدام البرنامج.", "This update is required to keep using the program." },
+            ["updDownloading"] = new[] { "جارٍ تنزيل التحديث… {p}%", "Downloading the update… {p}%" },
+            ["updInstalling"] = new[] { "تم التحقق من التحديث. سيُغلق البرنامج الآن ويُثبَّت الإصدار الجديد ثم يُفتح تلقائياً.", "The update was verified. The program will close, install the new version and open again." },
+            ["updBad"] = new[] { "ملف التحديث غير سليم ولم يُثبَّت. حاول مرة أخرى لاحقاً.", "The update file is damaged and was not installed. Please try again later." },
             ["hint"] = new[] { "زر الفأرة الأيسر: تدوير   •   الأيمن: تحريك   •   العجلة: تكبير   •   نقرة مزدوجة: تركيز", "Left mouse: rotate   •   Right: pan   •   Wheel: zoom   •   Double-click: focus" },
         };
 

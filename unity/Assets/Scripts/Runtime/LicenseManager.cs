@@ -137,6 +137,13 @@ namespace Asfan.Anatomy
             catch { error = "format"; return false; }
         }
 
+        /// <summary>Checks a signature made with the publisher key (update files).</summary>
+        public static bool VerifyPublisher(byte[] message, string signatureB64u)
+        {
+            try { return P256.Verify(B64u(JwkX), B64u(JwkY), message, B64u(signatureB64u ?? "")); }
+            catch { return false; }
+        }
+
         static byte[] B64u(string s)
         {
             s = s.Replace('-', '+').Replace('_', '/');
