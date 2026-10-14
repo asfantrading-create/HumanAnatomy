@@ -29,6 +29,7 @@ AR = {
             'مركز تعلّم فيه دروس موجّهة، اختبارات، امتحانات بشهادة PDF، ومتابعة للتقدّم.',
             'وضع المعلّم لإعداد دروس خاصة وعرضها على شاشة الصف.',
             'يعمل دون إنترنت، ويحدّث نفسه تلقائياً عند توفر الإنترنت.']),
+    ('fig', [('male', 'جسم الرجل كاملاً'), ('female', 'جسم المرأة كاملاً')]),
   ]),
   ('req', 'متطلبات التشغيل', [
     ('table', ['البند', 'الحد الأدنى', 'الموصى به'], [
@@ -64,12 +65,13 @@ AR = {
   ]),
   ('ui', 'واجهة البرنامج', [
     ('p', 'عند فتح البرنامج اختر الجسم: رجل أو امرأة (يمكن التبديل في أي وقت).'),
+    ('uifig', 'واجهة البرنامج – الوضع الفاتح مع اختيار عضو من «تصفح الأعضاء»'),
     ('table', ['المنطقة', 'المحتوى'], [
       ['الشريط العلوي', 'الشعار، البحث عن أي عضو، الترخيص، الإعدادات، المساعدة، تكبير/تصغير الخط A+ / A−، تبديل اللغة'],
       ['لوحة الأدوات', 'الجسم (رجل/امرأة)، الأجهزة الـ12 مع شفافية كل جهاز، الأدوات (أشعة، إظهار الكل، النبض، التنفس، جريان الدم، التفكيك)، المقاطع الثلاثة'],
       ['لوحة المعلومات', 'اسم العضو المختار بالعربية والإنجليزية، الجهاز والمنطقة، الوصف، النطق، الإخفاء، العزل، التركيز، المفضلة، ملاحظاتك، وتصفح كل الأعضاء حسب المنطقة'],
       ['الشريط السفلي', 'زوايا العرض (أمامي، خلفي، أيسر، أيمن، علوي)، الدوران، التسميات، صورة، تراجع، إعادة الضبط، اختبار سريع، مركز التعلّم، وضع العرض، الواقع الافتراضي'],
-    ]),
+    ], 'numbered'),
   ]),
   ('nav', 'التحكم والتنقل', [
     ('table', ['الحركة', 'بالفأرة', 'باللمس'], [
@@ -99,10 +101,13 @@ AR = {
             'العزل: يُبقي العضو ومجموعته ويخفف الباقي. الإخفاء: يخفي العضو، و«تراجع» يعيده.',
             'التسميات: تكتب أسماء الأعضاء الظاهرة على الشاشة تلقائياً.',
             'صورة: تحفظ صورة للعرض في مجلد الصور ← ASFAN Anatomy.']),
+    ('fig', [('xray', 'الأشعة السينية'), ('organs', 'عرض الأحشاء'), ('skeleton', 'الهيكل العظمي'),
+             ('explode', 'التفكيك'), ('section', 'مقطع سهمي'), ('female-organs', 'أحشاء جسم المرأة')], 3),
     ('h3', 'محاكاة وظائف الأعضاء'),
     ('ul', ['نبض القلب: انقباض وانبساط القلب بمعدل 72 نبضة في الدقيقة.',
             'التنفس: تمدد الرئتين وحركة الحجاب الحاجز.',
             'جريان الدم: موجات حمراء في الشرايين بعيداً عن القلب، وزرقاء في الأوردة عائدة إليه، مع موجة التوصيل الكهربائي في القلب.']),
+    ('fig', [('heart', 'درس «القلب ومسار الدم»: إبراز حجرات القلب'), ('flow', 'محاكاة جريان الدم')]),
   ]),
   ('learn', 'مركز التعلّم', [
     ('p', 'افتحه من زر «مركز التعلّم» في الشريط السفلي. فيه أربعة أقسام:'),
@@ -184,6 +189,7 @@ EN = {
             'A learning centre with guided lessons, quizzes, exams with PDF certificates and progress tracking.',
             'Teacher mode to build your own lessons and present them in class.',
             'Works offline and updates itself automatically when online.']),
+    ('fig', [('male', 'The complete male body'), ('female', 'The complete female body')]),
   ]),
   ('req', 'System requirements', [
     ('table', ['Item', 'Minimum', 'Recommended'], [
@@ -219,12 +225,13 @@ EN = {
   ]),
   ('ui', 'The interface', [
     ('p', 'When the program opens, choose the male or female body (you can switch at any time).'),
+    ('uifig', 'The interface – light theme with a structure chosen from “Browse structures” (Arabic interface)'),
     ('table', ['Area', 'Contents'], [
       ['Top bar', 'Logo, search for any structure, licence, settings, help, text size A+ / A−, language'],
       ['Tools panel', 'Body (male/female), the 12 systems with an opacity slider each, tools (X-ray, show all, heartbeat, breathing, blood flow, explode) and the three section planes'],
       ['Information panel', 'Name of the selected structure in Arabic and English, system and region, description, pronounce, hide, isolate, focus, favourites, your notes, and a browser of all structures by region'],
       ['Bottom toolbar', 'Views (front, back, left, right, top), rotate, labels, screenshot, undo, reset, quick quiz, learning centre, presentation mode, virtual reality'],
-    ]),
+    ], 'numbered'),
   ]),
   ('nav', 'Navigation', [
     ('table', ['Action', 'Mouse', 'Touch'], [
@@ -254,10 +261,13 @@ EN = {
             'Isolate keeps the structure and its group and fades the rest. Hide removes a structure; Undo brings it back.',
             'Labels: writes the names of the visible structures on screen automatically.',
             'Screenshot: saves an image in Pictures → ASFAN Anatomy.']),
+    ('fig', [('xray', 'X-ray'), ('organs', 'Organs view'), ('skeleton', 'Skeleton'),
+             ('explode', 'Exploded view'), ('section', 'Sagittal section'), ('female-organs', 'Female organs')], 3),
     ('h3', 'Physiology'),
     ('ul', ['Heartbeat: the heart contracts and relaxes at 72 beats per minute.',
             'Breathing: the lungs expand and the diaphragm moves.',
             'Blood flow: red waves travel away from the heart in arteries, blue waves back towards it in veins, plus the electrical conduction wave in the heart.']),
+    ('fig', [('heart', 'Lesson “The heart and blood flow”: heart chambers highlighted'), ('flow', 'Blood-flow simulation')]),
   ]),
   ('learn', 'Learning centre', [
     ('p', 'Open it with “Learning centre” in the bottom toolbar. It has four tabs:'),
@@ -329,7 +339,17 @@ def block(b):
     if k == 'table':
         head = ''.join(f'<th>{esc(h)}</th>' for h in b[1])
         rows = ''.join('<tr>' + ''.join(f'<td>{esc(c)}</td>' for c in r) + '</tr>' for r in b[2])
+        if len(b) > 3 and b[3] == 'numbered':
+            rows = ''.join('<tr>' + ''.join((f'<td><span class="pin s">{i+1}</span> {esc(c)}</td>' if j == 0 else f'<td>{esc(c)}</td>') for j, c in enumerate(r)) + '</tr>' for i, r in enumerate(b[2]))
         return f'<table><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table>'
+    if k == 'fig':
+        cols = b[2] if len(b) > 2 else len(b[1])
+        items = ''.join(f'<figure><img src="img/{f}.png"><figcaption>{esc(c)}</figcaption></figure>' for f, c in b[1])
+        return f'<div class="figs c{cols}">{items}</div>'
+    if k == 'uifig':
+        pins = [(1, 50, 3), (2, 91, 30), (3, 11, 13), (4, 50, 95)]
+        badges = ''.join(f'<span class="pin" style="left:{x}%;top:{y}%">{n}</span>' for n, x, y in pins)
+        return f'<figure class="ui"><div class="shot"><img src="img/ui.png">{badges}</div><figcaption>{esc(b[1])}</figcaption></figure>'
     if k == 'tip': return f'<div class="note tip"><b>{CUR["tipw"]}</b> {esc(b[1])}</div>'
     if k == 'warn': return f'<div class="note warn"><b>{CUR["warnw"]}</b> {esc(b[1])}</div>'
     raise ValueError(k)
@@ -368,7 +388,9 @@ h2 .n {{ background: var(--teal); color: #fff; width: 9mm; height: 9mm; border-r
 h3 {{ font-size: 12.2pt; color: var(--blue); margin: 5mm 0 1.5mm; font-weight: 700; }}
 section {{ margin-bottom: 9mm; }}
 section + section {{ page-break-before: auto; }}
-#vr, #learn, #nav {{ page-break-before: always; }}
+#vr, #learn, #nav, #explore {{ page-break-before: always; }}
+h2, h3 {{ page-break-after: avoid; break-after: avoid; }}
+.figs, figure {{ break-inside: avoid; }}
 p {{ margin: 1.5mm 0 2.5mm; }}
 ul, ol {{ margin: 1mm 0 3mm; padding-{'right' if rtl else 'left'}: 7mm; }}
 li {{ margin: .8mm 0; }}
@@ -393,6 +415,17 @@ td:first-child {{ font-weight: 600; color: var(--navy); white-space: nowrap; }}
 .cgrid div {{ background: #fff; border-radius: 8px; padding: 3mm 4mm; border: 1px solid var(--line); }}
 .cgrid span {{ display: block; font-size: 9pt; color: var(--muted); }}
 .cgrid b {{ font-size: 11pt; color: var(--navy); }}
+.figs {{ display: grid; gap: 4mm; margin: 3mm 0 5mm; page-break-inside: avoid; }}
+.figs.c2 {{ grid-template-columns: 1fr 1fr; }} .figs.c3 {{ grid-template-columns: 1fr 1fr 1fr; }} .figs.c1 {{ grid-template-columns: 1fr; }}
+figure {{ margin: 0; page-break-inside: avoid; }}
+figure img {{ width: 100%; display: block; border-radius: 8px; border: 1px solid var(--line); background: #0b1220; }}
+.figs.c3 img {{ height: 62mm; object-fit: cover; }} .figs.c2 img {{ height: 80mm; object-fit: cover; }}
+figcaption {{ font-size: 9pt; color: var(--muted); text-align: center; margin-top: 1.2mm; }}
+figure.ui {{ margin: 3mm 0 4mm; }}
+.shot {{ position: relative; }}
+.shot img {{ background: #fff; }}
+.pin {{ position: absolute; transform: translate(-50%, -50%); width: 8mm; height: 8mm; border-radius: 50%; background: #e0452e; color: #fff; font-weight: 800; font-size: 11pt; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px #fff, 0 2px 6px rgba(0,0,0,.35); }}
+.pin.s {{ position: static; transform: none; width: 6mm; height: 6mm; font-size: 9pt; box-shadow: none; margin-inline-end: 1.5mm; vertical-align: middle; }}
 .credits {{ font-size: 8.6pt; color: var(--muted); margin-top: 6mm; }}
 </style></head><body>
 <div class="cover">

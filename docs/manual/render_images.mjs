@@ -1,0 +1,35 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const OUT = process.argv[2];
+const browser = await chromium.launch({ executablePath: process.env.CH, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await browser.newPage({ viewport: { width: 1200, height: 900 }, deviceScaleFactor: 1 });
+page.on('pageerror', (e) => console.log('pageerror', e.message));
+await page.goto('http://127.0.0.1:8765/index.html');
+await page.waitForFunction(() => window.__anatomy && window.__anatomy.state.parts.length > 1000, null, { timeout: 240000 });
+await page.waitForTimeout(1500);
+await page.click('#sex-m').catch(() => {});
+// only the 3D view, dark background, no interface
+await page.addStyleTag({ content: `body > *:not(#viewport):not(#labels){ visibility:hidden !important } #viewport{ position:fixed !important; inset:0 !important; } .modal{display:none!important}` });
+const A = 'window.__anatomy';
+const snap = async (name, fn, wait = 2500) => {
+  await page.evaluate(fn);
+  await page.waitForTimeout(wait);
+  await page.screenshot({ path: `${OUT}/${name}.png` });
+  console.log('shot', name);
+};
+const reset = `(() => { const a=${A}; a.state.parts.forEach(p=>p.hidden=false); a.select(null); a.setExplode(0); if(a.state.xray) a.toggleXray(); for (const k of ['x','y','z']) a.clip[k].on=false; a.updateClipping(); document.querySelectorAll('[data-preset="all"]')[0]?.click(); a.setView('front', false); })()`;
+await snap('male', reset);
+await snap('xray', `(() => { ${A}.toggleXray(); })()`);
+await snap('organs', `(() => { ${A}.toggleXray(); document.querySelector('[data-preset="organs"]').click(); })()`);
+await snap('skeleton', `(() => { document.querySelector('[data-preset="skeleton"]').click(); })()`);
+await snap('explode', `(() => { document.querySelector('[data-preset="all"]').click(); ${A}.setExplode(0.6); })()`);
+await snap('section', `(() => { ${A}.setExplode(0); const r=document.querySelector('.clip-row[data-axis="x"] input[type=checkbox]'); r.click(); ${A}.setView('left', false); })()`);
+await snap('heart', `(() => { const a=${A}; a.clip.x.on=false; a.updateClipping(); a.startTour(0); })()`, 4000);
+await snap('flow', `(() => { document.querySelector('#btn-flow').click(); })()`, 3000);
+await page.evaluate(`(() => { document.querySelector('#btn-flow').click(); document.querySelector('#tours-close')?.click(); })()`);
+await page.click('#btn-sex', { force: true }).catch(() => {});
+await page.evaluate(`document.querySelector('#sex-f').click()`);
+await page.waitForFunction(() => window.__anatomy.state.sex === 'f', null, { timeout: 120000 });
+await page.addStyleTag({ content: `.modal{display:none!important}` });
+await snap('female', reset, 3000);
+await snap('female-organs', `(() => { document.querySelector('[data-preset="organs"]').click(); })()`);
+await browser.close();
