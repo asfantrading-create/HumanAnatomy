@@ -99,6 +99,8 @@ namespace Asfan.Anatomy
             ["updDownloading"] = new[] { "جارٍ تنزيل التحديث… {p}%", "Downloading the update… {p}%" },
             ["updInstalling"] = new[] { "تم التحقق من التحديث. سيُغلق البرنامج الآن ويُثبَّت الإصدار الجديد ثم يُفتح تلقائياً.", "The update was verified. The program will close, install the new version and open again." },
             ["updBad"] = new[] { "ملف التحديث غير سليم ولم يُثبَّت. حاول مرة أخرى لاحقاً.", "The update file is damaged and was not installed. Please try again later." },
+            ["licPaste"] = new[] { "لصق المفتاح وتفعيله", "Paste key & activate" },
+            ["licClipEmpty"] = new[] { "لا يوجد مفتاح منسوخ. انسخ المفتاح أولاً ثم اضغط «لصق المفتاح وتفعيله».", "Nothing has been copied. Copy the key first, then press “Paste key & activate”." },
             ["hint"] = new[] { "زر الفأرة الأيسر: تدوير   •   الأيمن: تحريك   •   العجلة: تكبير   •   نقرة مزدوجة: تركيز", "Left mouse: rotate   •   Right: pan   •   Wheel: zoom   •   Double-click: focus" },
         };
 

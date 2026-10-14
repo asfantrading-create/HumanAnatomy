@@ -286,6 +286,13 @@ namespace Asfan.Anatomy
             string key = "";
             UIKit.Input(c, "", "HA3D1-…", null, true, 70, v => key = v);
             var ar = UIKit.Row(c, 36);
+            // touch screens have no keyboard for Ctrl+V: paste the copied key and activate in one press
+            Btn(ar, L.T("licPaste"), () =>
+            {
+                var clip = (GUIUtility.systemCopyBuffer ?? "").Trim();
+                if (clip.Length == 0) { licMsg = L.T("licClipEmpty"); licMsgColor = new Color(0.95f, 0.6f, 0.3f); ShowLicense(); return; }
+                Activate(clip);
+            }, new Color(0.16f, 0.45f, 0.8f), 14);
             Btn(ar, L.T("licActivate"), () => Activate(key), new Color(0.12f, 0.6f, 0.36f), 14);
             Btn(ar, L.T("licLoadFile"), () =>
             {
