@@ -1,4 +1,4 @@
-; Windows installer for the Unity edition (Inno Setup 6: https://jrsoftware.org/isdl.php)
+﻿; Windows installer for the Unity edition (Inno Setup 6: https://jrsoftware.org/isdl.php)
 ; Built automatically by Tools > ASFAN Anatomy > Build Windows Program when Inno Setup is installed,
 ; or manually: ISCC.exe /DSourceDir="<build folder>" /DAppVersion=6.0.0 HumanAnatomy3D.iss
 
@@ -49,9 +49,13 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "{#SourceDir}\*"; DestDir: "{app}"; Excludes: "*_BurstDebugInformation_DoNotShip\*,*_BackUpThisFolder_ButDontShipItWithYourGame\*"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "license.txt"; DestDir: "{app}"; DestName: "EULA.txt"; Flags: ignoreversion
+Source: "HumanAnatomy3D-User-Manual-AR.pdf"; DestDir: "{app}\Manual"; Flags: ignoreversion
+Source: "HumanAnatomy3D-User-Manual-EN.pdf"; DestDir: "{app}\Manual"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExe}"
+Name: "{group}\دليل المستخدم - User Manual (AR)"; Filename: "{app}\Manual\HumanAnatomy3D-User-Manual-AR.pdf"
+Name: "{group}\User Manual (EN)"; Filename: "{app}\Manual\HumanAnatomy3D-User-Manual-EN.pdf"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
 Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppExe}"; Tasks: desktopicon
 
