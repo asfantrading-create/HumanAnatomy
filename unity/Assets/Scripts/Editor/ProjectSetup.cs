@@ -167,6 +167,9 @@ namespace Asfan.Anatomy.EditorTools
         {
             if (!File.Exists(Marker)) Run();
             CopyVoice();
+            // the program reports Application.version to the updater: it must always match AppVersion
+            PlayerSettings.bundleVersion = AppVersion;
+            AssetDatabase.SaveAssets();
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, il2cpp ? ScriptingImplementation.IL2CPP : ScriptingImplementation.Mono2x);
             var dir = Path.Combine(BuildsDir, "HumanAnatomy3D");
             if (Directory.Exists(dir)) Directory.Delete(dir, true);
