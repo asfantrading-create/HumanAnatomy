@@ -388,7 +388,7 @@ namespace Asfan.Anatomy
             var mouse = DesktopInput.MousePosition;
             bool overUI = orbit.PointerOverUI;
             bool dragging = DesktopInput.Held(0) || DesktopInput.Held(1) || DesktopInput.Held(2);
-            if (!overUI && !dragging && (mouse - lastMouse).sqrMagnitude > 1 && Time.unscaledTime - lastHoverPick > 0.05f)
+            if (!overUI && !dragging && Time.unscaledTime - orbit.LastTouchTime > 0.6f && (mouse - lastMouse).sqrMagnitude > 1 && Time.unscaledTime - lastHoverPick > 0.05f)
             {
                 lastHoverPick = Time.unscaledTime;
                 lastMouse = mouse;
@@ -396,7 +396,10 @@ namespace Asfan.Anatomy
             }
             if (overUI && model.hovered != null) model.Hover(null);
 
-            if (DesktopInput.Up(0) && !overUI && !orbit.Dragged)
+            bool touchActive = Time.unscaledTime - orbit.LastTouchTime < 0.6f;
+            bool click = DesktopInput.Up(0) && !overUI && !orbit.Dragged && !touchActive;
+            if (orbit.Tapped) { click = true; mouse = orbit.TapPosition; }
+            if (click)
             {
                 var p = Picker.Pick(model, desktopCam.ScreenPointToRay(mouse), out _);
                 var q = lessons.quiz;

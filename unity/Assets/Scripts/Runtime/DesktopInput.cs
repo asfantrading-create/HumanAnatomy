@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -60,6 +61,17 @@ namespace Asfan.Anatomy
                 default: return UnityEngine.InputSystem.Key.None;
             }
         }
+        /// <summary>Fingers currently on the touch screen (interactive displays, tablets).</summary>
+        public static int Touches(List<Vector2> positions)
+        {
+            positions.Clear();
+            var ts = Touchscreen.current;
+            if (ts == null) return 0;
+            var all = ts.touches;
+            for (int i = 0; i < all.Count; i++)
+                if (all[i].press.isPressed) positions.Add(all[i].position.ReadValue());
+            return positions.Count;
+        }
         public static bool Shift => Keyboard.current != null && Keyboard.current.shiftKey.isPressed;
         public static bool Ctrl => Keyboard.current != null && Keyboard.current.ctrlKey.isPressed;
         public static bool Alt => Keyboard.current != null && Keyboard.current.altKey.isPressed;
@@ -76,6 +88,16 @@ namespace Asfan.Anatomy
         public static bool Up(int b) => Input.GetMouseButtonUp(b);
         public static float Scroll => Input.mouseScrollDelta.y;
         public static bool Key(KeyCode k) => Input.GetKeyDown(k);
+        public static int Touches(List<Vector2> positions)
+        {
+            positions.Clear();
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                var t = Input.GetTouch(i);
+                if (t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled) positions.Add(t.position);
+            }
+            return positions.Count;
+        }
         public static bool Shift => Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         public static bool Ctrl => Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
         public static bool Alt => Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
