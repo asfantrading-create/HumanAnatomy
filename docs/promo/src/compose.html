@@ -1,0 +1,212 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="cairo.css">
+<style>
+  :root { --navy:#0b2a4a; --teal:#0f9d8a; --ink:#0f172a; --muted:#64748b; }
+  html, body { margin:0; width:1920px; height:1080px; overflow:hidden; background:#fff; font-family:'Cairo',sans-serif; }
+  #stage { position:absolute; inset:0; overflow:hidden; background:#fff; }
+  .abs { position:absolute; will-change:transform,opacity; }
+  /* soft background shapes */
+  .blob { border-radius:50%; filter:blur(60px); opacity:.55; }
+  #blob1 { width:900px; height:900px; background:radial-gradient(circle, #d9f3ee 0%, rgba(217,243,238,0) 70%); }
+  #blob2 { width:800px; height:800px; background:radial-gradient(circle, #e3edf9 0%, rgba(227,237,249,0) 70%); }
+  .grid { inset:0; background-image: radial-gradient(#e7edf3 1.4px, transparent 1.4px); background-size:36px 36px; opacity:.55; }
+  /* brand */
+  #logo { width:520px; left:700px; top:420px; }
+  #logo img { width:100%; display:block; }
+  #brandName { left:0; right:0; top:575px; text-align:center; font-size:30px; color:var(--muted); font-weight:600; letter-spacing:6px; }
+  #line { height:4px; background:var(--teal); border-radius:2px; left:860px; top:560px; width:200px; transform-origin:left center; }
+  /* cards */
+  .card { border-radius:42px; overflow:hidden; background:#fff; box-shadow:0 40px 90px rgba(11,42,74,.16), 0 8px 24px rgba(11,42,74,.08); }
+  .card img { width:100%; height:100%; object-fit:cover; display:block; }
+  .card img.blend { position:absolute; inset:0; }
+  #cardA { width:800px; height:800px; left:1000px; top:140px; }
+  #cardB { width:760px; height:760px; left:140px; top:160px; }
+  #cardS { width:340px; height:340px; left:700px; top:620px; border-radius:50%; border:10px solid #fff; }
+  #cardC { width:720px; height:720px; left:600px; top:180px; }
+  #cardH { width:360px; height:360px; left:110px; top:610px; border-radius:50%; border:10px solid #fff; }
+  /* text */
+  .h { color:var(--navy); font-weight:800; font-size:96px; line-height:1.08; letter-spacing:-1px; }
+  .k { color:var(--teal); font-weight:700; font-size:28px; letter-spacing:3px; text-transform:uppercase; }
+  .mask { overflow:hidden; padding-bottom:6px; }
+  .mask > div { will-change:transform; }
+  #tA { left:150px; top:330px; } #kA { left:154px; top:285px; }
+  #tB { left:1010px; top:340px; } #kB { left:1014px; top:295px; }
+  .chips { display:flex; gap:14px; }
+  .chip { font-size:26px; font-weight:700; color:var(--navy); background:#f1f6fa; border:1.5px solid #e1e9f1; padding:8px 22px; border-radius:40px; }
+  #chipsB { left:1014px; top:600px; }
+  #big3d { left:0; right:0; top:110px; text-align:center; font-size:640px; font-weight:800; color:transparent; -webkit-text-stroke:3px #e9eff5; line-height:1; }
+  #tC { left:0; right:0; top:925px; text-align:center; }
+  #tC .h { font-size:58px; }
+  /* device */
+  #device { width:1100px; left:770px; top:170px; transform-origin:50% 50%; }
+  #device .bezel { background:#0f172a; border-radius:26px; padding:14px; box-shadow:0 50px 100px rgba(11,42,74,.22); }
+  #device img { width:100%; display:block; border-radius:14px; }
+  #device .bezel { position:relative; }
+  #device .scr { position:absolute; left:25%; top:8%; width:48%; height:80%; overflow:hidden; mix-blend-mode:multiply; }
+  #device .scr img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; border-radius:0; }
+  #device .stand { width:220px; height:70px; margin:0 auto; background:linear-gradient(#cfd8e2,#e9eef3); clip-path:polygon(18% 0,82% 0,100% 100%,0 100%); }
+  #tD { left:110px; top:250px; } #kD { left:114px; top:205px; }
+  #tD .h { font-size:76px; }
+  /* outro */
+  #oLogo { width:600px; left:660px; top:330px; }
+  #oLogo img { width:100%; display:block; }
+  #oName { left:0; right:0; top:510px; text-align:center; color:var(--navy); font-size:64px; font-weight:800; }
+  #oAr { left:0; right:0; top:595px; text-align:center; color:var(--teal); font-size:44px; font-weight:700; direction:rtl; }
+  #oTag { left:0; right:0; top:705px; text-align:center; }
+  #oTag .chips { justify-content:center; }
+  #oLine { height:4px; background:var(--teal); left:810px; width:300px; top:672px; border-radius:2px; transform-origin:center; }
+  #oFoot { left:0; right:0; top:985px; text-align:center; color:var(--muted); font-size:24px; font-weight:600; letter-spacing:2px; }
+  #corner { left:60px; top:44px; width:210px; }
+  #corner img { width:100%; display:block; }
+</style></head>
+<body><div id="stage">
+  <div id="blob1" class="abs blob"></div><div id="blob2" class="abs blob"></div>
+  <div class="abs grid" id="grid"></div>
+  <div id="big3d" class="abs">3D</div>
+
+  <div id="cardA" class="abs card"><img id="imgA"></div>
+  <div id="kA" class="abs k">2,200+ real structures</div>
+  <div id="tA" class="abs h"><div class="mask"><div>Explore the</div></div><div class="mask"><div>human body</div></div></div>
+
+  <div id="cardB" class="abs card"><img id="imgB"></div>
+  <div id="cardS" class="abs card"><img id="imgS"></div>
+  <div id="kB" class="abs k">12 body systems</div>
+  <div id="tB" class="abs h"><div class="mask"><div>Every system.</div></div><div class="mask"><div>Every layer.</div></div></div>
+  <div id="chipsB" class="abs chips"><span class="chip">Organs</span><span class="chip">Skeleton</span><span class="chip">X-ray</span><span class="chip">Sections</span></div>
+
+  <div id="cardC" class="abs card"><img id="imgC"></div>
+  <div id="tC" class="abs"><div class="mask"><div class="h">Take it apart. Put it back together.</div></div></div>
+
+  <div id="device" class="abs"><div class="bezel"><img src="ui.png"><div class="scr"><img id="imgM"></div></div><div class="stand"></div></div>
+  <div id="cardH" class="abs card"><img id="imgH"></div>
+  <div id="kD" class="abs k">Learn · Test · Present</div>
+  <div id="tD" class="abs h"><div class="mask"><div>Lessons, quizzes</div></div><div class="mask"><div>&amp; virtual reality</div></div></div>
+
+  <div id="logo" class="abs"><img src="logo.png"></div>
+  <div id="line" class="abs"></div>
+  <div id="brandName" class="abs">HUMAN ANATOMY 3D</div>
+  <div id="corner" class="abs"><img src="logo.png"></div>
+
+  <div id="oLogo" class="abs"><img src="logo.png"></div>
+  <div id="oName" class="abs">Human Anatomy 3D</div>
+  <div id="oAr" class="abs">التشريح ثلاثي الأبعاد</div>
+  <div id="oLine" class="abs"></div>
+  <div id="oTag" class="abs"><div class="chips"><span class="chip">Desktop</span><span class="chip">Touch screens</span><span class="chip">Meta Quest VR</span></div></div>
+  <div id="oFoot" class="abs">info@asfanco.com  ·  +962 77 614 0404</div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const eio = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);       // ease in-out cubic
+const eout = (x) => 1 - Math.pow(1 - x, 4);                                            // ease out quart
+const expo = (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
+const lerp = (a, b, k) => a + (b - a) * k;
+function set(id, { x = 0, y = 0, s = 1, r = 0, o = 1, ry = 0, extra = '' } = {}) {
+  const el = typeof id === 'string' ? $(id) : id;
+  el.style.transform = `translate(${x}px,${y}px) scale(${s}) rotate(${r}deg) ${ry ? `perspective(1600px) rotateY(${ry}deg)` : ''} ${extra}`;
+  el.style.opacity = o;
+  el.style.visibility = o <= 0.001 ? 'hidden' : 'visible';
+}
+// masked line reveal: lines slide up into view, staggered; out = slide up and away
+function lines(id, tin, tout, stagger = 0.09) {
+  const ls = $(id).querySelectorAll('.mask > div');
+  ls.forEach((l, i) => {
+    const a = eout(seg(T, tin + i * stagger, tin + i * stagger + 0.55));
+    const b = eio(seg(T, tout + i * 0.05, tout + i * 0.05 + 0.4));
+    l.style.transform = `translateY(${(1 - a) * 115 - b * 115}%)`;
+  });
+}
+const FPS = 30;
+const CLIPS = { body: 40, organs: 34, explode: 30, heart: 30, skeleton: 30 };
+const SRC_FPS = 12; // clips are rendered at 12 fps and blended between neighbouring frames
+const pad = (i) => String(i).padStart(4, '0');
+const frameOf = (clip, t, start, speed = 1) => {
+  const n = CLIPS[clip]; const f = Math.max(0, Math.min(n - 1, (t - start) * SRC_FPS * speed));
+  const i = Math.floor(f), j = Math.min(n - 1, i + 1);
+  return { a: `clips/${clip}/${pad(i)}.png`, b: `clips/${clip}/${pad(j)}.png`, k: f - i };
+};
+const pending = [];
+function setSrc(el, src) { if (el.getAttribute('src') !== src) { el.src = src; pending.push(el.decode().catch(() => {})); } }
+function img(id, fr) {
+  const el = $(id);
+  let ov = el.nextElementSibling;
+  if (!ov) { ov = document.createElement('img'); ov.className = 'blend'; el.after(ov); }
+  setSrc(el, fr.a); setSrc(ov, fr.b); ov.style.opacity = fr.k;
+}
+
+let T = 0;
+async function render(t) {
+  T = t;
+  pending.length = 0;
+  // background drift
+  set('blob1', { x: lerp(-200, 300, t / 12), y: lerp(-300, 50, t / 12) });
+  set('blob2', { x: lerp(1400, 900, t / 12), y: lerp(500, 300, t / 12) });
+  set('grid', { o: 0.6, y: -t * 6 });
+
+  // ---------------- 0.0 – 1.7 intro: logo reveal, then shrinks into the corner
+  const li = eout(seg(t, 0.15, 0.9)), lo = eio(seg(t, 1.25, 1.75));
+  $('logo').style.clipPath = `inset(0 ${100 - li * 100}% 0 0)`;
+  set('logo', { s: lerp(0.94, 1, li) * lerp(1, 0.6, lo), y: lerp(0, -90, lo), o: 1 - lo });
+  const ln = eout(seg(t, 0.55, 1.05));
+  set('line', { extra: `scaleX(${ln})`, o: 1 - eio(seg(t, 1.1, 1.4)) });
+  set('brandName', { y: lerp(20, 0, eout(seg(t, 0.7, 1.15))), o: eout(seg(t, 0.7, 1.15)) * (1 - eio(seg(t, 1.1, 1.4))) });
+  // persistent corner logo (hidden at the outro)
+  set('corner', { o: eout(seg(t, 1.45, 1.9)) * (1 - eio(seg(t, 10.2, 10.5))), y: lerp(-10, 0, eout(seg(t, 1.45, 1.9))) });
+
+  // ---------------- 1.5 – 4.8 explore: circular reveal of the rotating body
+  const aIn = expo(seg(t, 1.45, 2.3)), aOut = eio(seg(t, 4.35, 4.85));
+  $('cardA').style.clipPath = `circle(${lerp(0, 75, aIn)}% at 50% 50%)`;
+  set('cardA', { s: lerp(1.08, 1, aIn) * lerp(1, 0.9, aOut), x: lerp(0, -120, aOut), o: 1 - aOut });
+  img('imgA', frameOf('body', t, 1.5, 0.95));
+  set('kA', { o: eout(seg(t, 1.75, 2.2)) * (1 - aOut), y: lerp(14, 0, eout(seg(t, 1.75, 2.2))) });
+  lines('tA', 1.85, 4.3);
+
+  // ---------------- 4.6 – 7.0 systems: organs card from the left + skeleton bubble
+  const bIn = eout(seg(t, 4.5, 5.25)), bOut = eio(seg(t, 6.65, 7.1));
+  set('cardB', { x: lerp(-180, 0, bIn) + lerp(0, -60, bOut), r: lerp(-4, 0, bIn), o: bIn * (1 - bOut), s: lerp(1, 0.94, bOut) });
+  img('imgB', frameOf('organs', t, 4.5, 1.15));
+  const sIn = eout(seg(t, 5.35, 5.95));
+  set('cardS', { s: lerp(0.3, 1, sIn) * lerp(1, 0.8, bOut), o: sIn * (1 - bOut), y: lerp(40, 0, sIn) });
+  img('imgS', frameOf('skeleton', t, 5.35, 1.4));
+  set('kB', { o: eout(seg(t, 4.75, 5.2)) * (1 - bOut) });
+  lines('tB', 4.8, 6.6);
+  $('chipsB').querySelectorAll('.chip').forEach((c, i) => {
+    const k = eout(seg(t, 5.45 + i * 0.1, 5.9 + i * 0.1));
+    set(c, { y: lerp(24, 0, k), o: k * (1 - bOut) });
+  });
+  set('chipsB', { o: 1 });
+
+  // ---------------- 6.9 – 8.9 explode: centred card, giant outlined "3D" behind
+  const cIn = eout(seg(t, 6.85, 7.55)), cOut = eio(seg(t, 8.5, 8.95));
+  set('big3d', { o: cIn * (1 - cOut), s: lerp(0.9, 1.04, seg(t, 6.85, 8.95)) });
+  set('cardC', { y: lerp(120, 0, cIn) + lerp(0, -80, cOut), o: cIn * (1 - cOut), s: lerp(1, 0.92, cOut) });
+  $('cardC').style.clipPath = `inset(${lerp(30, 0, cIn)}% round 42px)`;
+  img('imgC', frameOf('explode', t, 6.9, 1.0));
+  lines('tC', 7.25, 8.5);
+
+  // ---------------- 8.8 – 10.6 the real app: monitor swings in, heart bubble, text
+  const dIn = eout(seg(t, 8.75, 9.55)), dOut = eio(seg(t, 10.2, 10.6));
+  set('device', { x: lerp(260, 0, dIn) + lerp(0, 120, dOut), ry: lerp(-28, -10, dIn) + lerp(0, -8, seg(t, 9.55, 10.6)), o: dIn * (1 - dOut), s: lerp(0.95, 1, dIn) * lerp(1, 0.95, dOut) });
+  const hIn = eout(seg(t, 9.25, 9.8));
+  set('cardH', { s: lerp(0.3, 1, hIn), o: hIn * (1 - dOut) });
+  img('imgH', frameOf('heart', t, 9.0, 1.3));
+  img('imgM', frameOf('body', t, 8.75, 1.0));
+  set('kD', { o: eout(seg(t, 9.0, 9.4)) * (1 - dOut) });
+  lines('tD', 9.05, 10.15);
+
+  // ---------------- 10.5 – 12 outro
+  const oIn = eout(seg(t, 10.5, 11.1));
+  $('oLogo').style.clipPath = `inset(0 ${100 - eout(seg(t, 10.45, 11.0)) * 100}% 0 0)`;
+  set('oLogo', { o: seg(t, 10.45, 10.6), s: lerp(0.95, 1, oIn) });
+  set('oName', { o: eout(seg(t, 10.75, 11.15)), y: lerp(24, 0, eout(seg(t, 10.75, 11.15))) });
+  set('oAr', { o: eout(seg(t, 10.9, 11.3)), y: lerp(24, 0, eout(seg(t, 10.9, 11.3))) });
+  set('oLine', { extra: `scaleX(${eout(seg(t, 11.0, 11.45))})`, o: seg(t, 11.0, 11.05) });
+  set('oTag', { o: eout(seg(t, 11.15, 11.55)), y: lerp(20, 0, eout(seg(t, 11.15, 11.55))) });
+  set('oFoot', { o: eout(seg(t, 11.3, 11.7)) });
+  await Promise.all(pending);
+  return true;
+}
+window.render = render;
+</script></body></html>
