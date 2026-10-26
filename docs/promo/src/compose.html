@@ -2,13 +2,13 @@
 <html><head><meta charset="utf-8">
 <link rel="stylesheet" href="cairo.css">
 <style>
-  :root { --navy:#0b2a4a; --teal:#0f9d8a; --ink:#0f172a; --muted:#64748b; }
+  :root { --navy:#0b2a4a; --teal:#2563eb; --ink:#0f172a; --muted:#64748b; }
   html, body { margin:0; width:1920px; height:1080px; overflow:hidden; background:#fff; font-family:'Cairo',sans-serif; }
   #stage { position:absolute; inset:0; overflow:hidden; background:#fff; }
   .abs { position:absolute; will-change:transform,opacity; }
   /* soft background shapes */
   .blob { border-radius:50%; filter:blur(60px); opacity:.55; }
-  #blob1 { width:900px; height:900px; background:radial-gradient(circle, #d9f3ee 0%, rgba(217,243,238,0) 70%); }
+  #blob1 { width:900px; height:900px; background:radial-gradient(circle, #dbe7fd 0%, rgba(219,231,253,0) 70%); }
   #blob2 { width:800px; height:800px; background:radial-gradient(circle, #e3edf9 0%, rgba(227,237,249,0) 70%); }
   .grid { inset:0; background-image: radial-gradient(#e7edf3 1.4px, transparent 1.4px); background-size:36px 36px; opacity:.55; }
   /* brand */
@@ -59,6 +59,7 @@
   #oFoot { left:0; right:0; top:985px; text-align:center; color:var(--muted); font-size:24px; font-weight:600; letter-spacing:2px; }
   #corner { left:60px; top:44px; width:210px; }
   #corner img { width:100%; display:block; }
+  #logo, #corner, #line, #brandName, #oLogo, #oName, #oAr, #oLine, #oTag, #oFoot { display:none !important; }
 </style></head>
 <body><div id="stage">
   <div id="blob1" class="abs blob"></div><div id="blob2" class="abs blob"></div>
@@ -78,7 +79,7 @@
   <div id="cardC" class="abs card"><img id="imgC"></div>
   <div id="tC" class="abs"><div class="mask"><div class="h">Take it apart. Put it back together.</div></div></div>
 
-  <div id="device" class="abs"><div class="bezel"><img src="ui.png"><div class="scr"><img id="imgM"></div></div><div class="stand"></div></div>
+  <div id="device" class="abs"><div class="bezel"><img src="ui_nologo.png"><div class="scr"><img id="imgM"></div></div><div class="stand"></div></div>
   <div id="cardH" class="abs card"><img id="imgH"></div>
   <div id="kD" class="abs k">Learn · Test · Present</div>
   <div id="tD" class="abs h"><div class="mask"><div>Lessons, quizzes</div></div><div class="mask"><div>&amp; virtual reality</div></div></div>
